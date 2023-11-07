@@ -1,0 +1,31 @@
+{% load  static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa das Periferias</title>
+    <link rel="stylesheet" href="{% static 'assets/bootstrap-4.1.3/css/bootstrap.min.css' %}">
+    <link rel="icon" type="image/x-icon" href="">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <script src="https://kit.fontawesome.com/f200917737.js" crossorigin="anonymous"></script>
+
+    {% block css %}
+    {% endblock css %}
+</head>
+<body class="d-flex flex-column h-100">
+
+{% include 'includes/header.html' %}
+
+<main id="site-main" class="flex-shrink-0">
+    {% block main %}
+    {% endblock main %}
+</main>
+
+<script src="{% static 'assets/jquery/jquery-3.6.1.min.js' %}"></script>
+<script src="{% static 'assets/bootstrap-4.1.3/js/bootstrap.bundle.js' %}"></script>
+{% block js %}
+{% endblock js %}
+</body>
+</html>

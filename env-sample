@@ -1,0 +1,5 @@
+SECRET_KEY=coloque-sua-chave-secreta-aqui
+DEBUG=True
+ALLOWED_HOSTS=127.0.0.1,.localhost
+# preencha as credenciais de acesso ao banco em ambiente de desenvolvimento:
+DATABASE_URL=postgres://usuario:senha@localhost/periferias_db

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'assets/leaflet/leaflet.css' %}">
+    <link href="{% static 'assets/leaflet_plugins/fullscreen/Control.FullScreen.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/leaflet_plugins/coordinates/Leaflet.Coordinates-0.1.5.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/leaflet_plugins/zoomhome/leaflet.zoomhome.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/leaflet_plugins/markercluster/MarkerCluster.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/leaflet_plugins/markercluster/MarkerCluster.Default.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/leaflet_plugins/awesome-markers/leaflet.awesome-markers.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/webgis.css' %}">
+{% endblock css %}
+
+{% block main %}
+
+    <div id="map"></div>
+    <input type="hidden" id="acoes_geojson" value="{% url 'acao:acao_geojson' %}">
+{% endblock main %}
+
+
+{% block js %}
+    <script src="{% static 'assets/leaflet/leaflet.js' %}"></script>
+    <script src="{% static 'assets/leaflet_plugins/spin/spin.min.js' %}"></script>
+    <script src="{% static 'assets/leaflet_plugins/spin/leaflet.spin.min.js' %}"></script>
+    <script src="{% static 'assets/leaflet_plugins/fullscreen/Control.FullScreen.js' %}"></script>
+    <script src="{% static 'assets/leaflet_plugins/coordinates/Leaflet.Coordinates-0.1.5.min.js' %}"></script>
+    <script src="{% static 'assets/leaflet_plugins/zoomhome/leaflet.zoomhome.min.js' %}"></script>
+    <script src="{% static 'assets/leaflet_plugins/markercluster/leaflet.markercluster.js' %}"></script>
+    <script src="{% static 'assets/leaflet_plugins/leaflet-ajax/leaflet.ajax.js' %}"></script>
+    <script src="{% static 'assets/leaflet_plugins/awesome-markers/leaflet.awesome-markers.js' %}"></script>
+    <script src="{% static 'js/webgis.js' %}"></script>
+{% endblock js %}
