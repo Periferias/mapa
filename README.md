@@ -18,6 +18,11 @@ CREATE EXTENSION postgis;
 \d
 ```
 
+## Como rodar a versão estática?
+
+* entre na pasta `/periferias_django/versao_estatica` e execute no terminal `npx serve`.
+
+
 ## Como desenvolver?
 
 * Clone o repositório;
@@ -25,7 +30,6 @@ CREATE EXTENSION postgis;
 * Ative o virtualenv;
 * Instale as dependências do ambiente de desenvolvimento;
 * Crie o banco de dados espacial como foi descrito acima.
-
 ```
 git clone git@github.com:Periferias/mapa.git
 cd mapa
