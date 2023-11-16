@@ -53,10 +53,25 @@ const categoryMappings = {
 };
 
 const acoesLayer = new L.GeoJSON.AJAX(acoesUrl, {
+    // filter: function (feature, layer) {
+    //     return feature.properties.municipio === 'Rio de Janeiro'
+    // },
+
     pointToLayer: function (feature, latlng) {
         const category = feature.properties.categoria;
+
+        const popupContent = `<span>Nome da Ação:</span>${feature.properties.nome_acao}
+                              <span>Nome da Comunidade:</span>${feature.properties.nome_comunidade}
+                              <span>Premiado</span>${feature.properties.premiado ? 'Sim' : 'Não'}
+                              <span>Localidade:</span>${feature.properties.localidade}
+                              <span>Organização:</span>${feature.properties.organizacao}
+                              <span>Categoria:</span>${feature.properties.categoria}
+                              <span>Município:</span>${feature.properties.municipio}
+                              <span>Estado:</span>${feature.properties.estado}
+                            `
+
         const {iconClass, markerColor} = categoryMappings[category] || {iconClass: "fa-question", markerColor: "gray"};
-        return createMarker(latlng, iconClass, markerColor, feature.properties.popup_content);
+        return createMarker(latlng, iconClass, markerColor, popupContent);
     },
 });
 
@@ -120,31 +135,94 @@ const coordinates = L.control.coordinates({
 coordinates.addTo(map);
 
 
-function createLegend(map) {
-    const legend = L.control({position: 'bottomright'});
-    legend.onAdd = function () {
-        const div = L.DomUtil.create('div', 'info legend');
-        div.innerHTML = '<h4>LEGENDA</h4>';
-        const legendItems = [];
+// function createLegend(map) {
+//     const legend = L.control({position: 'bottomright'});
+//     legend.onAdd = function () {
+//         const div = L.DomUtil.create('div', 'info legend');
+//         div.innerHTML = '<h4>LEGENDA</h4>';
+//         const legendItems = [];
+//
+//         for (const category in categoryMappings) {
+//             const {iconClass, markerColor} = categoryMappings[category];
+//             const icon = L.AwesomeMarkers.icon({
+//                 prefix: 'fa',
+//                 icon: iconClass,
+//                 markerColor: markerColor,
+//             });
+//
+//             const iconHTML = icon.createIcon().outerHTML;
+//             const categoryHTML = `<span>${category}</span>`;
+//
+//             legendItems.push(`<div class="legend-icon">${iconHTML}<span class="span-txt">${categoryHTML}</span></div><br>`);
+//         }
+//
+//         div.innerHTML += legendItems.join('<br>');
+//         return div;
+//     };
+//     legend.addTo(map);
+// }
+//
+// createLegend(map);
 
-        for (const category in categoryMappings) {
-            const {iconClass, markerColor} = categoryMappings[category];
-            const icon = L.AwesomeMarkers.icon({
-                prefix: 'fa',
-                icon: iconClass,
-                markerColor: markerColor,
-            });
+const legend = L.control({position: 'bottomright'});
+const iconURL = $("#default-icon").val();
 
-            const iconHTML = icon.createIcon().outerHTML;
-            const categoryHTML = `<span>${category}</span>`;
+function renderLegend() {
+    return `
+<h4 class="legend-title">
+<i class="fa-solid fa-list-ul"></i>
+LEGENDA
+</h4>
+<div class="legend-items">
+<div class="awesome-marker-icon-cadetblue awesome-marker leaflet-zoom-animated leaflet-interactive" role="button">
+<i class="fa fa-scale-balanced  icon-white" aria-hidden="true"></i>
+</div>
+<span class="txt-info">Acesso à Justiça e Combate às Desigualdades</span>
 
-            legendItems.push(`<div class="legend-icon">${iconHTML}<span class="span-txt">${categoryHTML}</span></div><br>`);
-        }
 
-        div.innerHTML += legendItems.join('<br>');
-        return div;
-    };
-    legend.addTo(map);
+<div class="awesome-marker-icon-blue awesome-marker leaflet-zoom-animated leaflet-interactive" role="button">
+<i class="fa fa-cloud-sun-rain  icon-white" aria-hidden="true"></i>
+</div>
+<span class="txt-info">Planejamento Urbano, Gestão de Riscos e Responsabilidade Climática</span>
+
+<div class="awesome-marker-icon-orange awesome-marker leaflet-zoom-animated leaflet-interactive" role="button">
+<i class=" fa fa-graduation-cap  icon-white" aria-hidden="true"></i>
+</div>
+<span class="txt-info">Comunicação, Inclusão Digital e Educação Popular</span>
+
+<div class="awesome-marker-icon-pink awesome-marker leaflet-zoom-animated leaflet-interactive" role="button">
+<i class="fa fa-masks-theater  icon-white" aria-hidden="true"></i> 
+</div>
+<span class="txt-info">Cultura e Memória</span>
+
+<div class="awesome-marker-icon-red awesome-marker leaflet-zoom-animated leaflet-interactive" role="button">
+<i class="fa fa-briefcase-medical  icon-white" aria-hidden="true"></i>
+</div>
+<span class="txt-info">Saúde Integral e Dignidade Humana</span>
+
+<div class="awesome-marker-icon-black awesome-marker leaflet-zoom-animated leaflet-interactive" role="button">
+<i class="fa fa-utensils  icon-white" aria-hidden="true"></i>
+</div>
+<span class="txt-info">Soberania Alimentar e Nutricional</span>
+
+<div class="awesome-marker-icon-darkgreen awesome-marker leaflet-zoom-animated leaflet-interactive" role="button">
+<i class="fa fa-sack-dollar  icon-white" aria-hidden="true"></i>
+</div>
+<span class="txt-info">Economia Solidária</span>
+</div>
+        `
 }
 
-createLegend(map);
+legend.onAdd = function () {
+    var div = L.DomUtil.create('div', 'info legend');
+    div.innerHTML += renderLegend()
+    return div
+};
+legend.addTo(map);
+
+
+$(".info").hover(function () {
+    $(".legend-items").show();
+}, function () {
+    $(".legend-items").hide();
+});

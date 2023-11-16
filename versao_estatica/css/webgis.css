@@ -18,15 +18,10 @@
     border: 1px solid grey;
 }
 
-.legend h4 {
-    margin: 0 0 10%;
-    font-size: 16px;
-}
-
 .legend .legend-icon {
     display: flex;
     align-items: center;
-    margin: 10px;
+    margin: 15px;
     font-size: 12px;
 }
 
@@ -39,7 +34,21 @@
     display: block;
 }
 
-.span-txt {
-    margin-top: -8%;
-    padding-left: 10px;
+
+.legend-items {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.legend-items > div {
+    margin-bottom: 10px; /* Ajuste o valor conforme necessário para a separação entre os conjuntos */
+}
+
+.txt-info {
+    display: inline-block;
+}
+
+.legend-title {
+    font-size: 16px;
 }

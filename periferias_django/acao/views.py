@@ -9,7 +9,17 @@ class AcaoGeoJson(GeoJSONLayerView):
             ativo=True
         )
 
-    properties = ('categoria', 'popup_content',)
+    properties = (
+        'id',
+        'nome_acao',
+        'nome_comunidade',
+        'premiado',
+        'localidade',
+        'organizacao',
+        'categoria',
+        'municipio',
+        'estado',
+    )
 
 
 acao_geojson = AcaoGeoJson.as_view()

@@ -54,9 +54,20 @@ const categoryMappings = {
 const acoesLayer = new L.GeoJSON.AJAX(acoesUrl, {
     pointToLayer: function (feature, latlng) {
         const category = feature.properties.categoria;
+
+        const popupContent = `<span>Nome da Ação:</span>${feature.properties.nome_acao}
+                              <span>Nome da Comunidade:</span>${feature.properties.nome_comunidade}
+                              <span>Premiado</span>${feature.properties.premiado}
+                              <span>Localidade:</span>${feature.properties.localidade}
+                              <span>Organização:</span>${feature.properties.organizacao}
+                              <span>Categoria:</span>${feature.properties.categoria}
+                              <span>Município:</span>${feature.properties.municipio}
+                              <span>Estado:</span>${feature.properties.estado}
+                            `
+
         const {iconClass, markerColor} = categoryMappings[category] || {iconClass: "fa-question", markerColor: "gray"};
-        return createMarker(latlng, iconClass, markerColor, feature.properties.popup_content);
-    },
+        return createMarker(latlng, iconClass, markerColor, popupContent);
+    }
 });
 
 
