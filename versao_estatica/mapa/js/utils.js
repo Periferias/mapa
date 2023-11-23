@@ -18,7 +18,6 @@ var geocodingSearch = L.control.maptilerGeocoding({
         country: 'br',
         noResultsMessage: '"Ops! Não conseguimos encontrar o que você está procurando. ' +
             'Tente verificar a ortografia ou um outro termo de pesquisa.'
-
     },
 );
 
@@ -81,7 +80,7 @@ function pointToLayer(feature, latlng) {
     var popupContent = `<span>Organização:</span>${feature.properties.organizacao}
                         <span>Categoria:</span>${feature.properties.categoria}
                         <span>Localidade:</span>${feature.properties.localidade}
-                        <span>Premiado</span>${feature.properties.premiado ? 'Sim' : 'Não'}
+                        <span>Premiado:</span>${feature.properties.premiado ? 'Sim' : 'Não'}
                         <span>Município/Estado:</span>${feature.properties.municipio}/${feature.properties.estado}
                        `
 
@@ -91,90 +90,6 @@ function pointToLayer(feature, latlng) {
     };
     return createMarker(latlng, iconClass, markerColor, popupContent);
 }
-
-var cat1Layer = new L.GeoJSON.AJAX(acoesUrl, {
-    filter: function (feature, layer) {
-        return feature.properties.categoria === "Acesso à Justiça e Combate às Desigualdades"
-    },
-    pointToLayer: pointToLayer
-});
-var cluster1Layer = new L.markerClusterGroup();
-cat1Layer.on('data:loaded', function () {
-    cluster1Layer.addLayer(cat1Layer)
-    map.spin(false);
-});
-
-var cat2Layer = new L.GeoJSON.AJAX(acoesUrl, {
-    filter: function (feature, layer) {
-        return feature.properties.categoria === "Planejamento Urbano, Gestão de Riscos e Responsabilidade Climática"
-    },
-    pointToLayer: pointToLayer
-});
-var cluster2Layer = new L.markerClusterGroup();
-cat2Layer.on('data:loaded', function () {
-    cluster2Layer.addLayer(cat2Layer)
-    map.spin(false);
-});
-
-var cat3Layer = new L.GeoJSON.AJAX(acoesUrl, {
-    filter: function (feature, layer) {
-        return feature.properties.categoria === "Comunicação, Inclusão Digital e Educação Popular"
-    },
-    pointToLayer: pointToLayer
-});
-var cluster3Layer = new L.markerClusterGroup();
-cat3Layer.on('data:loaded', function () {
-    cluster3Layer.addLayer(cat3Layer)
-    map.spin(false);
-});
-
-var cat4Layer = new L.GeoJSON.AJAX(acoesUrl, {
-    filter: function (feature, layer) {
-        return feature.properties.categoria === "Cultura e Memória"
-    },
-    pointToLayer: pointToLayer
-});
-var cluster4Layer = new L.markerClusterGroup();
-cat4Layer.on('data:loaded', function () {
-    cluster4Layer.addLayer(cat4Layer)
-    map.spin(false);
-});
-
-var cat5Layer = new L.GeoJSON.AJAX(acoesUrl, {
-    filter: function (feature, layer) {
-        return feature.properties.categoria === "Saúde Integral e Dignidade Humana"
-    },
-    pointToLayer: pointToLayer
-});
-var cluster5Layer = new L.markerClusterGroup();
-cat5Layer.on('data:loaded', function () {
-    cluster5Layer.addLayer(cat5Layer)
-    map.spin(false);
-});
-
-var cat6Layer = new L.GeoJSON.AJAX(acoesUrl, {
-    filter: function (feature, layer) {
-        return feature.properties.categoria === "Soberania Alimentar e Nutricional"
-    },
-    pointToLayer: pointToLayer
-});
-var cluster6Layer = new L.markerClusterGroup();
-cat6Layer.on('data:loaded', function () {
-    cluster6Layer.addLayer(cat6Layer)
-    map.spin(false);
-});
-
-var cat7Layer = new L.GeoJSON.AJAX(acoesUrl, {
-    filter: function (feature, layer) {
-        return feature.properties.categoria === "Economia Solidária"
-    },
-    pointToLayer: pointToLayer
-});
-var cluster7Layer = new L.markerClusterGroup();
-cat7Layer.on('data:loaded', function () {
-    cluster7Layer.addLayer(cat7Layer)
-    map.spin(false);
-});
 
 const clustersAndProperties = [];
 
@@ -385,10 +300,6 @@ const caravanasLayer = new L.GeoJSON.AJAX(caravanasUrl, {
             year: 'numeric',
             month: 'numeric',
             day: 'numeric',
-            // hour: 'numeric',
-            // minute: 'numeric',
-            // second: 'numeric',
-            // timeZoneName: 'short',
             timeZone: 'America/Sao_Paulo',
         };
         let brazilianDateTime = dateTime.toLocaleString('pt-BR', options);
