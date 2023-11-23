@@ -31,6 +31,15 @@ var coordinates = L.control.coordinates({
     labelTemplateLat: "Lat: {y}"
 });
 
+var limitsBr = L.geoJson(
+    contornoBr, {
+        style: {
+            "color": "#000",
+            "weight": 1.7,
+            "opacity": 0.8
+        },
+    });
+
 var acoesUrl = $('#acoes_geojson').val();
 
 var categoryMappings = {

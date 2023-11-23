@@ -24,6 +24,7 @@ createApp({
                     zoomControl: false,
                     maxBounds: this.bounds,
                     layers: [
+                        limitsBr,
                         this.baseLayers[0].lyr,
                         this.overlayLayers[0].lyr,
                         this.overlayLayers[1].lyr,
@@ -42,7 +43,6 @@ createApp({
             geocodingSearch.setPosition('topleft');
             fullScreen.addTo(this.map);
             zoomHome.addTo(this.map);
-
 
 
         },
