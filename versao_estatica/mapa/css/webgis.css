@@ -1,0 +1,25 @@
+#map-col {
+    padding: 0;
+}
+
+#map {
+    width: auto;
+    min-height: calc(100vh - 57px);
+}
+
+.leaflet-popup-content span {
+    display: block;
+    font-weight: bold;
+}
+
+
+.list-base-layers {
+    cursor: pointer;
+}
+
+form.svelte-1r7dvt7.svelte-1r7dvt7, form.svelte-1r7dvt7.svelte-1r7dvt7:focus-within, form.svelte-1r7dvt7.svelte-1r7dvt7:hover {
+    width: 400px;
+    max-width: 400px;
+    border: 1.5px solid #000;
+    margin-top: 7px;
+}

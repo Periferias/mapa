@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa das Periferias</title>
+    <link rel="stylesheet" href="../assets/bootstrap-5.2.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/base.css">
+    <script src="https://kit.fontawesome.com/f200917737.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../assets/leaflet/leaflet.css">
+    <link href="../assets/leaflet_plugins/fullscreen/Control.FullScreen.css" rel="stylesheet">
+    <link href="../assets/leaflet_plugins/coordinates/Leaflet.Coordinates-0.1.5.css" rel="stylesheet">
+    <link href="../assets/leaflet_plugins/zoomhome/leaflet.zoomhome.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/leaflet_plugins/markercluster/MarkerCluster.css">
+    <link rel="stylesheet" href="../assets/leaflet_plugins/markercluster/MarkerCluster.Default.css">
+    <link rel="stylesheet" href="../assets/leaflet_plugins/awesome-markers/leaflet.awesome-markers.css">
+    <link href="https://cdn.maptiler.com/maptiler-geocoding-control/v1.0.0/style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/webgis.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <i class="fa-solid fa-building-user"></i> Mapa das Periferias
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+<div id="app" class="container-fluid">
+    <input type="hidden" id="acoes_geojson" value="../data/acao.geojson">
+    <input type="hidden" id="caravanas_geojson" value="../data/caravanas.geojson">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="card mt-3">
+                <ul class="list-group list-group-flush list-base-layers">
+                    <li class="list-group-item list-group-item-dark">
+                        <strong>
+                            <i class="fa-solid fa-satellite"></i>
+                            Mapas Base
+                        </strong>
+                    </li>
+                    <template v-for="lyr in baseLayers">
+                        <li
+                                class="list-group-item"
+                                @click="activeBaseLayer(lyr.id)"
+                                :class="lyr.active ? 'active' : ''"
+                        >
+                            <span v-if="lyr.active">
+                                <i class="fa-solid fa-eye"></i>
+                            </span>
+                            <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                            </span>
+                            {{lyr.description}}
+                        </li>
+                    </template>
+
+                    <li class="list-group-item list-group-item-dark">
+                        <strong>
+                            <i class="fa-solid fa-layer-group"></i>
+                            Caravanas das Periferias
+                        </strong>
+                    </li>
+                    <template v-for="lyr in caravanaLayers">
+                        <li class="list-group-item"
+                            @click="activeCaravanaLayer(lyr.id)"
+                            :class="lyr.active ? 'active' : ''"
+                        >
+                            <span v-if="lyr.active">
+                                <i class="fa" :class="lyr.iconClass"></i>
+                            </span>
+                            <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                            </span>
+                            {{lyr.description}}
+                        </li>
+                    </template>
+
+
+                    <li class="list-group-item list-group-item-dark">
+                        <strong>
+                            <i class="fa-solid fa-layer-group"></i>
+                            Iniciativas Periféricas
+                        </strong>
+                    </li>
+                    <template v-for="lyr in overlayLayers">
+                        <li class="list-group-item"
+                            @click="activeOverlayLayer(lyr.id)"
+                            :class="lyr.active ? 'active' : ''"
+                        >
+                            <span v-if="lyr.active">
+                                <i class="fa" :class="lyr.iconClass"></i>
+                            </span>
+                            <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                            </span>
+                            {{lyr.description}}
+                        </li>
+                    </template>
+                </ul>
+            </div>
+
+            <div class="form-check form-switch mt-4">
+                <input class="form-check-input" type="checkbox" id="flexSwitch" v-model="switchBtn">
+                <label class="form-check-label" for="flexSwitch">
+                    <strong>Prêmio Periferia Viva</strong>
+                </label>
+            </div>
+
+        </div><!-- .col-3 -->
+        <div id="map-col" class="col-md-10">
+            <div id="map"></div><!-- #map -->
+        </div><!-- .col-9 -->
+
+    </div><!-- .row -->
+
+</div><!-- #app -->
+
+</body>
+<script src="../assets/vue/vue.global.js"></script>
+<script src="../assets/jquery/jquery-3.6.1.min.js"></script>
+<script src="../assets/bootstrap-5.2.2/js/bootstrap.bundle.js"></script>
+<script src="../assets/leaflet/leaflet.js"></script>
+<script src="https://cdn.maptiler.com/maptiler-geocoding-control/v1.0.0/leaflet.umd.js"></script>
+<script src="../assets/leaflet_plugins/spin/spin.min.js"></script>
+<script src="../assets/leaflet_plugins/spin/leaflet.spin.min.js"></script>
+<script src="../assets/leaflet_plugins/fullscreen/Control.FullScreen.js"></script>
+<script src="../assets/leaflet_plugins/coordinates/Leaflet.Coordinates-0.1.5.min.js"></script>
+<script src="../assets/leaflet_plugins/zoomhome/leaflet.zoomhome.min.js"></script>
+<script src="../assets/leaflet_plugins/markercluster/leaflet.markercluster.js"></script>
+<script src="../assets/leaflet_plugins/leaflet-ajax/leaflet.ajax.js"></script>
+<script src="../assets/leaflet_plugins/awesome-markers/leaflet.awesome-markers.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/map.js"></script>
+
+</html>
