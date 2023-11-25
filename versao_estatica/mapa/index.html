@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa das Periferias</title>
     <link rel="stylesheet" href="../assets/bootstrap-5.2.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/base.css">
     <script src="https://kit.fontawesome.com/f200917737.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../assets/leaflet/leaflet.css">
     <link href="../assets/leaflet_plugins/fullscreen/Control.FullScreen.css" rel="stylesheet">
@@ -15,7 +14,6 @@
     <link rel="stylesheet" href="../assets/leaflet_plugins/markercluster/MarkerCluster.Default.css">
     <link rel="stylesheet" href="../assets/leaflet_plugins/awesome-markers/leaflet.awesome-markers.css">
     <link href="../assets/maptylerGeocoding/style.css" rel="stylesheet">
-
     <link rel="stylesheet" href="css/webgis.css">
 </head>
 <body>
@@ -80,7 +78,6 @@
                         </li>
                     </template>
 
-
                     <li class="list-group-item list-group-item-dark">
                         <strong>
                             <i class="fa-solid fa-layer-group"></i>
@@ -104,18 +101,132 @@
                 </ul>
             </div>
 
-            <div class="form-check form-switch mt-4">
+            <div class="form-check form-switch form-switch-md mt-4 mb-4">
                 <input class="form-check-input" type="checkbox" id="flexSwitch" v-model="switchBtn">
                 <label class="form-check-label" for="flexSwitch">
-                    <strong>Prêmio Periferia Viva</strong>
+                    <span id="pr-txt">
+                         Prêmio Periferia Viva
+                    </span>
                 </label>
             </div>
+
+            <div class="col-md-1">
+                <button class="btn btn-dark position-fixed bottom-0 start-0 m-3" type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasRight"
+                        aria-controls="offcanvasRight">
+                    <i class="fa-regular fa-rectangle-list"></i> Legenda
+                </button>
+            </div>
+
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+                 aria-labelledby="offcanvasRightLabel">
+                <div class="offcanvas-header">
+                    <h3 id="offcanvasRightLabel">
+                        Legenda:
+                    </h3>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <table class="table table-borderless table-sm">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-purple awesome-marker t1">
+                                    <i class="fa fa-van-shuttle icon-white" aria-hidden="true"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Caravana das Periferias - 83 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-cadetblue awesome-marker t1">
+                                    <i class="fa fa-scale-balanced icon-white" aria-hidden="true"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Acesso à Justiça e Combate às Desigualdades - 176 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-blue awesome-marker t1">
+                                    <i class="fa fa-cloud-sun-rain icon-white" aria-hidden="true"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Planejamento Urbano, Gestão de Riscos e Responsabilidade Climática - 156 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-orange awesome-marker t1">
+                                    <i class="fa fa-graduation-cap icon-white" aria-hidden="true"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Comunicação, Inclusão Digital e Educação Popular - 326 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-pink awesome-marker t1">
+                                    <i class="fa fa-masks-theater icon-white" aria-hidden="true"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Cultura e Memória - 782 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-red awesome-marker t1">
+                                    <i class="fa fa-briefcase-medical icon-white" aria-hidden="true"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Saúde Integral e Dignidade Humana - 113 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-black awesome-marker t1">
+                                    <i class="fa fa-utensils icon-white" aria-hidden="true"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Soberania Alimentar e Nutricional - 146 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-darkgreen awesome-marker t1">
+                                    <i class="fa fa-sack-dollar icon-white" aria-hidden="true"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Economia Solidária - 155 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td rowspan="2" class="pt-3">
+                                <strong>Total: 1973 registros</strong>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
 
         </div><!-- .col-3 -->
         <div id="map-col" class="col-md-10">
             <div id="map"></div><!-- #map -->
         </div><!-- .col-9 -->
-
     </div><!-- .row -->
 
 </div><!-- #app -->

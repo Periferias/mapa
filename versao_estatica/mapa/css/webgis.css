@@ -1,3 +1,31 @@
+html {
+    font-size: 0.9em
+}
+
+.list-group-item.active {
+    z-index: 2;
+    color: #000000;
+    background-color: #dddada;
+    border-color: #000;
+}
+
+.list-group-item-dark {
+    color: #ffffff;
+    background-color: #000000;
+}
+
+
+.form-check-input:checked {
+    background-color: #434343;
+    border-color: #030303;
+}
+
+#pr-txt {
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
 #map-col {
     padding: 0;
 }
@@ -18,8 +46,60 @@
 }
 
 form.svelte-1r7dvt7.svelte-1r7dvt7, form.svelte-1r7dvt7.svelte-1r7dvt7:focus-within, form.svelte-1r7dvt7.svelte-1r7dvt7:hover {
-    width: 400px;
-    max-width: 400px;
+    width: 300px;
+    max-width: 300px;
     border: 1.5px solid #000;
     margin-top: 7px;
+}
+
+.t1 {
+    position: relative;
+}
+
+.legend-txt {
+    padding-top: 17px;
+}
+
+.form-check-input {
+    clear: left;
+}
+
+.form-switch.form-switch-sm {
+    margin-bottom: 0.5rem; /* JUST FOR STYLING PURPOSE */
+}
+
+.form-switch.form-switch-sm .form-check-input {
+    height: 1rem;
+    width: calc(1rem + 0.75rem);
+    border-radius: 2rem;
+}
+
+.form-switch.form-switch-md {
+    margin-bottom: 1rem; /* JUST FOR STYLING PURPOSE */
+}
+
+.form-switch.form-switch-md .form-check-input {
+    height: 1.5rem;
+    width: calc(2rem + 0.75rem);
+    border-radius: 3rem;
+}
+
+.form-switch.form-switch-lg {
+    margin-bottom: 1.5rem; /* JUST FOR STYLING PURPOSE */
+}
+
+.form-switch.form-switch-lg .form-check-input {
+    height: 2rem;
+    width: calc(3rem + 0.75rem);
+    border-radius: 4rem;
+}
+
+.form-switch.form-switch-xl {
+    margin-bottom: 2rem; /* JUST FOR STYLING PURPOSE */
+}
+
+.form-switch.form-switch-xl .form-check-input {
+    height: 2.5rem;
+    width: calc(4rem + 0.75rem);
+    border-radius: 5rem;
 }
