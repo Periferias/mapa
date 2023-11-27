@@ -2,6 +2,21 @@ html {
     font-size: 0.9em
 }
 
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+html, body, #map {
+    height: 100%;
+}
+
+.lorem {
+    font-style: italic;
+    color: #AAA;
+}
+
 .list-group-item.active {
     z-index: 2;
     color: #000000;
@@ -32,7 +47,7 @@ html {
 
 #map {
     width: auto;
-    min-height: calc(100vh - 57px);
+    min-height: calc(100vh - 1px);
 }
 
 .leaflet-popup-content span {
@@ -40,16 +55,31 @@ html {
     font-weight: bold;
 }
 
+.leaflet-popup-content {
+    max-width: 200px;
+    max-height: 200px;
+    /*overflow-y: scroll;*/
+}
+
 
 .list-base-layers {
     cursor: pointer;
 }
 
+
+.sidebar-tabs > li.active, .sidebar-tabs > ul > li.active {
+    color: #fff;
+    background-color: #000000;
+}
+
+.sidebar-header {
+    background-color: #000000;
+}
+
 form.svelte-1r7dvt7.svelte-1r7dvt7, form.svelte-1r7dvt7.svelte-1r7dvt7:focus-within, form.svelte-1r7dvt7.svelte-1r7dvt7:hover {
-    width: 300px;
+    width: 240px;
     max-width: 300px;
     border: 1.5px solid #000;
-    margin-top: 7px;
 }
 
 .t1 {

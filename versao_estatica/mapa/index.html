@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa das Periferias</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
     <link rel="stylesheet" href="../assets/bootstrap-5.2.2/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/f200917737.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../assets/leaflet/leaflet.css">
@@ -14,233 +15,254 @@
     <link rel="stylesheet" href="../assets/leaflet_plugins/markercluster/MarkerCluster.Default.css">
     <link rel="stylesheet" href="../assets/leaflet_plugins/awesome-markers/leaflet.awesome-markers.css">
     <link href="../assets/maptylerGeocoding/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/leaflet_plugins/sidebarjs/leaflet-sidebar.css"/>
     <link rel="stylesheet" href="css/webgis.css">
+
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <i class="fa-solid fa-building-user"></i> Mapa das Periferias
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</nav>
-<div id="app" class="container-fluid">
-    <input type="hidden" id="acoes_geojson" value="../data/acao.geojson">
-    <input type="hidden" id="caravanas_geojson" value="../data/caravanas.geojson">
-    <div class="row">
-        <div class="col-md-2">
-            <div class="card mt-3">
-                <ul class="list-group list-group-flush list-base-layers">
-                    <li class="list-group-item list-group-item-dark">
-                        <strong>
-                            <i class="fa-solid fa-satellite"></i>
-                            Mapas Base
-                        </strong>
-                    </li>
-                    <template v-for="lyr in baseLayers">
-                        <li
-                                class="list-group-item"
-                                @click="activeBaseLayer(lyr.id)"
-                                :class="lyr.active ? 'active' : ''"
-                        >
+<div id="app">
+    <div id="sidebar" class="sidebar collapsed">
+        <!-- Nav tabs -->
+        <div class="sidebar-tabs">
+            <ul role="tablist">
+                <li>
+                    <a href="#home" role="tab">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#profile" role="tab">
+                        <i class="fa-solid fa-rectangle-list"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <ul role="tablist">
+                <li>
+                    <a href="#settings" role="tab">
+                        <i class="fa fa-gear"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Tab panes -->
+        <div class="sidebar-content">
+            <div class="sidebar-pane" id="home">
+                <h1 class="sidebar-header">
+                    Mapa das Periferias
+                    <span class="sidebar-close"><i class="fa-solid fa-caret-left"></i></span>
+                </h1>
+
+                <div class="card mt-3">
+                    <h4 class="text-center">
+                        <i class="fa-solid fa-layer-group"></i>
+                        Camadas do Mapa
+                    </h4>
+                    <ul class="list-group list-group-flush list-base-layers">
+                        <li class="list-group-item list-group-item-dark">
+                            <strong>
+                                <i class="fa-solid fa-satellite"></i>
+                                Mapas Base
+                            </strong>
+                        </li>
+                        <template v-for="lyr in baseLayers">
+                            <li
+                                    class="list-group-item"
+                                    @click="activeBaseLayer(lyr.id)"
+                                    :class="lyr.active ? 'active' : ''"
+                            >
                             <span v-if="lyr.active">
                                 <i class="fa-solid fa-eye"></i>
                             </span>
-                            <span v-else>
+                                <span v-else>
                                 <i class="fa fa-eye-slash"></i>
                             </span>
-                            {{lyr.description}}
-                        </li>
-                    </template>
+                                {{lyr.description}}
+                            </li>
+                        </template>
 
-                    <li class="list-group-item list-group-item-dark">
-                        <strong>
-                            <i class="fa-solid fa-layer-group"></i>
-                            Caravanas das Periferias
-                        </strong>
-                    </li>
-                    <template v-for="lyr in caravanaLayers">
-                        <li class="list-group-item"
-                            @click="activeCaravanaLayer(lyr.id)"
-                            :class="lyr.active ? 'active' : ''"
-                        >
+                        <li class="list-group-item list-group-item-dark">
+                            <strong>
+                                <i class="fa-solid fa-layer-group"></i>
+                                Caravanas das Periferias
+                            </strong>
+                        </li>
+                        <template v-for="lyr in caravanaLayers">
+                            <li class="list-group-item"
+                                @click="activeCaravanaLayer(lyr.id)"
+                                :class="lyr.active ? 'active' : ''"
+                            >
                             <span v-if="lyr.active">
                                 <i class="fa" :class="lyr.iconClass"></i>
                             </span>
-                            <span v-else>
+                                <span v-else>
                                 <i class="fa fa-eye-slash"></i>
                             </span>
-                            {{lyr.description}}
-                        </li>
-                    </template>
+                                {{lyr.description}}
+                            </li>
+                        </template>
 
-                    <li class="list-group-item list-group-item-dark">
-                        <strong>
-                            <i class="fa-solid fa-layer-group"></i>
-                            Iniciativas Periféricas
-                        </strong>
-                    </li>
-                    <template v-for="lyr in overlayLayers">
-                        <li class="list-group-item"
-                            @click="activeOverlayLayer(lyr.id)"
-                            :class="lyr.active ? 'active' : ''"
-                        >
+                        <li class="list-group-item list-group-item-dark">
+                            <strong>
+                                <i class="fa-solid fa-layer-group"></i>
+                                Iniciativas Periféricas
+                            </strong>
+                        </li>
+                        <template v-for="lyr in overlayLayers">
+                            <li class="list-group-item"
+                                @click="activeOverlayLayer(lyr.id)"
+                                :class="lyr.active ? 'active' : ''"
+                            >
                             <span v-if="lyr.active">
                                 <i class="fa" :class="lyr.iconClass"></i>
                             </span>
-                            <span v-else>
+                                <span v-else>
                                 <i class="fa fa-eye-slash"></i>
                             </span>
-                            {{lyr.description}}
-                        </li>
-                    </template>
-                </ul>
-            </div>
+                                {{lyr.description}}
+                            </li>
+                        </template>
+                    </ul>
+                </div>
 
-            <div class="form-check form-switch form-switch-md mt-2">
-                <input class="form-check-input" type="checkbox" id="flexSwitch" v-model="switchBtn">
-                <label class="form-check-label" for="flexSwitch">
+                <div class="form-check form-switch form-switch-md mt-2">
+                    <input class="form-check-input" type="checkbox" id="flexSwitch" v-model="switchBtn">
+                    <label class="form-check-label" for="flexSwitch">
                     <span id="pr-txt">
                          Prêmio Periferia Viva
                     </span>
-                </label>
+                    </label>
+                </div>
+
+
             </div>
 
-            <button class="btn btn-dark mb-2" type="button"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasRight"
-                    aria-controls="offcanvasRight">
-                <i class="fa-regular fa-rectangle-list"></i> Legenda
-            </button>
+            <div class="sidebar-pane" id="profile">
+                <h1 class="sidebar-header">Legenda
+                    <span class="sidebar-close">
+                        <i class="fa fa-caret-left"></i>
+                    </span>
+                </h1>
 
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
-                 aria-labelledby="offcanvasRightLabel">
-                <div class="offcanvas-header">
-                    <h3 id="offcanvasRightLabel">
-                        Legenda:
-                    </h3>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                            aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <table class="table table-borderless table-sm">
-                        <tbody>
-                        <tr>
-                            <td>
-                                <div class="awesome-marker-icon-purple awesome-marker t1">
-                                    <i class="fa fa-van-shuttle icon-white" aria-hidden="true"></i>
-                                </div>
-                            </td>
-                            <td class="pt-3">
-                                Caravana das Periferias - 83 registros
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="awesome-marker-icon-cadetblue awesome-marker t1">
-                                    <i class="fa fa-scale-balanced icon-white" aria-hidden="true"></i>
-                                </div>
-                            </td>
-                            <td class="pt-3">
-                                Acesso à Justiça e Combate às Desigualdades - 176 registros
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="awesome-marker-icon-blue awesome-marker t1">
-                                    <i class="fa fa-cloud-sun-rain icon-white" aria-hidden="true"></i>
-                                </div>
-                            </td>
-                            <td class="pt-3">
-                                Planejamento Urbano, Gestão de Riscos e Responsabilidade Climática - 156 registros
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="awesome-marker-icon-orange awesome-marker t1">
-                                    <i class="fa fa-graduation-cap icon-white" aria-hidden="true"></i>
-                                </div>
-                            </td>
-                            <td class="pt-3">
-                                Comunicação, Inclusão Digital e Educação Popular - 326 registros
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="awesome-marker-icon-pink awesome-marker t1">
-                                    <i class="fa fa-masks-theater icon-white" aria-hidden="true"></i>
-                                </div>
-                            </td>
-                            <td class="pt-3">
-                                Cultura e Memória - 782 registros
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="awesome-marker-icon-red awesome-marker t1">
-                                    <i class="fa fa-briefcase-medical icon-white" aria-hidden="true"></i>
-                                </div>
-                            </td>
-                            <td class="pt-3">
-                                Saúde Integral e Dignidade Humana - 113 registros
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="awesome-marker-icon-black awesome-marker t1">
-                                    <i class="fa fa-utensils icon-white" aria-hidden="true"></i>
-                                </div>
-                            </td>
-                            <td class="pt-3">
-                                Soberania Alimentar e Nutricional - 146 registros
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="awesome-marker-icon-darkgreen awesome-marker t1">
-                                    <i class="fa fa-sack-dollar icon-white" aria-hidden="true"></i>
-                                </div>
-                            </td>
-                            <td class="pt-3">
-                                Economia Solidária - 155 registros
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td class="pt-3">
-                                <strong>Total: 1973 registros</strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td class="pt-3">
-                                <strong>Total Prêmio Periferia Viva: 54 registros</strong>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <table class="table table-borderless table-sm mt-4">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="awesome-marker-icon-purple awesome-marker t1">
+                                <i class="fa fa-van-shuttle icon-white" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td class="pt-3">
+                            Caravana das Periferias - 83 registros
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="awesome-marker-icon-cadetblue awesome-marker t1">
+                                <i class="fa fa-scale-balanced icon-white" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td class="pt-3">
+                            Acesso à Justiça e Combate às Desigualdades - 176 registros
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="awesome-marker-icon-blue awesome-marker t1">
+                                <i class="fa fa-cloud-sun-rain icon-white" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td class="pt-3">
+                            Planejamento Urbano, Gestão de Riscos e Responsabilidade Climática - 156 registros
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="awesome-marker-icon-orange awesome-marker t1">
+                                <i class="fa fa-graduation-cap icon-white" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td class="pt-3">
+                            Comunicação, Inclusão Digital e Educação Popular - 326 registros
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="awesome-marker-icon-pink awesome-marker t1">
+                                <i class="fa fa-masks-theater icon-white" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td class="pt-3">
+                            Cultura e Memória - 782 registros
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="awesome-marker-icon-red awesome-marker t1">
+                                <i class="fa fa-briefcase-medical icon-white" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td class="pt-3">
+                            Saúde Integral e Dignidade Humana - 113 registros
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="awesome-marker-icon-black awesome-marker t1">
+                                <i class="fa fa-utensils icon-white" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td class="pt-3">
+                            Soberania Alimentar e Nutricional - 146 registros
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="awesome-marker-icon-darkgreen awesome-marker t1">
+                                <i class="fa fa-sack-dollar icon-white" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td class="pt-3">
+                            Economia Solidária - 155 registros
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="pt-3">
+                            <strong>Total: 1973 registros</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="pt-3">
+                            <strong>Total Prêmio Periferia Viva: 54 registros</strong>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
 
+            <div class="sidebar-pane" id="settings">
+                <h1 class="sidebar-header">Configurações
+                    <span class="sidebar-close">
+                        <i class="fa-solid fa-caret-left"></i>
+                    </span>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div id="map" class="sidebar-map"></div>
+    <input type="hidden" id="acoes_geojson" value="../data/acao.geojson">
+    <input type="hidden" id="caravanas_geojson" value="../data/caravanas.geojson">
+</div>
 
-        </div><!-- .col-3 -->
-        <div id="map-col" class="col-md-10">
-            <div id="map"></div><!-- #map -->
-        </div><!-- .col-9 -->
-    </div><!-- .row -->
-
-</div><!-- #app -->
-
-</body>
 <script src="../data/limite_brasil.js"></script>
 <script src="../assets/vue/vue.global.js"></script>
 <script src="../assets/jquery/jquery-3.6.1.min.js"></script>
 <script src="../assets/bootstrap-5.2.2/js/bootstrap.bundle.js"></script>
 <script src="../assets/leaflet/leaflet.js"></script>
+<script src="../assets/leaflet_plugins/sidebarjs/leaflet-sidebar.js"></script>
 <script src="../assets/maptylerGeocoding/leaflet.umd.js"></script>
 <script src="../assets/leaflet_plugins/spin/spin.min.js"></script>
 <script src="../assets/leaflet_plugins/spin/leaflet.spin.min.js"></script>
@@ -252,4 +274,10 @@
 <script src="../assets/leaflet_plugins/awesome-markers/leaflet.awesome-markers.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/map.js"></script>
+
+<script>
+
+
+</script>
+</body>
 </html>

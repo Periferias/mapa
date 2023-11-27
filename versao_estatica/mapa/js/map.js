@@ -48,10 +48,10 @@ createApp({
 
             coordinates.addTo(this.map);
             geocodingSearch.addTo(this.map)
-            geocodingSearch.setPosition('topleft');
-            fullScreen.addTo(this.map);
+            //geocodingSearch.setPosition('topleft');
             zoomHome.addTo(this.map);
-
+            fullScreen.addTo(this.map);
+            L.control.sidebar('sidebar').addTo(this.map)
 
         },
         activeBaseLayer(id) {

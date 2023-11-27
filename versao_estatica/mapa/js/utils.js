@@ -1,10 +1,10 @@
 var zoomHome = L.Control.zoomHome({
     zoomHomeTitle: 'Zoom Inicial',
-    position: 'topright',
+   // position: 'topright',
 });
 
 var fullScreen = L.control.fullscreen({
-    position: 'topright',
+   // position: 'topright',
     title: 'Mapa em tela cheia',
     titleCancel: 'Sair da tela cheia',
     fullscreenControl: true,
