@@ -112,7 +112,7 @@ Object.entries(categoryMappings).forEach(([category, properties], index) => {
         pointToLayer: pointToLayer
     });
 
-    const clusterLayer = new L.markerClusterGroup();
+    const clusterLayer = new L.markerClusterGroup({chunkedLoading: true});
 
     catLayer.on('data:loaded', function () {
         clusterLayer.addLayer(catLayer);
@@ -130,7 +130,7 @@ Object.entries(categoryMappings).forEach(([category, properties], index) => {
         pointToLayer: pointToLayer
     });
 
-    const clusterLayer = new L.markerClusterGroup();
+    const clusterLayer = new L.markerClusterGroup({chunkedLoading: true});
 
     catLayer.on('data:loaded', function () {
         clusterLayer.addLayer(catLayer);
@@ -323,7 +323,7 @@ const caravanasLayer = new L.GeoJSON.AJAX(caravanasUrl, {
     },
 });
 
-const caravanasCluster = new L.markerClusterGroup();
+const caravanasCluster = new L.markerClusterGroup({chunkedLoading: true});
 
 caravanasLayer.on('data:loaded', function () {
     caravanasCluster.addLayer(caravanasLayer)
