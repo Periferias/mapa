@@ -23,6 +23,9 @@ createApp({
                     maxZoom: 21,
                     zoomControl: false,
                     maxBounds: this.bounds,
+                    zoomAnimation: false,
+                    fadeAnimation: true,
+                    markerZoomAnimation: true,
                     layers: [
                         limitsBr,
                         this.baseLayers[0].lyr,
@@ -40,7 +43,7 @@ createApp({
             this.map.setMinZoom(this.map.getBoundsZoom(this.map.options.maxBounds));
 
             this.map.on('moveend', e => {
-                let bounds = this.map.getBounds()
+                this.bounds = this.map.getBounds()
             });
 
             coordinates.addTo(this.map);
