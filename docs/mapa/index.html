@@ -55,10 +55,6 @@
                 </h1>
 
                 <div class="card mt-3">
-                    <h4 class="text-center">
-                        <i class="fa-solid fa-layer-group"></i>
-                        Camadas do Mapa
-                    </h4>
                     <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
                             <strong>
@@ -81,6 +77,37 @@
                                 {{lyr.description}}
                             </li>
                         </template>
+
+                        <h5 class="text-center p-1">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            Vulnerabilidades
+                        </h5>
+                        <li class="list-group-item list-group-item-dark">
+                            <strong>
+                                <i class="fa-solid fa-layer-group"></i>
+                                Aglomerados Subnormais
+                            </strong>
+                        </li>
+                        <template v-for="lyr in vulnerabilityLayers">
+                            <li class="list-group-item"
+                                @click="activeVulnerabilityLayer(lyr.id)"
+                                :class="lyr.active ? 'active' : ''"
+                            >
+                            <span v-if="lyr.active">
+                                <i class="fa" :class="lyr.iconClass"></i>
+                            </span>
+                                <span v-else>
+                                    <i class="fa fa-eye-slash"></i>
+                                </span>
+                                {{lyr.description}}
+                            </li>
+                        </template>
+
+
+                        <h5 class="text-center p-1">
+                            <i class="fa-regular fa-square-check"></i>
+                            Potencialidades
+                        </h5>
 
                         <li class="list-group-item list-group-item-dark">
                             <strong>
