@@ -34,7 +34,6 @@
                     </a>
                 </li>
             </ul>
-
             <ul role="tablist">
                 <li>
                     <a href="#settings" role="tab">
@@ -43,7 +42,6 @@
                 </li>
             </ul>
         </div>
-
         <!-- Tab panes -->
         <div class="sidebar-content">
             <div class="sidebar-pane" id="home">
@@ -51,7 +49,6 @@
                     Mapa das Periferias
                     <span class="sidebar-close"><i class="fa-solid fa-caret-left"></i></span>
                 </h1>
-
                 <div class="card mt-3">
                     <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
@@ -100,7 +97,6 @@
                                 {{lyr.description}}
                             </li>
                         </template>
-
 
                         <h5 class="text-center p-1">
                             <i class="fa-regular fa-square-check"></i>
@@ -180,7 +176,6 @@
                     </label>
                 </div>
 
-
             </div>
 
             <div class="sidebar-pane" id="profile">
@@ -191,7 +186,6 @@
                 </h1>
 
                 <div class="tb-leg">
-
                     <table class="table table-borderless table-sm mt-3">
                         <tr>
                             <td colspan="2"><h5>Obras do PAC:</h5></td>
@@ -331,9 +325,12 @@
 
                 </div>
 
-                <h5>Aglomerados Subnormais:</h5>
+                <h5>Aglomerados Subnormais (IBGE):</h5>
                 <span>Total de Domicílios por Classe</span><br>
                 <img id="agsn-leg" src="img/agsn.jpg" alt="">
+
+                <h5 class="mt-2">Tipologia Intraurbana (IBGE):</h5>
+                <img id="intra-leg" src="img/intraurbanos.jpg" alt="">
 
             </div>
 
@@ -369,10 +366,5 @@
 <script src="assets/leaflet_plugins/awesome-markers/leaflet.awesome-markers.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/map.js"></script>
-
-<script>
-
-
-</script>
 </body>
 </html>

@@ -91,8 +91,13 @@ form.svelte-1r7dvt7.svelte-1r7dvt7, form.svelte-1r7dvt7.svelte-1r7dvt7:focus-wit
 }
 
 #agsn-leg{
-    width: 40%;
+    width: 30%;
 }
+
+#intra-leg{
+    width: 96%;
+}
+
 
 .legend-txt {
     padding-top: 17px;

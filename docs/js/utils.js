@@ -54,6 +54,17 @@ const agsn = L.tileLayer.wms(geoServerUrl + 'ambiental/wms?', {
     attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
 });
 
+const intraUrbana = L.tileLayer.wms(geoServerUrl + 'ambiental/wms?', {
+    format: 'image/png',
+    transparent: true,
+    version: '1.1.0',
+    maxZoom: 22,
+    zIndex: 10,
+    opacity: 0.9,
+    layers: 'ambiental:tipologia_intraurbana',
+    attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
+});
+
 var limitsBr = L.geoJson(
     limiteBr, {
         style: {
@@ -460,7 +471,15 @@ const vulnerabilityArr = [
         id: 1,
         description: 'Aglomerados Subnormais (IBGE)',
         lyr: agsn,
-        iconClass: 'fa fa-city',
+        iconClass: 'fa fa-eye',
+        markerColor: "",
+        active: false
+    },
+    {
+        id: 2,
+        description: 'Tipologia IntraUrbana',
+        lyr: intraUrbana,
+        iconClass: 'fa fa-eye',
         markerColor: "",
         active: false
     }
