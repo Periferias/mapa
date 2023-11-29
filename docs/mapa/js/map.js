@@ -12,6 +12,7 @@ createApp({
             baseLayers: baseLayers,
             overlayLayers: overlayLayers,
             caravanaLayers: caravanasArr,
+            vulnerabilityLayers: vulnerabilityArr,
         }
     },
     methods: {
@@ -36,7 +37,8 @@ createApp({
                         this.overlayLayers[4].lyr,
                         this.overlayLayers[5].lyr,
                         this.overlayLayers[6].lyr,
-                        this.caravanaLayers[0].lyr
+                        this.caravanaLayers[0].lyr,
+                        americaSul
                     ]
                 }
             );
@@ -80,6 +82,19 @@ createApp({
         },
         activeCaravanaLayer(id) {
             this.caravanaLayers.find(layer => {
+                if (layer.id === id) {
+                    layer.active = !layer.active
+                    if (layer.active) {
+                        this.map.addLayer(layer.lyr)
+                    } else {
+                        layer.active = false
+                        this.map.removeLayer(layer.lyr)
+                    }
+                }
+            })
+        },
+        activeVulnerabilityLayer(id) {
+            this.vulnerabilityLayers.find(layer => {
                 if (layer.id === id) {
                     layer.active = !layer.active
                     if (layer.active) {

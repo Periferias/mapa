@@ -1,10 +1,10 @@
 var zoomHome = L.Control.zoomHome({
     zoomHomeTitle: 'Zoom Inicial',
-   // position: 'topright',
+    // position: 'topright',
 });
 
 var fullScreen = L.control.fullscreen({
-   // position: 'topright',
+    // position: 'topright',
     title: 'Mapa em tela cheia',
     titleCancel: 'Sair da tela cheia',
     fullscreenControl: true,
@@ -29,6 +29,29 @@ var coordinates = L.control.coordinates({
     decimalSeperator: ",",
     labelTemplateLng: "Long: {x}",
     labelTemplateLat: "Lat: {y}"
+});
+
+const geoServerUrl = 'https://geoserver.multisig.com.br/geoserver/'
+
+const americaSul = L.tileLayer.wms(geoServerUrl + 'geofazendas/wms?', {
+    format: 'image/png',
+    transparent: true,
+    version: '1.1.0',
+    maxZoom: 22,
+    zIndex: 10,
+    opacity: 0.9,
+    layers: 'geofazendas:america_sul',
+    attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
+});
+const agsn = L.tileLayer.wms(geoServerUrl + 'ambiental/wms?', {
+    format: 'image/png',
+    transparent: true,
+    version: '1.1.0',
+    maxZoom: 22,
+    zIndex: 10,
+    opacity: 0.9,
+    layers: 'ambiental:agsn',
+    attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
 });
 
 var limitsBr = L.geoJson(
@@ -142,13 +165,33 @@ Object.entries(categoryMappings).forEach(([category, properties], index) => {
 
 const baseLayers = [
     {
+        id: 4,
+        description: 'Carto Light',
+        lyr: L.tileLayer('https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.pn', {
+            maxZoom: 21,
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+            attribution: '&copy; <a href="https://carto.com/">CartoDB</a>'
+        }),
+        active: true
+    },
+    // {
+    //     id: 5,
+    //     description: 'Carto Dark',
+    //     lyr: L.tileLayer('https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.pn', {
+    //         maxZoom: 21,
+    //         subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+    //         attribution: '&copy; <a href="https://carto.com/">CartoDB</a>'
+    //     }),
+    //     active: false
+    // },
+    {
         id: 1,
         description: 'OpenStreetMap',
         lyr: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 21,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }),
-        active: true
+        active: false
     },
     {
         id: 2,
@@ -339,5 +382,15 @@ const caravanasArr = [
         markerColor: "purple",
         active: true
     },
+]
 
+const vulnerabilityArr = [
+    {
+        id: 1,
+        description: 'Aglomerados Subnormais (IBGE)',
+        lyr: agsn,
+        iconClass: 'fa fa-city',
+        markerColor: "",
+        active: false
+    }
 ]
