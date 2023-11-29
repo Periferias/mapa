@@ -86,6 +86,14 @@ form.svelte-1r7dvt7.svelte-1r7dvt7, form.svelte-1r7dvt7.svelte-1r7dvt7:focus-wit
     position: relative;
 }
 
+.tb-leg {
+    font-size: 90%;
+}
+
+#agsn-leg{
+    width: 40%;
+}
+
 .legend-txt {
     padding-top: 17px;
 }
