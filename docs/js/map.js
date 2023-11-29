@@ -13,6 +13,7 @@ createApp({
             overlayLayers: overlayLayers,
             caravanaLayers: caravanasArr,
             vulnerabilityLayers: vulnerabilityArr,
+            pacLayers: pacArr,
         }
     },
     methods: {
@@ -82,6 +83,19 @@ createApp({
         },
         activeCaravanaLayer(id) {
             this.caravanaLayers.find(layer => {
+                if (layer.id === id) {
+                    layer.active = !layer.active
+                    if (layer.active) {
+                        this.map.addLayer(layer.lyr)
+                    } else {
+                        layer.active = false
+                        this.map.removeLayer(layer.lyr)
+                    }
+                }
+            })
+        },
+        activePacLayer(id) {
+            this.pacLayers.find(layer => {
                 if (layer.id === id) {
                     layer.active = !layer.active
                     if (layer.active) {

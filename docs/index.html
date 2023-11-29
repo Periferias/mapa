@@ -108,6 +108,26 @@
                             <i class="fa-regular fa-square-check"></i>
                             Potencialidades
                         </h5>
+                        <li class="list-group-item list-group-item-dark">
+                            <strong>
+                                <i class="fa-solid fa-layer-group"></i>
+                                Obras do PAC
+                            </strong>
+                        </li>
+                        <template v-for="lyr in pacLayers">
+                            <li class="list-group-item"
+                                @click="activePacLayer(lyr.id)"
+                                :class="lyr.active ? 'active' : ''"
+                            >
+                            <span v-if="lyr.active">
+                                <i class="fa" :class="lyr.iconClass"></i>
+                            </span>
+                                <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                            </span>
+                                {{lyr.description}}
+                            </li>
+                        </template>
 
                         <li class="list-group-item list-group-item-dark">
                             <strong>
@@ -174,6 +194,27 @@
 
                 <table class="table table-borderless table-sm mt-4">
                     <tbody>
+                    <tr>
+                        <td>
+                            <div class="awesome-marker-icon-red awesome-marker t1">
+                                <i class="fa fa-building icon-white" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td class="pt-3">
+                            PAC: Obras de Urbanização - 85 registros
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="awesome-marker-icon-darkgreen awesome-marker t1">
+                                <i class="fa fa-mountain-city icon-white" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td class="pt-3">
+                            PAC: Obras de Encosta - 38 registros
+                        </td>
+                    </tr>
+
                     <tr>
                         <td>
                             <div class="awesome-marker-icon-purple awesome-marker t1">
@@ -282,6 +323,7 @@
     <div id="map" class="sidebar-map"></div>
     <input type="hidden" id="acoes_geojson" value="data/acao.geojson">
     <input type="hidden" id="caravanas_geojson" value="data/caravanas.geojson">
+    <input type="hidden" id="pac_geojson" value="data/pac.geojson">
 </div>
 
 <script src="data/limite_brasil.js"></script>

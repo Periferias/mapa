@@ -64,6 +64,7 @@ var limitsBr = L.geoJson(
     });
 
 var acoesUrl = $('#acoes_geojson').val();
+var pacUrl = $('#pac_geojson').val();
 
 var categoryMappings = {
     "Acesso à Justiça e Combate às Desigualdades": {
@@ -139,7 +140,6 @@ Object.entries(categoryMappings).forEach(([category, properties], index) => {
 
     catLayer.on('data:loaded', function () {
         clusterLayer.addLayer(catLayer);
-        map.spin(false);
     });
 
     clustersAndProperties.push({category, clusterLayer, properties});
@@ -157,7 +157,6 @@ Object.entries(categoryMappings).forEach(([category, properties], index) => {
 
     catLayer.on('data:loaded', function () {
         clusterLayer.addLayer(catLayer);
-        map.spin(false);
     });
 
     clustersPremiumAndProperties.push({category, clusterLayer, properties});
@@ -174,16 +173,6 @@ const baseLayers = [
         }),
         active: true
     },
-    // {
-    //     id: 5,
-    //     description: 'Carto Dark',
-    //     lyr: L.tileLayer('https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.pn', {
-    //         maxZoom: 21,
-    //         subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-    //         attribution: '&copy; <a href="https://carto.com/">CartoDB</a>'
-    //     }),
-    //     active: false
-    // },
     {
         id: 1,
         description: 'OpenStreetMap',
@@ -370,9 +359,91 @@ const caravanasCluster = new L.markerClusterGroup({chunkedLoading: true});
 
 caravanasLayer.on('data:loaded', function () {
     caravanasCluster.addLayer(caravanasLayer)
-    map.spin(false);
 });
 
+
+var pacMappings = {
+    "Obras de contenção de encostas": {
+        iconClass: "fa-mountain-city",
+        markerColor: "darkgreen"
+    },
+    "Urbanização": {
+        iconClass: "fa-building",
+        markerColor: "red"
+    },
+};
+
+const enconstasLayer = new L.GeoJSON.AJAX(pacUrl, {
+    filter: function (feature, layer) {
+        if (feature.properties.modalidade === 'Obras de contenção de encostas') {
+            return true
+        }
+    },
+    pointToLayer: function (feature, latlng) {
+        const category = feature.properties.modalidade;
+
+        const popupContent = `<span>Código SACI:</span>${feature.properties.codigo_saci}
+                              <span>Modalidade:</span>${feature.properties.modalidade}
+                              <span>Programa:</span>${feature.properties.programa}
+                              <span>Fonte:</span>${feature.properties.fonte}
+                              <span>Municípios Beneficiados:</span>${feature.properties.municipios_beneficiados}
+                              <span>Estado</span>${feature.properties.uf}
+                            `
+
+        const {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-question", markerColor: "gray"};
+        return createMarker(latlng, iconClass, markerColor, popupContent);
+    }
+});
+
+const encostasCluster = new L.markerClusterGroup();
+enconstasLayer.on('data:loaded', function () {
+    encostasCluster.addLayer(enconstasLayer);
+});
+
+const urbanizacaoLayer = new L.GeoJSON.AJAX(pacUrl, {
+    filter: function (feature, layer) {
+        if (feature.properties.modalidade === 'Urbanização') {
+            return true
+        }
+    },
+    pointToLayer: function (feature, latlng) {
+        const category = feature.properties.modalidade;
+
+        const popupContent = `<span>Código SACI:</span>${feature.properties.codigo_saci}
+                              <span>Modalidade:</span>${feature.properties.modalidade}
+                              <span>Programa:</span>${feature.properties.programa}
+                              <span>Fonte:</span>${feature.properties.fonte}
+                              <span>Municípios Beneficiados:</span>${feature.properties.municipios_beneficiados}
+                              <span>Estado</span>${feature.properties.uf}
+                            `
+        const {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-question", markerColor: "gray"};
+        return createMarker(latlng, iconClass, markerColor, popupContent);
+    }
+});
+
+const urbanizacaoCluster = new L.markerClusterGroup();
+urbanizacaoLayer.on('data:loaded', function () {
+    urbanizacaoCluster.addLayer(urbanizacaoLayer);
+});
+
+const pacArr = [
+    {
+        id: 1,
+        description: 'Urbanização',
+        lyr: urbanizacaoCluster,
+        iconClass: 'fa fa-building',
+        markerColor: "red",
+        active: false
+    },
+    {
+        id: 2,
+        description: 'Obras de Contenção de Encostas',
+        lyr: encostasCluster,
+        iconClass: 'fa fa-mountain-city',
+        markerColor: "darkgreen",
+        active: false
+    },
+];
 const caravanasArr = [
     {
         id: 1,
@@ -394,3 +465,6 @@ const vulnerabilityArr = [
         active: false
     }
 ]
+
+
+
