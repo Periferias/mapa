@@ -68,7 +68,6 @@ const agsnContorno = L.tileLayer.wms(geoServerUrl + 'ambiental/wms?', {
 });
 
 
-
 const intraUrbana = L.tileLayer.wms(geoServerUrl + 'ambiental/wms?', {
     format: 'image/png',
     transparent: true,
@@ -414,7 +413,7 @@ const enconstasLayer = new L.GeoJSON.AJAX(pacUrl, {
                               <span>Fonte:</span>${feature.properties.fonte}
                               <span>Municípios Beneficiados:</span>${feature.properties.municipios_beneficiados}
                               <span>Estado</span>${feature.properties.uf}
-                              <span>Obs:</span> Localização não precisa!
+                              <span>Obs:</span> Sede municipal (IBGE) - não corresponde ao local da obra.
                             `
 
         const {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-question", markerColor: "gray"};
