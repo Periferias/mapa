@@ -76,6 +76,16 @@ html, body, #map {
     background-color: #000000;
 }
 
+.sidebar-left .sidebar-content {
+    left: 36px;
+    right: 0;
+}
+
+.sidebar-pane {
+    padding: 10px 20px 15px 10px;
+}
+
+
 form.svelte-1r7dvt7.svelte-1r7dvt7, form.svelte-1r7dvt7.svelte-1r7dvt7:focus-within, form.svelte-1r7dvt7.svelte-1r7dvt7:hover {
     width: 240px;
     max-width: 300px;
@@ -90,11 +100,11 @@ form.svelte-1r7dvt7.svelte-1r7dvt7, form.svelte-1r7dvt7.svelte-1r7dvt7:focus-wit
     font-size: 90%;
 }
 
-#agsn-leg{
+#agsn-leg {
     width: 30%;
 }
 
-#intra-leg{
+#intra-leg {
     width: 96%;
 }
 

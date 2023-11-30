@@ -24,12 +24,14 @@
         <div class="sidebar-tabs">
             <ul role="tablist">
                 <li>
-                    <a href="#home" role="tab">
+                    <a href="#home" role="tab" data-bs-toggle="tooltip" data-bs-placement="right"
+                       title="Camadas do Mapa">
                         <i class="fa-solid fa-map-location-dot"></i>
                     </a>
                 </li>
                 <li>
-                    <a href="#profile" role="tab">
+                    <a href="#profile" role="tab" data-bs-toggle="tooltip" data-bs-placement="right"
+                       title="Legenda">
                         <i class="fa-solid fa-rectangle-list"></i>
                     </a>
                 </li>
@@ -46,7 +48,6 @@
                     <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
                             <strong>
-                                <i class="fa-solid fa-satellite"></i>
                                 Mapas Base
                             </strong>
                         </li>
@@ -65,14 +66,17 @@
                                 {{lyr.description}}
                             </li>
                         </template>
+                    </ul>
+                </div>
 
-                        <h5 class="text-center p-1">
-                            Vulnerabilidades
-                        </h5>
+                <hr>
+                <h4 class="mt-2 text-center lead">Potencialidades</h4>
+
+                <div class="card">
+                    <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
                             <strong>
-                                <i class="fa-solid fa-layer-group"></i>
-                                Favelas e Comunidades Urbanas
+                                Obras do PAC
                             </strong>
                         </li>
                         <template v-for="lyr in vulnerabilityLayers">
@@ -80,43 +84,22 @@
                                 @click="activeVulnerabilityLayer(lyr.id)"
                                 :class="lyr.active ? 'active' : ''"
                             >
-                            <span v-if="lyr.active">
-                                <i class="fa" :class="lyr.iconClass"></i>
-                            </span>
-                                <span v-else>
-                                    <i class="fa fa-eye-slash"></i>
-                                </span>
-                                {{lyr.description}}
-                            </li>
-                        </template>
-
-                        <h5 class="text-center p-1">
-                            Potencialidades
-                        </h5>
-                        <li class="list-group-item list-group-item-dark">
-                            <strong>
-                                <i class="fa-solid fa-layer-group"></i>
-                                Obras do PAC
-                            </strong>
-                        </li>
-                        <template v-for="lyr in pacLayers">
-                            <li class="list-group-item"
-                                @click="activePacLayer(lyr.id)"
-                                :class="lyr.active ? 'active' : ''"
-                            >
-                            <span v-if="lyr.active">
-                                <i class="fa" :class="lyr.iconClass"></i>
-                            </span>
+                        <span v-if="lyr.active">
+                            <i class="fa" :class="lyr.iconClass"></i>
+                        </span>
                                 <span v-else>
                                 <i class="fa fa-eye-slash"></i>
                             </span>
                                 {{lyr.description}}
                             </li>
                         </template>
+                    </ul>
+                </div>
 
+                <div class="card mt-3">
+                    <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
                             <strong>
-                                <i class="fa-solid fa-layer-group"></i>
                                 Caravanas das Periferias
                             </strong>
                         </li>
@@ -125,19 +108,22 @@
                                 @click="activeCaravanaLayer(lyr.id)"
                                 :class="lyr.active ? 'active' : ''"
                             >
-                            <span v-if="lyr.active">
-                                <i class="fa" :class="lyr.iconClass"></i>
-                            </span>
+                        <span v-if="lyr.active">
+                            <i class="fa" :class="lyr.iconClass"></i>
+                        </span>
                                 <span v-else>
                                 <i class="fa fa-eye-slash"></i>
-                            </span>
+                        </span>
                                 {{lyr.description}}
                             </li>
                         </template>
+                    </ul>
+                </div>
 
+                <div class="card mt-3">
+                    <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
                             <strong>
-                                <i class="fa-solid fa-layer-group"></i>
                                 Iniciativas Periféricas
                             </strong>
                         </li>
@@ -146,12 +132,12 @@
                                 @click="activeOverlayLayer(lyr.id)"
                                 :class="lyr.active ? 'active' : ''"
                             >
-                            <span v-if="lyr.active">
-                                <i class="fa" :class="lyr.iconClass"></i>
-                            </span>
+                        <span v-if="lyr.active">
+                            <i class="fa" :class="lyr.iconClass"></i>
+                        </span>
                                 <span v-else>
                                 <i class="fa fa-eye-slash"></i>
-                            </span>
+                        </span>
                                 {{lyr.description}}
                             </li>
                         </template>
@@ -166,6 +152,34 @@
                     </span>
                     </label>
                 </div>
+
+                <hr>
+                <h4 class="mt-2 text-center lead">Vulnerabilidades</h4>
+
+                <div class="card">
+                    <ul class="list-group list-group-flush list-base-layers">
+                        <li class="list-group-item list-group-item-dark">
+                            <strong>
+                                Favelas e Comunidades Urbanas
+                            </strong>
+                        </li>
+                        <template v-for="lyr in vulnerabilityLayers">
+                            <li class="list-group-item"
+                                @click="activeVulnerabilityLayer(lyr.id)"
+                                :class="lyr.active ? 'active' : ''"
+                            >
+                        <span v-if="lyr.active">
+                            <i class="fa" :class="lyr.iconClass"></i>
+                        </span>
+                                <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                            </span>
+                                {{lyr.description}}
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+
 
             </div>
 
@@ -316,7 +330,13 @@
 
                 </div>
 
-                <h5>Aglomerados Subnormais (IBGE):</h5>
+                <h5>Aglomerados Subnormais (IBGE):
+                </h5>
+                <svg width="25" height="28" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="7" y="7" width="12" height="12" stroke="#990000" fill="transparent" stroke-width="2"/>
+                </svg>
+                <span>Perímetro</span><br>
+
                 <span>Total de Domicílios por Classe</span><br>
                 <img id="agsn-leg" src="img/agsn.jpg" alt="">
 
@@ -350,5 +370,13 @@
 <script src="assets/leaflet_plugins/awesome-markers/leaflet.awesome-markers.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/map.js"></script>
+
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+</script>
+
 </body>
 </html>
