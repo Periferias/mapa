@@ -414,6 +414,7 @@ const enconstasLayer = new L.GeoJSON.AJAX(pacUrl, {
                               <span>Fonte:</span>${feature.properties.fonte}
                               <span>Municípios Beneficiados:</span>${feature.properties.municipios_beneficiados}
                               <span>Estado</span>${feature.properties.uf}
+                              <span>Obs:</span> Localização não precisa!
                             `
 
         const {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-question", markerColor: "gray"};
@@ -463,7 +464,7 @@ const pacArr = [
     },
     {
         id: 2,
-        description: 'Obras de Contenção de Encostas',
+        description: 'Contenção de Encostas',
         lyr: encostasCluster,
         iconClass: 'fa fa-mountain-city',
         markerColor: "darkgreen",

@@ -79,9 +79,9 @@
                                 Obras do PAC
                             </strong>
                         </li>
-                        <template v-for="lyr in vulnerabilityLayers">
+                        <template v-for="lyr in pacLayers">
                             <li class="list-group-item"
-                                @click="activeVulnerabilityLayer(lyr.id)"
+                                @click="activePacLayer(lyr.id)"
                                 :class="lyr.active ? 'active' : ''"
                             >
                         <span v-if="lyr.active">
