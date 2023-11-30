@@ -39,7 +39,8 @@ createApp({
                         this.overlayLayers[5].lyr,
                         this.overlayLayers[6].lyr,
                         this.caravanaLayers[0].lyr,
-                        americaSul
+                        americaSul,
+                        agsnContorno
                     ]
                 }
             );

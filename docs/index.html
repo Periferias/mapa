@@ -34,13 +34,6 @@
                     </a>
                 </li>
             </ul>
-            <ul role="tablist">
-                <li>
-                    <a href="#settings" role="tab">
-                        <i class="fa fa-gear"></i>
-                    </a>
-                </li>
-            </ul>
         </div>
         <!-- Tab panes -->
         <div class="sidebar-content">
@@ -74,13 +67,12 @@
                         </template>
 
                         <h5 class="text-center p-1">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
                             Vulnerabilidades
                         </h5>
                         <li class="list-group-item list-group-item-dark">
                             <strong>
                                 <i class="fa-solid fa-layer-group"></i>
-                                Aglomerados Subnormais
+                                Favelas e Comunidades Urbanas
                             </strong>
                         </li>
                         <template v-for="lyr in vulnerabilityLayers">
@@ -99,7 +91,6 @@
                         </template>
 
                         <h5 class="text-center p-1">
-                            <i class="fa-regular fa-square-check"></i>
                             Potencialidades
                         </h5>
                         <li class="list-group-item list-group-item-dark">
@@ -334,13 +325,6 @@
 
             </div>
 
-            <div class="sidebar-pane" id="settings">
-                <h1 class="sidebar-header">Configurações
-                    <span class="sidebar-close">
-                        <i class="fa-solid fa-caret-left"></i>
-                    </span>
-                </h1>
-            </div>
         </div>
     </div>
     <div id="map" class="sidebar-map"></div>

@@ -54,6 +54,21 @@ const agsn = L.tileLayer.wms(geoServerUrl + 'ambiental/wms?', {
     attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
 });
 
+
+const agsnContorno = L.tileLayer.wms(geoServerUrl + 'ambiental/wms?', {
+    format: 'image/png',
+    transparent: true,
+    version: '1.1.0',
+    maxZoom: 22,
+    zIndex: 10,
+    opacity: 0.9,
+    styles: 'ambiental:agsn_cortorno',
+    layers: 'ambiental:agsn',
+    attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
+});
+
+
+
 const intraUrbana = L.tileLayer.wms(geoServerUrl + 'ambiental/wms?', {
     format: 'image/png',
     transparent: true,
