@@ -1,5 +1,9 @@
+* {
+    font-family: 'Sora', sans-serif
+}
+
 html {
-    font-size: 0.9em
+    font-size: 0.9em;
 }
 
 
@@ -34,6 +38,7 @@ html, body, #map {
     background-color: #434343;
     border-color: #030303;
 }
+
 
 #pr-txt {
     font-size: 16px;
