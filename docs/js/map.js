@@ -54,7 +54,7 @@ createApp({
             geocodingSearch.addTo(this.map)
             //geocodingSearch.setPosition('topleft');
             zoomHome.addTo(this.map);
-            fullScreen.addTo(this.map);
+            //fullScreen.addTo(this.map);
             L.control.sidebar('sidebar').addTo(this.map)
 
         },
