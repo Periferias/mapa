@@ -104,6 +104,11 @@ form.svelte-1r7dvt7.svelte-1r7dvt7, form.svelte-1r7dvt7.svelte-1r7dvt7:focus-wit
     width: 30%;
 }
 
+.txt-leg-item {
+    font-size: 14px;
+    font-weight: bold;
+}
+
 #intra-leg {
     width: 96%;
 }
