@@ -15,6 +15,10 @@ html, body, #map {
     height: 100%;
 }
 
+.card, .card-header, .card-body, .card-footer, .list-group-item, .list-group-item-dark {
+    border-radius: 0 !important;
+}
+
 .list-group-item.active {
     z-index: 2;
     color: #000000;
@@ -98,7 +102,7 @@ html, body, #map {
 }
 
 .txt-leg-item {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
 }
 
