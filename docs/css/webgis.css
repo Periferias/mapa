@@ -6,7 +6,6 @@ html {
     font-size: 0.9em;
 }
 
-
 body {
     padding: 0;
     margin: 0;
@@ -14,11 +13,6 @@ body {
 
 html, body, #map {
     height: 100%;
-}
-
-.lorem {
-    font-style: italic;
-    color: #AAA;
 }
 
 .list-group-item.active {

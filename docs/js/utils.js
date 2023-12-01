@@ -51,6 +51,7 @@ const agsn = L.tileLayer.wms(geoServerUrl + 'ambiental/wms?', {
     zIndex: 10,
     opacity: 0.9,
     layers: 'ambiental:agsn',
+    minZoom: 10,
     attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
 });
 

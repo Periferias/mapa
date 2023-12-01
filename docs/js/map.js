@@ -44,9 +44,9 @@ createApp({
                     ]
                 }
             );
-            this.map.setMinZoom(this.map.getBoundsZoom(this.map.options.maxBounds));
 
             this.map.on('moveend', e => {
+                console.log(this.map.getZoom())
                 this.bounds = this.map.getBounds()
             });
 
