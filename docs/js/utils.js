@@ -3,13 +3,6 @@ var zoomHome = L.Control.zoomHome({
     // position: 'topright',
 });
 
-var fullScreen = L.control.fullscreen({
-    // position: 'topright',
-    title: 'Mapa em tela cheia',
-    titleCancel: 'Sair da tela cheia',
-    fullscreenControl: true,
-});
-
 var geocodingSearch = L.control.maptilerGeocoding({
         apiKey: 'todhtNTYQmjE6y5MNZ9k',
         placeholder: 'Pesquisar por localização...',

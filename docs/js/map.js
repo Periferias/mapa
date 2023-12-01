@@ -46,7 +46,6 @@ createApp({
             );
 
             this.map.on('moveend', e => {
-                console.log(this.map.getZoom())
                 this.bounds = this.map.getBounds()
             });
 
@@ -54,7 +53,6 @@ createApp({
             geocodingSearch.addTo(this.map)
             //geocodingSearch.setPosition('topleft');
             zoomHome.addTo(this.map);
-            //fullScreen.addTo(this.map);
             L.control.sidebar('sidebar').addTo(this.map)
 
         },
