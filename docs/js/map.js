@@ -20,7 +20,7 @@ createApp({
         initMap() {
             this.map = L.map('map', {
                     center: [-13.9234038, -55.1953125],
-                    zoom: 4,
+                    zoom: 5,
                     //minZoom: 5,
                     maxZoom: 21,
                     zoomControl: false,
