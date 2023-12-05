@@ -5,6 +5,8 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 
 var zoomHome = L.Control.zoomHome({
     zoomHomeTitle: 'Zoom Inicial',
+    zoomHomeIcon: 'magnifying-glass',
+
     // position: 'topright',
 });
 
