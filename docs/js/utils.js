@@ -82,8 +82,6 @@ const intraUrbana = L.tileLayer.wms(geoServerUrl + 'ambiental/wms?', {
 
 var limitsBr = L.geoJson(
     limiteBr, {
-        maxZoom: 15,
-        minZoom: 10,
         style: {
             "color": "#000",
             "weight": 1.7,
