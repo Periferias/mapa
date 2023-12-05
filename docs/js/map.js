@@ -13,7 +13,8 @@ createApp({
             overlayLayers: overlayLayers,
             caravanaLayers: caravanasArr,
             vulnerabilityLayers: vulnerabilityArr,
-            pacLayers: pacArr
+            pacLayers: pacArr,
+            activeActions: true,
         }
     },
     methods: {
@@ -54,7 +55,6 @@ createApp({
                 this.bounds = this.map.getBounds();
             });
 
-            // if (this.map.getZoom())
 
             coordinates.addTo(this.map);
             geocodingSearch.addTo(this.map)
@@ -126,6 +126,23 @@ createApp({
                 }
             })
         },
+        checkOverlayLayers() {
+            this.activeActions = !this.activeActions;
+            if (!this.activeActions) {
+                this.overlayLayers.forEach(layer => {
+                    layer.active = false
+                    this.map.removeLayer(layer.lyr)
+                })
+            } else {
+                this.overlayLayers.forEach(layer => {
+                    layer.active = true
+                    this.map.addLayer(layer.lyr)
+                })
+            }
+
+            console.log(this.activeActions)
+
+        }
     },
     mounted() {
         this.initMap();
