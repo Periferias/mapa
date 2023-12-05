@@ -13,7 +13,7 @@ createApp({
             overlayLayers: overlayLayers,
             caravanaLayers: caravanasArr,
             vulnerabilityLayers: vulnerabilityArr,
-            pacLayers: pacArr,
+            pacLayers: pacArr
         }
     },
     methods: {
@@ -21,7 +21,6 @@ createApp({
             this.map = L.map('map', {
                     center: [-13.9234038, -55.1953125],
                     zoom: 5,
-                    //minZoom: 5,
                     maxZoom: 21,
                     scrollWheelZoom: false,
                     zoomControl: false,
@@ -47,8 +46,15 @@ createApp({
             );
 
             this.map.on('moveend', e => {
-                this.bounds = this.map.getBounds()
+                if (this.map.getZoom() > 10) {
+                    this.map.removeLayer(limitsBr);
+                } else {
+                    this.map.addLayer(limitsBr);
+                }
+                this.bounds = this.map.getBounds();
             });
+
+            // if (this.map.getZoom())
 
             coordinates.addTo(this.map);
             geocodingSearch.addTo(this.map)
