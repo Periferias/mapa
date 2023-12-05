@@ -139,9 +139,6 @@ createApp({
                     this.map.addLayer(layer.lyr)
                 })
             }
-
-            console.log(this.activeActions)
-
         }
     },
     mounted() {
