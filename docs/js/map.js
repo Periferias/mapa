@@ -23,6 +23,7 @@ createApp({
                     zoom: 5,
                     //minZoom: 5,
                     maxZoom: 21,
+                    scrollWheelZoom: false,
                     zoomControl: false,
                     maxBounds: this.bounds,
                     zoomAnimation: false,
