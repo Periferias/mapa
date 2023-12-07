@@ -353,5 +353,10 @@
 <script src="js/utils.js"></script>
 <script src="js/map.js"></script>
 
+<script>
+    const tooltipTriggerLst = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipLst = [...tooltipTriggerLst].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script>
+
 </body>
 </html>
