@@ -140,7 +140,7 @@ function pointToLayer(feature, latlng) {
                         <span>Categoria:</span>${feature.properties.categoria}
                         <span>Localidade:</span>${feature.properties.localidade}
                         <span>Premiado:</span>${feature.properties.premiado ? 'Sim' : 'Não'}
-                        <span>Município/Estado:</span>${feature.properties.municipio}/${feature.properties.estado}
+                        <span>Município/Estado:</span>${feature.properties.municipio}/${feature.properties.uf}
                        `
 
     var {iconClass, markerColor} = categoryMappings[category] || {
