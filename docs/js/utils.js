@@ -92,44 +92,51 @@ var limitsBr = L.geoJson(
 var acoesUrl = $('#acoes_geojson').val();
 var pacUrl = $('#pac_geojson').val();
 
+const LeafIcon = L.Icon.extend({
+    options: {
+        iconSize: [30, 46],
+        shadowSize: [50, 64],
+        iconAnchor: [20, 64],
+        shadowAnchor: [4, 62],
+        popupAnchor: [-5, -56]
+    }
+});
+
+const pinAlimentacao = new LeafIcon({iconUrl: 'pins/alimentacao.svg'});
+const pinComunicacao = new LeafIcon({iconUrl: 'pins/comunicacao.svg'});
+const pinCultura = new LeafIcon({iconUrl: 'pins/cultura.svg'});
+const pinEconomia = new LeafIcon({iconUrl: 'pins/economia.svg'});
+const pinHabitacao = new LeafIcon({iconUrl: 'pins/habitacao.svg'});
+const pinSaude = new LeafIcon({iconUrl: 'pins/saude.svg'});
+const pinJustica = new LeafIcon({iconUrl: 'pins/justica.svg'});
+
 var categoryMappings = {
     "Acesso à Justiça e Combate às Desigualdades": {
-        iconClass: "fa-scale-balanced",
-        markerColor: "cadetblue"
+        iconClass: pinJustica
     },
     "Planejamento Urbano, Gestão de Riscos e Responsabilidade Climática": {
-        iconClass: "fa-cloud-sun-rain",
-        markerColor: "blue"
+        iconClass: pinHabitacao
     },
     "Comunicação, Inclusão Digital e Educação Popular": {
-        iconClass: "fa-graduation-cap",
-        markerColor: "orange"
+        iconClass: pinComunicacao
     },
     "Cultura e Memória": {
-        iconClass: "fa-masks-theater",
-        markerColor: "pink"
+        iconClass: pinCultura
     },
     "Saúde Integral e Dignidade Humana": {
-        iconClass: "fa-briefcase-medical",
-        markerColor: "red"
+        iconClass: pinSaude
     },
     "Soberania Alimentar e Nutricional": {
-        iconClass: "fa-utensils",
-        markerColor: "black"
+        iconClass: pinAlimentacao
     },
     "Economia Solidária": {
-        iconClass: "fa-sack-dollar",
-        markerColor: "darkgreen"
+        iconClass: pinEconomia
     },
 };
 
 function createMarker(latlng, iconClass, markerColor, popupContent) {
     return L.marker(latlng, {
-        icon: L.AwesomeMarkers.icon({
-            prefix: 'fa',
-            icon: iconClass,
-            markerColor: markerColor,
-        }),
+        icon: iconClass,
     }).bindPopup(popupContent);
 }
 
