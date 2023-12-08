@@ -379,7 +379,7 @@ const caravanasLayer = new L.GeoJSON.AJAX(caravanasUrl, {
         let brazilianDateTime = dateTime.toLocaleString('pt-BR', options);
 
         let marker = L.marker(latlng, {icon: redMarker});
-        let popupContent = `<span>Território Periférico:</span>${feature.properties.territorio_periferico}
+        let popupContent = `<span>Território Periférico:</span>${feature.properties.territorio}
                               <span>Caravana:</span>${feature.properties.caravana}
                               <span>Data:</span>${brazilianDateTime}
                             `;
