@@ -10,7 +10,7 @@ createApp({
                 L.latLng(-33.247875947924385, -78.00292968750001)
             ),
             baseLayers: baseLayers,
-            overlayLayers: overlayLayers,
+            periferiaLayers: periferiaLayers,
             caravanaLayers: caravanasArr,
             vulnerabilityLayers: vulnerabilityArr,
             pacLayers: pacArr,
@@ -32,13 +32,13 @@ createApp({
                     layers: [
                         limitsBr,
                         this.baseLayers[0].lyr,
-                        this.overlayLayers[0].lyr,
-                        this.overlayLayers[1].lyr,
-                        this.overlayLayers[2].lyr,
-                        this.overlayLayers[3].lyr,
-                        this.overlayLayers[4].lyr,
-                        this.overlayLayers[5].lyr,
-                        this.overlayLayers[6].lyr,
+                        this.periferiaLayers[0].lyr,
+                        this.periferiaLayers[1].lyr,
+                        this.periferiaLayers[2].lyr,
+                        this.periferiaLayers[3].lyr,
+                        this.periferiaLayers[4].lyr,
+                        this.periferiaLayers[5].lyr,
+                        this.periferiaLayers[6].lyr,
                         this.caravanaLayers[0].lyr,
                         americaSul,
                         agsnContorno
@@ -75,7 +75,7 @@ createApp({
             })
         },
         activeOverlayLayer(id) {
-            this.overlayLayers.find(layer => {
+            this.periferiaLayers.find(layer => {
                 if (layer.id === id) {
                     layer.active = !layer.active
                     if (layer.active) {
@@ -129,12 +129,12 @@ createApp({
         checkOverlayLayers() {
             this.activeActions = !this.activeActions;
             if (!this.activeActions) {
-                this.overlayLayers.forEach(layer => {
+                this.periferiaLayers.forEach(layer => {
                     layer.active = false
                     this.map.removeLayer(layer.lyr)
                 })
             } else {
-                this.overlayLayers.forEach(layer => {
+                this.periferiaLayers.forEach(layer => {
                     layer.active = true
                     this.map.addLayer(layer.lyr)
                 })
@@ -149,16 +149,16 @@ createApp({
         switchBtn: {
             handler(newValue, oldValue) {
                 if (newValue) {
-                    this.overlayLayers.forEach(layer => {
+                    this.periferiaLayers.forEach(layer => {
                         let activeState = layer.active
-                        premiumOverlayLayers[layer.id].active = activeState
+                        premiadoLayers[layer.id].active = activeState
 
                         this.map.removeLayer(layer.lyr)
                     })
 
-                    this.overlayLayers = premiumOverlayLayers;
+                    this.periferiaLayers = premiadoLayers;
 
-                    this.overlayLayers.forEach(layer => {
+                    this.periferiaLayers.forEach(layer => {
                         if (layer.active) {
                             this.map.addLayer(layer.lyr)
                         } else {
@@ -167,14 +167,14 @@ createApp({
                     });
 
                 } else {
-                    this.overlayLayers.forEach(layer => {
+                    this.periferiaLayers.forEach(layer => {
                         let activeState = layer.active
-                        overlayLayers[layer.id].active = activeState
+                        periferiaLayers[layer.id].active = activeState
                         this.map.removeLayer(layer.lyr)
                     })
-                    this.overlayLayers = overlayLayers;
+                    this.periferiaLayers = periferiaLayers;
 
-                    this.overlayLayers.forEach(layer => {
+                    this.periferiaLayers.forEach(layer => {
                         if (layer.active) {
                             this.map.addLayer(layer.lyr)
                         } else {

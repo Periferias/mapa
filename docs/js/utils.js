@@ -237,7 +237,7 @@ const baseLayers = [
     },
 ];
 
-const overlayLayers = [
+const periferiaLayers = [
     {
         id: 0,
         description: clustersAndProperties[0].category,
@@ -297,7 +297,7 @@ const overlayLayers = [
 
 ];
 
-const premiumOverlayLayers = [
+const premiadoLayers = [
     {
         id: 0,
         description: clustersPremiumAndProperties[0].category,
