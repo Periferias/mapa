@@ -89,7 +89,7 @@ var limitsBr = L.geoJson(
         },
     });
 
-var acoesUrl = $('#acoes_geojson').val();
+var periferiaVivaUrl = $('#periferia_viva_geojson').val();
 var pacUrl = $('#pac_geojson').val();
 
 const LeafIcon = L.Icon.extend({
@@ -162,7 +162,7 @@ const clustersAndProperties = [];
 const clustersPremiumAndProperties = [];
 
 Object.entries(categoryMappings).forEach(([category, properties], index) => {
-    const catLayer = new L.GeoJSON.AJAX(acoesUrl, {
+    const catLayer = new L.GeoJSON.AJAX(periferiaVivaUrl, {
         filter: function (feature, layer) {
             return feature.properties.categoria === category;
         },
@@ -179,7 +179,7 @@ Object.entries(categoryMappings).forEach(([category, properties], index) => {
 });
 
 Object.entries(categoryMappings).forEach(([category, properties], index) => {
-    const catLayer = new L.GeoJSON.AJAX(acoesUrl, {
+    const catLayer = new L.GeoJSON.AJAX(periferiaVivaUrl, {
         filter: function (feature, layer) {
             return (feature.properties.categoria === category && feature.properties.premiado === true)
         },
