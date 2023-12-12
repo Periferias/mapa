@@ -507,4 +507,143 @@ const vulnerabilityArr = [
 ]
 
 
+// ------------------ REDuS -------------------------------
+var redusUrl = $('#redus_geojson').val();
 
+var redusMappings = {
+    "Acesso à Justiça e Combate às Desigualdades": {
+        iconClass: "fa-scale-balanced",
+        markerColor: "cadetblue"
+    },
+    "Planejamento Urbano, Gestão de Riscos e Responsabilidade Climática": {
+        iconClass: "fa-cloud-sun-rain",
+        markerColor: "blue"
+    },
+    "Comunicação, Inclusão Digital e Educação Popular": {
+        iconClass: "fa-graduation-cap",
+        markerColor: "orange"
+    },
+    "Cultura e Memória": {
+        iconClass: "fa-masks-theater",
+        markerColor: "pink"
+    },
+    "Saúde Integral e Dignidade Humana": {
+        iconClass: "fa-briefcase-medical",
+        markerColor: "red"
+    },
+    "Soberania Alimentar e Nutricional": {
+        iconClass: "fa-utensils",
+        markerColor: "black"
+    },
+    "Economia Solidária": {
+        iconClass: "fa-sack-dollar",
+        markerColor: "darkgreen"
+    },
+};
+
+function createRedusMarker(latlng, iconClass, markerColor, popupContent) {
+    return L.marker(latlng, {
+        icon: L.AwesomeMarkers.icon({
+            prefix: 'fa',
+            icon: iconClass,
+            markerColor: markerColor,
+        }),
+    }).bindPopup(popupContent);
+}
+
+function pointRedusToLayer(feature, latlng) {
+    var category = feature.properties.categoria;
+
+    var popupContent = `<span>Organização:</span>${feature.properties.organizacao}
+                        <span>Categoria:</span>${feature.properties.categoria}
+                        <span>Localidade:</span>${feature.properties.localidade}
+                        <span>Premiado:</span>${feature.properties.premiado ? 'Sim' : 'Não'}
+                        <span>Município/Estado:</span>${feature.properties.municipio}/${feature.properties.estado}
+                       `
+
+    var {iconClass, markerColor} = redusMappings[category] || {
+        iconClass: "fa-question",
+        markerColor: "gray"
+    };
+    return createRedusMarker(latlng, iconClass, markerColor, popupContent);
+}
+
+const redusClustersAndProperties = [];
+
+Object.entries(redusMappings).forEach(([category, properties], index) => {
+    const catLayer = new L.GeoJSON.AJAX(redusUrl, {
+        filter: function (feature, layer) {
+            return feature.properties.categoria === category;
+        },
+        pointToLayer: pointRedusToLayer
+    });
+
+    const clusterLayer = new L.markerClusterGroup({chunkedLoading: true});
+
+    catLayer.on('data:loaded', function () {
+        clusterLayer.addLayer(catLayer);
+    });
+
+    redusClustersAndProperties.push({category, clusterLayer, properties});
+});
+
+
+const redusArr = [
+    {
+        id: 0,
+        description: redusClustersAndProperties[0].category,
+        lyr: redusClustersAndProperties[0].clusterLayer,
+        iconClass: redusClustersAndProperties[0].properties.iconClass,
+        markerColor: redusClustersAndProperties[0].properties.markerColor,
+        active: false
+    },
+    {
+        id: 1,
+        description: redusClustersAndProperties[1].category,
+        lyr: redusClustersAndProperties[1].clusterLayer,
+        iconClass: redusClustersAndProperties[1].properties.iconClass,
+        markerColor: redusClustersAndProperties[1].properties.markerColor,
+        active: false
+    },
+    {
+        id: 2,
+        description: redusClustersAndProperties[2].category,
+        lyr: redusClustersAndProperties[2].clusterLayer,
+        iconClass: redusClustersAndProperties[2].properties.iconClass,
+        markerColor: redusClustersAndProperties[2].properties.markerColor,
+        active: false
+    },
+    {
+        id: 3,
+        description: redusClustersAndProperties[3].category,
+        lyr: redusClustersAndProperties[3].clusterLayer,
+        iconClass: redusClustersAndProperties[3].properties.iconClass,
+        markerColor: redusClustersAndProperties[3].properties.markerColor,
+        active: false
+    },
+    {
+        id: 4,
+        description: redusClustersAndProperties[4].category,
+        lyr: redusClustersAndProperties[4].clusterLayer,
+        iconClass: redusClustersAndProperties[4].properties.iconClass,
+        markerColor: redusClustersAndProperties[4].properties.markerColor,
+        active: false
+    },
+    {
+        id: 5,
+        description: redusClustersAndProperties[5].category,
+        lyr: redusClustersAndProperties[5].clusterLayer,
+        iconClass: redusClustersAndProperties[5].properties.iconClass,
+        markerColor: redusClustersAndProperties[5].properties.markerColor,
+        active: false
+    },
+    {
+        id: 6,
+        description: redusClustersAndProperties[6].category,
+        lyr: redusClustersAndProperties[6].clusterLayer,
+        iconClass: redusClustersAndProperties[6].properties.iconClass,
+        markerColor: redusClustersAndProperties[6].properties.markerColor,
+        active: false
+    },
+
+];

@@ -139,6 +139,31 @@
                     <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
                             <strong>
+                                Iniciativas Periféricas
+                            </strong>
+                        </li>
+                        <template v-for="lyr in redusLayers">
+                            <li class="list-group-item"
+                                @click="activeRedusLayer(lyr.id)"
+                                :class="lyr.active ? 'active' : ''"
+                            >
+                        <span v-if="lyr.active">
+                            <i class="fa-solid fa-eye"></i>
+                        </span>
+                                <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                        </span>
+                                {{lyr.description}}
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+
+
+                <div class="card mt-3">
+                    <ul class="list-group list-group-flush list-base-layers">
+                        <li class="list-group-item list-group-item-dark">
+                            <strong>
                                 Obras do PAC
                             </strong>
                         </li>
@@ -319,6 +344,89 @@
                         </tr>
                     </table>
 
+                    <table class="table table-borderless table-sm">
+                        <tr>
+                            <td colspan="2" class="txt-leg-item">INICIATIVAS PERIFÉRICAS:</td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-cadetblue awesome-marker t1">
+                                    <i class="fa fa-scale-balanced icon-white" aria-hidden="true"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Acesso à Justiça e Combate às Desigualdades - 64 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-blue awesome-marker t1">
+                                    <i class="fa fa-cloud-sun-rain icon-white" aria-hidden="true"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Planejamento Urbano, Gestão de Riscos e Responsabilidade Climática - 59 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-orange awesome-marker t1">
+                                    <i class="fa fa-graduation-cap icon-white" aria-hidden="true"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Comunicação, Inclusão Digital e Educação Popular - 78 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-pink awesome-marker t1">
+                                    <i class="fa fa-masks-theater icon-white" aria-hidden="true"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Cultura e Memória - 133 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-red awesome-marker t1">
+                                    <i class="fa fa-briefcase-medical icon-white" aria-hidden="true"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Saúde Integral e Dignidade Humana - 22 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-black awesome-marker t1">
+                                    <i class="fa fa-utensils icon-white" aria-hidden="true"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Soberania Alimentar e Nutricional - 47 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-darkgreen awesome-marker t1">
+                                    <i class="fa fa-sack-dollar icon-white" aria-hidden="true"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Economia Solidária - 28 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="pt-3">
+                                <strong>Total: 431 registros</strong>
+                            </td>
+                        </tr>
+                    </table>
+
                 </div>
 
                 <span class="txt-leg-item">AGLOMERADOS SUBNORMAIS (IBGE):</span> <br>
@@ -354,6 +462,7 @@
     </div>
     <div id="map" class="sidebar-map"></div>
     <input type="hidden" id="periferia_viva_geojson" value="data/periferia_viva.geojson">
+    <input type="hidden" id="redus_geojson" value="data/redus.geojson">
     <input type="hidden" id="caravanas_geojson" value="data/caravanas.geojson">
     <input type="hidden" id="pac_geojson" value="data/pac.geojson">
 </div>

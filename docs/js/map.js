@@ -13,6 +13,7 @@ createApp({
             periferiaLayers: periferiaLayers,
             caravanaLayers: caravanasArr,
             vulnerabilityLayers: vulnerabilityArr,
+            redusLayers: redusArr,
             pacLayers: pacArr,
             activeActions: true,
         }
@@ -76,6 +77,19 @@ createApp({
         },
         activeOverlayLayer(id) {
             this.periferiaLayers.find(layer => {
+                if (layer.id === id) {
+                    layer.active = !layer.active
+                    if (layer.active) {
+                        this.map.addLayer(layer.lyr)
+                    } else {
+                        layer.active = false
+                        this.map.removeLayer(layer.lyr)
+                    }
+                }
+            })
+        },
+        activeRedusLayer(id) {
+            this.redusLayers.find(layer => {
                 if (layer.id === id) {
                     layer.active = !layer.active
                     if (layer.active) {
