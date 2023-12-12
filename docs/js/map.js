@@ -16,6 +16,7 @@ createApp({
             redusLayers: redusArr,
             pacLayers: pacArr,
             activeActions: true,
+            activeredusActions: false,
         }
     },
     methods: {
@@ -149,6 +150,20 @@ createApp({
                 })
             } else {
                 this.periferiaLayers.forEach(layer => {
+                    layer.active = true
+                    this.map.addLayer(layer.lyr)
+                })
+            }
+        },
+        checkRedusOverlayLayers() {
+            this.activeredusActions = !this.activeredusActions;
+            if (!this.activeredusActions) {
+                this.redusLayers.forEach(layer => {
+                    layer.active = false
+                    this.map.removeLayer(layer.lyr)
+                })
+            } else {
+                this.redusLayers.forEach(layer => {
                     layer.active = true
                     this.map.addLayer(layer.lyr)
                 })

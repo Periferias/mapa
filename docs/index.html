@@ -138,7 +138,13 @@
                 <div class="card mt-3">
                     <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
-                            <strong>
+                            <strong @click="checkRedusOverlayLayers">
+                                <span v-if="activeredusActions">
+                                <i class="fa-solid fa-eye"></i>
+                            </span>
+                                <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                            </span>
                                 Iniciativas Periféricas Cadastradas
                             </strong>
                         </li>
