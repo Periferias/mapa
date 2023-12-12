@@ -71,54 +71,6 @@
                 <hr>
                 <h4 class="mt-2 text-center lead">POTENCIALIDADES</h4>
 
-                <div class="card">
-                    <ul class="list-group list-group-flush list-base-layers">
-                        <li class="list-group-item list-group-item-dark">
-                            <strong>
-                                Obras do PAC
-                            </strong>
-                        </li>
-                        <template v-for="lyr in pacLayers">
-                            <li class="list-group-item"
-                                @click="activePacLayer(lyr.id)"
-                                :class="lyr.active ? 'active' : ''"
-                            >
-                        <span v-if="lyr.active">
-                            <i class="fa-solid fa-eye"></i>
-                        </span>
-                                <span v-else>
-                                <i class="fa fa-eye-slash"></i>
-                            </span>
-                                {{lyr.description}}
-                            </li>
-                        </template>
-                    </ul>
-                </div>
-
-                <div class="card mt-3">
-                    <ul class="list-group list-group-flush list-base-layers">
-                        <li class="list-group-item list-group-item-dark">
-                            <strong>
-                                Caravana das Periferias
-                            </strong>
-                        </li>
-                        <template v-for="lyr in caravanaLayers">
-                            <li class="list-group-item"
-                                @click="activeCaravanaLayer(lyr.id)"
-                                :class="lyr.active ? 'active' : ''"
-                            >
-                        <span v-if="lyr.active">
-                            <i class="fa-solid fa-eye"></i>
-                        </span>
-                                <span v-else>
-                                <i class="fa fa-eye-slash"></i>
-                        </span>
-                                {{lyr.description}}
-                            </li>
-                        </template>
-                    </ul>
-                </div>
-
                 <div class="card mt-3">
                     <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
@@ -157,6 +109,56 @@
                     </span>
                     </label>
                 </div>
+
+                <div class="card mt-3">
+                    <ul class="list-group list-group-flush list-base-layers">
+                        <li class="list-group-item list-group-item-dark">
+                            <strong>
+                                Caravana das Periferias
+                            </strong>
+                        </li>
+                        <template v-for="lyr in caravanaLayers">
+                            <li class="list-group-item"
+                                @click="activeCaravanaLayer(lyr.id)"
+                                :class="lyr.active ? 'active' : ''"
+                            >
+                        <span v-if="lyr.active">
+                            <i class="fa-solid fa-eye"></i>
+                        </span>
+                                <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                        </span>
+                                {{lyr.description}}
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+
+
+                <div class="card mt-3">
+                    <ul class="list-group list-group-flush list-base-layers">
+                        <li class="list-group-item list-group-item-dark">
+                            <strong>
+                                Obras do PAC
+                            </strong>
+                        </li>
+                        <template v-for="lyr in pacLayers">
+                            <li class="list-group-item"
+                                @click="activePacLayer(lyr.id)"
+                                :class="lyr.active ? 'active' : ''"
+                            >
+                        <span v-if="lyr.active">
+                            <i class="fa-solid fa-eye"></i>
+                        </span>
+                                <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                            </span>
+                                {{lyr.description}}
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+
 
                 <hr>
                 <h4 class="mt-2 text-center lead">VULNERABILIDADES</h4>
