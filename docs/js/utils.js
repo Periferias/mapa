@@ -6,8 +6,6 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 var zoomHome = L.Control.zoomHome({
     zoomHomeTitle: 'Zoom Inicial',
     zoomHomeIcon: 'magnifying-glass',
-
-    // position: 'topright',
 });
 
 var geocodingSearch = L.control.maptilerGeocoding({
@@ -500,7 +498,7 @@ const vulnerabilityArr = [
     },
     {
         id: 2,
-        description: 'Tipologia IntraUrbana',
+        description: 'Tipologia IntraUrbana (IBGE)',
         lyr: intraUrbana,
         iconClass: 'fa fa-eye',
         markerColor: "",
