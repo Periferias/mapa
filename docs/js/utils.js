@@ -393,6 +393,16 @@ caravanasLayer.on('data:loaded', function () {
 });
 
 
+function createPacMarker(latlng, iconClass, markerColor, popupContent) {
+    return L.marker(latlng, {
+        icon: L.AwesomeMarkers.icon({
+            prefix: 'fa',
+            icon: iconClass,
+            markerColor: markerColor,
+        }),
+    }).bindPopup(popupContent);
+}
+
 var pacMappings = {
     "Obras de contenção de encostas": {
         iconClass: "fa-mountain-city",
@@ -423,7 +433,7 @@ const enconstasLayer = new L.GeoJSON.AJAX(pacUrl, {
                             `
 
         const {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-question", markerColor: "gray"};
-        return createMarker(latlng, iconClass, markerColor, popupContent);
+        return createPacMarker(latlng, iconClass, markerColor, popupContent);
     }
 });
 
@@ -449,7 +459,7 @@ const urbanizacaoLayer = new L.GeoJSON.AJAX(pacUrl, {
                               <span>Estado</span>${feature.properties.uf}
                             `
         const {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-question", markerColor: "gray"};
-        return createMarker(latlng, iconClass, markerColor, popupContent);
+        return createPacMarker(latlng, iconClass, markerColor, popupContent);
     }
 });
 
