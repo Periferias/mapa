@@ -31,6 +31,7 @@ createApp({
                     zoomAnimation: false,
                     fadeAnimation: true,
                     markerZoomAnimation: true,
+                    dragging: !L.Browser.mobile,
                     layers: [
                         limitsBr,
                         this.baseLayers[0].lyr,
