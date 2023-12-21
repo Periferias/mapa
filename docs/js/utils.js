@@ -9,7 +9,7 @@ var zoomHome = L.Control.zoomHome({
 });
 
 var geocodingSearch = L.control.maptilerGeocoding({
-        apiKey: 'todhtNTYQmjE6y5MNZ9k',
+        apiKey: 'lAK90zDWbu68qBVL31Oh',
         placeholder: 'Pesquisar por localização...',
         collapse: false,
         language: 'pt',
