@@ -490,7 +490,7 @@ const caravanasArr = [
 const vulnerabilityArr = [
     {
         id: 1,
-        description: 'Aglomerados Subnormais (IBGE)',
+        description: 'Favelas e Comunidades Urbanas',
         lyr: agsn,
         iconClass: 'fa fa-eye',
         markerColor: "",
@@ -498,7 +498,7 @@ const vulnerabilityArr = [
     },
     {
         id: 2,
-        description: 'Tipologia IntraUrbana (IBGE)',
+        description: 'Tipologia IntraUrbana',
         lyr: intraUrbana,
         iconClass: 'fa fa-eye',
         markerColor: "",
