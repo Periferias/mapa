@@ -467,10 +467,14 @@
         </div>
     </div>
     <div id="map" class="sidebar-map"></div>
-    <input type="hidden" id="periferia_viva_geojson" value="data/periferia_viva.geojson">
-    <input type="hidden" id="redus_geojson" value="data/redus.geojson">
-    <input type="hidden" id="caravanas_geojson" value="data/caravanas.geojson">
-    <input type="hidden" id="pac_geojson" value="data/pac.geojson">
+    <input type="hidden" id="periferia_viva_geojson"
+           value="http://172.17.18.13:8600/geoserver/mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Aperiferia_viva&outputFormat=application%2Fjson">
+    <input type="hidden" id="redus_geojson"
+           value="http://172.17.18.13:8600/geoserver/mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Aredus&outputFormat=application%2Fjson">
+    <input type="hidden" id="caravanas_geojson"
+           value="http://172.17.18.13:8600/geoserver/mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Acaravanas&outputFormat=application%2Fjson">
+    <input type="hidden" id="pac_geojson"
+           value="http://172.17.18.13:8600/geoserver/mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Apac&outputFormat=application%2Fjson">
 </div>
 
 <script src="compact/scripts.js"></script>

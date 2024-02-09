@@ -29,52 +29,52 @@ var coordinates = L.control.coordinates({
     labelTemplateLat: "Lat: {y}"
 });
 
-const geoServerUrl = 'https://geoserver.multisig.com.br/geoserver/'
+const geoServerUrl = 'http://172.17.18.13:8600/geoserver/mapa_periferias/wms?'
 
-const americaSul = L.tileLayer.wms(geoServerUrl + 'geofazendas/wms?', {
+const americaSul = L.tileLayer.wms(geoServerUrl, {
     format: 'image/png',
     transparent: true,
     version: '1.1.0',
     maxZoom: 22,
     zIndex: 10,
     opacity: 0.9,
-    layers: 'geofazendas:america_sul',
+    layers: 'mapa_periferias:america_sul',
     attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
 });
-const agsn = L.tileLayer.wms(geoServerUrl + 'ambiental/wms?', {
+const agsn = L.tileLayer.wms(geoServerUrl, {
     format: 'image/png',
     transparent: true,
     version: '1.1.0',
     maxZoom: 22,
     zIndex: 10,
     opacity: 0.9,
-    layers: 'ambiental:agsn',
+    layers: 'mapa_periferias:agsn',
     minZoom: 10,
     attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
 });
 
 
-const agsnContorno = L.tileLayer.wms(geoServerUrl + 'ambiental/wms?', {
+const agsnContorno = L.tileLayer.wms(geoServerUrl, {
     format: 'image/png',
     transparent: true,
     version: '1.1.0',
     maxZoom: 22,
     zIndex: 10,
     opacity: 0.9,
-    styles: 'ambiental:agsn_cortorno',
-    layers: 'ambiental:agsn',
+    styles: 'mapa_periferias:agsn_cortorno',
+    layers: 'mapa_periferias:agsn',
     attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
 });
 
 
-const intraUrbana = L.tileLayer.wms(geoServerUrl + 'ambiental/wms?', {
+const intraUrbana = L.tileLayer.wms(geoServerUrl, {
     format: 'image/png',
     transparent: true,
     version: '1.1.0',
     maxZoom: 22,
     zIndex: 10,
     opacity: 0.9,
-    layers: 'ambiental:tipologia_intraurbana',
+    layers: 'mapa_periferias:tipologia_intraurbana',
     attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
 });
 
