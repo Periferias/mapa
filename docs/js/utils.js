@@ -48,6 +48,7 @@ const agsn = L.tileLayer.wms(geoServerUrl, {
     maxZoom: 22,
     zIndex: 10,
     opacity: 0.9,
+    styles: 'mapa_periferias:agsn',
     layers: 'mapa_periferias:agsn',
     minZoom: 10,
     attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
