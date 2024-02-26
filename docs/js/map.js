@@ -1,6 +1,11 @@
 const {createApp} = Vue
 
+console.log(window)
+
 createApp({
+    components: {
+        vSelect: window["vue-select"]
+    },
     data() {
         return {
             map: undefined,
@@ -17,6 +22,16 @@ createApp({
             pacLayers: pacArr,
             activeActions: true,
             activeredusActions: false,
+
+            selectedLayer: 0,
+            layerArr: [
+                {val: 0, lyr: 'Escolha a camada'},
+                {val: 'municipios_periferia_viva', lyr: 'Prêmio Periferia Viva 2023'},
+                {val: 'municipios_redus', lyr: 'Iniciativa Periféricas Cadastradas'},
+            ],
+
+            myValue: '',
+            myOptions: ['op1', 'op2', 'op3'] // or [{id: key, text: value}, {id: key, text: value}]
         }
     },
     methods: {
@@ -176,6 +191,15 @@ createApp({
 
     },
     watch: {
+        selectedLayer: {
+            handler(newValue, oldValue) {
+                if (newValue) {
+                    console.log(newValue)
+
+                }
+            }, deep: true
+        },
+
         switchBtn: {
             handler(newValue, oldValue) {
                 if (newValue) {

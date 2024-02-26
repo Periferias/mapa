@@ -29,9 +29,9 @@ var coordinates = L.control.coordinates({
     labelTemplateLat: "Lat: {y}"
 });
 
-const geoServerUrl = 'http://172.17.18.13:8600/geoserver/mapa_periferias/wms?'
+const geoServerWmsUrl = $('#geoserver_url').val() + 'mapa_periferias/wms?'
 
-const americaSul = L.tileLayer.wms(geoServerUrl, {
+const americaSul = L.tileLayer.wms(geoServerWmsUrl, {
     format: 'image/png',
     transparent: true,
     version: '1.1.0',
@@ -41,7 +41,7 @@ const americaSul = L.tileLayer.wms(geoServerUrl, {
     layers: 'mapa_periferias:america_sul',
     attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
 });
-const agsn = L.tileLayer.wms(geoServerUrl, {
+const agsn = L.tileLayer.wms(geoServerWmsUrl, {
     format: 'image/png',
     transparent: true,
     version: '1.1.0',
@@ -55,7 +55,7 @@ const agsn = L.tileLayer.wms(geoServerUrl, {
 });
 
 
-const agsnContorno = L.tileLayer.wms(geoServerUrl, {
+const agsnContorno = L.tileLayer.wms(geoServerWmsUrl, {
     format: 'image/png',
     transparent: true,
     version: '1.1.0',
@@ -68,7 +68,7 @@ const agsnContorno = L.tileLayer.wms(geoServerUrl, {
 });
 
 
-const intraUrbana = L.tileLayer.wms(geoServerUrl, {
+const intraUrbana = L.tileLayer.wms(geoServerWmsUrl, {
     format: 'image/png',
     transparent: true,
     version: '1.1.0',
@@ -88,8 +88,8 @@ var limitsBr = L.geoJson(
         },
     });
 
-var periferiaVivaUrl = $('#periferia_viva_geojson').val();
-var pacUrl = $('#pac_geojson').val();
+var periferiaVivaUrl = $('#geoserver_url').val() + $('#periferia_viva_geojson').val();
+var pacUrl = $('#geoserver_url').val() + $('#pac_geojson').val();
 
 const LeafIcon = L.Icon.extend({
     options: {
@@ -356,7 +356,7 @@ const premiadoLayers = [
 ];
 
 
-var caravanasUrl = $('#caravanas_geojson').val();
+var caravanasUrl = $('#geoserver_url').val() + $('#caravanas_geojson').val();
 
 
 var redMarker = L.AwesomeMarkers.icon({
@@ -509,7 +509,7 @@ const vulnerabilityArr = [
 
 
 // ------------------ REDuS -------------------------------
-var redusUrl = $('#redus_geojson').val();
+var redusUrl = $('#geoserver_url').val() + $('#redus_geojson').val();
 
 var redusMappings = {
     "Acesso à Justiça e Combate às Desigualdades": {

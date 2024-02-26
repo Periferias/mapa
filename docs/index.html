@@ -7,8 +7,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="compact/styles.css">
+    <link rel="stylesheet" href="assets/vue/vue-select.css">
     <link rel="stylesheet" href="css/webgis.css">
     <script src="https://kit.fontawesome.com/f200917737.js" crossorigin="anonymous"></script>
+    <base href="/">
+
 </head>
 <body>
 <div id="app">
@@ -34,6 +37,14 @@
                         <i class="fa-solid fa-xl fa-info-circle"></i>
                     </a>
                 </li>
+
+                <li>
+                    <a href="#search" role="tab" data-bs-toggle="tooltip" data-bs-placement="right"
+                       title="Pesquisar">
+                        <i class="fa-solid fa-binoculars"></i>
+                    </a>
+                </li>
+
             </ul>
         </div>
         <!-- Tab panes -->
@@ -464,20 +475,59 @@
                     longitude) de forma automatizada.
                 </p>
             </div>
+
+            <div class="sidebar-pane" id="search">
+                <h1 class="sidebar-header">Pesquisar
+                    <span class="sidebar-close">
+                        <i class="fa fa-caret-left"></i>
+                    </span>
+                </h1>
+
+                <div class="form-group mt-4 p-2">
+                    <label for="lyrId">Escolha a Camada:</label>
+
+
+                    <select id="lyrId" v-model="selectedLayer" class="form-select">
+                        <option v-for="obj in layerArr" :value="obj.val">{{ obj.lyr }}</option>
+                    </select>
+
+                    <select2 v-model="selected" :options="options"></select2>
+
+
+
+                </div>
+
+            </div>
+
+
         </div>
     </div>
     <div id="map" class="sidebar-map"></div>
+    <!--    <input type="hidden" id="periferia_viva_geojson"-->
+    <!--           value="http://172.17.18.13:8600/geoserver/mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Aperiferia_viva&outputFormat=application%2Fjson">-->
+    <!--    <input type="hidden" id="redus_geojson"-->
+    <!--           value="http://172.17.18.13:8600/geoserver/mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Aredus&outputFormat=application%2Fjson">-->
+    <!--    <input type="hidden" id="caravanas_geojson"-->
+    <!--           value="http://172.17.18.13:8600/geoserver/mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Acaravanas&outputFormat=application%2Fjson">-->
+    <!--    <input type="hidden" id="pac_geojson"-->
+    <!--           value="http://172.17.18.13:8600/geoserver/mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Apac&outputFormat=application%2Fjson">-->
+
+
+    <input type="hidden" id="geoserver_url" value="http://172.17.18.13:8600/geoserver/">
+
     <input type="hidden" id="periferia_viva_geojson"
-           value="http://172.17.18.13:8600/geoserver/mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Aperiferia_viva&outputFormat=application%2Fjson">
+           value="mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Aperiferia_viva&outputFormat=application%2Fjson">
     <input type="hidden" id="redus_geojson"
-           value="http://172.17.18.13:8600/geoserver/mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Aredus&outputFormat=application%2Fjson">
+           value="mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Aredus&outputFormat=application%2Fjson">
     <input type="hidden" id="caravanas_geojson"
-           value="http://172.17.18.13:8600/geoserver/mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Acaravanas&outputFormat=application%2Fjson">
+           value="mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Acaravanas&outputFormat=application%2Fjson">
     <input type="hidden" id="pac_geojson"
-           value="http://172.17.18.13:8600/geoserver/mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Apac&outputFormat=application%2Fjson">
+           value="mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Apac&outputFormat=application%2Fjson">
+
 </div>
 
 <script src="compact/scripts.js"></script>
+<script src="assets/vue/vue-select@3"></script>
 <script src="js/utils.js"></script>
 <script src="js/map.js"></script>
 
