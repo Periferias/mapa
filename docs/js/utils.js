@@ -1,14 +1,36 @@
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
 })
 
-var zoomHome = L.Control.zoomHome({
+
+const geoServerWmsUrl = $('#geoserver_url').val() + 'mapa_periferias/wms?'
+
+function getWfsUrl(layer) {
+    let domain = $('#geoserver_url').val();
+    let basePath = 'mapa_periferias/ows';
+    const params = new URLSearchParams({
+        service: 'WFS',
+        version: '1.0.0',
+        request: 'GetFeature',
+        typeName: `${layer}`,
+        outputFormat: 'application/json'
+    });
+    return `${domain}${basePath}?${params.toString()}`;
+}
+
+const periferiaVivaUrl = getWfsUrl($('#periferia_viva_geojson').val());
+const redusUrl = getWfsUrl($('#redus_geojson').val());
+const pacUrl = getWfsUrl($('#pac_geojson').val());
+const caravanasUrl = getWfsUrl($('#caravanas_geojson').val());
+
+
+const zoomHome = L.Control.zoomHome({
     zoomHomeTitle: 'Zoom Inicial',
     zoomHomeIcon: 'magnifying-glass',
 });
 
-var geocodingSearch = L.control.maptilerGeocoding({
+const geocodingSearch = L.control.maptilerGeocoding({
         apiKey: 'lAK90zDWbu68qBVL31Oh',
         placeholder: 'Pesquisar por localização...',
         collapse: false,
@@ -19,7 +41,7 @@ var geocodingSearch = L.control.maptilerGeocoding({
     },
 );
 
-var coordinates = L.control.coordinates({
+const coordinates = L.control.coordinates({
     enableUserInput: false,
     useDMS: true,
     position: 'bottomleft',
@@ -29,7 +51,6 @@ var coordinates = L.control.coordinates({
     labelTemplateLat: "Lat: {y}"
 });
 
-const geoServerWmsUrl = $('#geoserver_url').val() + 'mapa_periferias/wms?'
 
 const americaSul = L.tileLayer.wms(geoServerWmsUrl, {
     format: 'image/png',
@@ -79,7 +100,7 @@ const intraUrbana = L.tileLayer.wms(geoServerWmsUrl, {
     attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
 });
 
-var limitsBr = L.geoJson(
+const limitsBr = L.geoJson(
     limiteBr, {
         style: {
             "color": "#000",
@@ -88,8 +109,6 @@ var limitsBr = L.geoJson(
         },
     });
 
-var periferiaVivaUrl = $('#geoserver_url').val() + $('#periferia_viva_geojson').val();
-var pacUrl = $('#geoserver_url').val() + $('#pac_geojson').val();
 
 const LeafIcon = L.Icon.extend({
     options: {
@@ -109,7 +128,7 @@ const pinHabitacao = new LeafIcon({iconUrl: 'pins/habitacao.svg'});
 const pinSaude = new LeafIcon({iconUrl: 'pins/saude.svg'});
 const pinJustica = new LeafIcon({iconUrl: 'pins/justica.svg'});
 
-var categoryMappings = {
+const categoryMappings = {
     "Acesso à Justiça e Combate às Desigualdades": {
         iconClass: pinJustica
     },
@@ -140,16 +159,16 @@ function createMarker(latlng, iconClass, markerColor, popupContent) {
 }
 
 function pointToLayer(feature, latlng) {
-    var category = feature.properties.categoria;
+    let category = feature.properties.categoria;
 
-    var popupContent = `<span>Organização:</span>${feature.properties.organizacao}
+    let popupContent = `<span>Organização:</span>${feature.properties.organizacao}
                         <span>Categoria:</span>${feature.properties.categoria}
                         <span>Localidade:</span>${feature.properties.localidade}
                         <span>Premiado:</span>${feature.properties.premiado ? 'Sim' : 'Não'}
                         <span>Município/Estado:</span>${feature.properties.municipio}/${feature.properties.uf}
                        `
 
-    var {iconClass, markerColor} = categoryMappings[category] || {
+    let {iconClass, markerColor} = categoryMappings[category] || {
         iconClass: "fa-question",
         markerColor: "gray"
     };
@@ -161,14 +180,14 @@ const clustersAndProperties = [];
 const clustersPremiumAndProperties = [];
 
 Object.entries(categoryMappings).forEach(([category, properties], index) => {
-    const catLayer = new L.GeoJSON.AJAX(periferiaVivaUrl, {
+    let catLayer = new L.GeoJSON.AJAX(periferiaVivaUrl, {
         filter: function (feature, layer) {
             return feature.properties.categoria === category;
         },
         pointToLayer: pointToLayer
     });
 
-    const clusterLayer = new L.markerClusterGroup({chunkedLoading: true});
+    let clusterLayer = new L.markerClusterGroup({chunkedLoading: true});
 
     catLayer.on('data:loaded', function () {
         clusterLayer.addLayer(catLayer);
@@ -178,14 +197,14 @@ Object.entries(categoryMappings).forEach(([category, properties], index) => {
 });
 
 Object.entries(categoryMappings).forEach(([category, properties], index) => {
-    const catLayer = new L.GeoJSON.AJAX(periferiaVivaUrl, {
+    let catLayer = new L.GeoJSON.AJAX(periferiaVivaUrl, {
         filter: function (feature, layer) {
             return (feature.properties.categoria === category && feature.properties.premiado === true)
         },
         pointToLayer: pointToLayer
     });
 
-    const clusterLayer = new L.markerClusterGroup({chunkedLoading: true});
+    let clusterLayer = new L.markerClusterGroup({chunkedLoading: true});
 
     catLayer.on('data:loaded', function () {
         clusterLayer.addLayer(catLayer);
@@ -356,10 +375,7 @@ const premiadoLayers = [
 ];
 
 
-var caravanasUrl = $('#geoserver_url').val() + $('#caravanas_geojson').val();
-
-
-var redMarker = L.AwesomeMarkers.icon({
+const redMarker = L.AwesomeMarkers.icon({
     prefix: 'fa',
     icon: 'fa-van-shuttle',
     markerColor: 'purple'
@@ -394,7 +410,7 @@ function createPacMarker(latlng, iconClass, markerColor, popupContent) {
     }).bindPopup(popupContent);
 }
 
-var pacMappings = {
+const pacMappings = {
     "Obras de contenção de encostas": {
         iconClass: "fa-mountain-city",
         markerColor: "darkgreen"
@@ -412,9 +428,9 @@ const enconstasLayer = new L.GeoJSON.AJAX(pacUrl, {
         }
     },
     pointToLayer: function (feature, latlng) {
-        const category = feature.properties.modalidade;
+        let category = feature.properties.modalidade;
 
-        const popupContent = `<span>Código SACI:</span>${feature.properties.codigo_saci}
+        let popupContent = `<span>Código SACI:</span>${feature.properties.codigo_saci}
                               <span>Modalidade:</span>${feature.properties.modalidade}
                               <span>Programa:</span>${feature.properties.programa}
                               <span>Fonte:</span>${feature.properties.fonte}
@@ -423,7 +439,7 @@ const enconstasLayer = new L.GeoJSON.AJAX(pacUrl, {
                               <span>Obs:</span> Sede municipal (IBGE) - não corresponde ao local da obra.
                             `
 
-        const {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-question", markerColor: "gray"};
+        let {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-question", markerColor: "gray"};
         return createPacMarker(latlng, iconClass, markerColor, popupContent);
     }
 });
@@ -440,16 +456,16 @@ const urbanizacaoLayer = new L.GeoJSON.AJAX(pacUrl, {
         }
     },
     pointToLayer: function (feature, latlng) {
-        const category = feature.properties.modalidade;
+        let category = feature.properties.modalidade;
 
-        const popupContent = `<span>Código SACI:</span>${feature.properties.codigo_saci}
+        let popupContent = `<span>Código SACI:</span>${feature.properties.codigo_saci}
                               <span>Modalidade:</span>${feature.properties.modalidade}
                               <span>Programa:</span>${feature.properties.programa}
                               <span>Fonte:</span>${feature.properties.fonte}
                               <span>Municípios Beneficiados:</span>${feature.properties.municipios_beneficiados}
                               <span>Estado</span>${feature.properties.uf}
                             `
-        const {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-question", markerColor: "gray"};
+        let {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-question", markerColor: "gray"};
         return createPacMarker(latlng, iconClass, markerColor, popupContent);
     }
 });
@@ -509,9 +525,8 @@ const vulnerabilityArr = [
 
 
 // ------------------ REDuS -------------------------------
-var redusUrl = $('#geoserver_url').val() + $('#redus_geojson').val();
 
-var redusMappings = {
+const redusMappings = {
     "Acesso à Justiça e Combate às Desigualdades": {
         iconClass: "fa-scale-balanced",
         markerColor: "cadetblue"
@@ -553,16 +568,16 @@ function createRedusMarker(latlng, iconClass, markerColor, popupContent) {
 }
 
 function pointRedusToLayer(feature, latlng) {
-    var category = feature.properties.categoria;
+    let category = feature.properties.categoria;
 
-    var popupContent = `<span>Organização:</span>${feature.properties.organizacao}
+    let popupContent = `<span>Organização:</span>${feature.properties.organizacao}
                         <span>Categoria:</span>${feature.properties.categoria}
                         <span>Localidade:</span>${feature.properties.localidade}
                         <span>Premiado:</span>${feature.properties.premiado ? 'Sim' : 'Não'}
-                        <span>Município/Estado:</span>${feature.properties.municipio}/${feature.properties.estado}
+                        <span>Município/Estado:</span>${feature.properties.municipio}/${feature.properties.uf}
                        `
 
-    var {iconClass, markerColor} = redusMappings[category] || {
+    let {iconClass, markerColor} = redusMappings[category] || {
         iconClass: "fa-question",
         markerColor: "gray"
     };
@@ -572,14 +587,14 @@ function pointRedusToLayer(feature, latlng) {
 const redusClustersAndProperties = [];
 
 Object.entries(redusMappings).forEach(([category, properties], index) => {
-    const catLayer = new L.GeoJSON.AJAX(redusUrl, {
+    let catLayer = new L.GeoJSON.AJAX(redusUrl, {
         filter: function (feature, layer) {
             return feature.properties.categoria === category;
         },
         pointToLayer: pointRedusToLayer
     });
 
-    const clusterLayer = new L.markerClusterGroup({chunkedLoading: true});
+    let clusterLayer = new L.markerClusterGroup({chunkedLoading: true});
 
     catLayer.on('data:loaded', function () {
         clusterLayer.addLayer(catLayer);
@@ -646,5 +661,4 @@ const redusArr = [
         markerColor: redusClustersAndProperties[6].properties.markerColor,
         active: false
     },
-
 ];

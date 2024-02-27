@@ -1,7 +1,5 @@
 const {createApp} = Vue
 
-console.log(window)
-
 createApp({
     components: {
         vSelect: window["vue-select"]
@@ -23,15 +21,19 @@ createApp({
             activeActions: true,
             activeredusActions: false,
 
-            selectedLayer: 0,
+            selectedLayer: {id: 0, key: 'Escolha a camada...'},
             layerArr: [
-                {val: 0, lyr: 'Escolha a camada'},
-                {val: 'municipios_periferia_viva', lyr: 'Prêmio Periferia Viva 2023'},
-                {val: 'municipios_redus', lyr: 'Iniciativa Periféricas Cadastradas'},
+                {id: 0, key: 'Escolha a camada...'},
+                {id: 'municipios_periferia_viva', key: 'Prêmio Periferia Viva 2023'},
+                {id: 'municipios_redus', key: 'Iniciativa Periféricas Cadastradas'},
             ],
+            selectedMun: {id: 0, key: 'Escolha o município...'},
+            municipiosArr: [],
 
-            myValue: '',
-            myOptions: ['op1', 'op2', 'op3'] // or [{id: key, text: value}, {id: key, text: value}]
+            selectedElem: {id: 0, key: 'Escolha o item...'},
+            elemArr: [],
+            circleMarker: L.circleMarker()
+
         }
     },
     methods: {
@@ -184,6 +186,73 @@ createApp({
                     this.map.addLayer(layer.lyr)
                 })
             }
+        },
+        getMunicipios(id) {
+            let domain = this.$refs.geoserver_url.value;
+            let basePath = 'mapa_periferias/ows';
+            let params = new URLSearchParams({
+                service: 'WFS',
+                version: '1.0.0',
+                request: 'GetFeature',
+                typeName: `mapa_periferias:${id}`,
+                outputFormat: 'application/json'
+            });
+            let url = `${domain}${basePath}?${params.toString()}`;
+
+            axios.get(url)
+                .then((response) => {
+                    this.municipiosArr = response.data.features
+                        .filter(feature => feature.properties.municipio && feature.properties.uf)
+                        .map(feature => {
+                            return {
+                                id: `${feature.properties.municipio}/${feature.properties.uf}`,
+                                key: `${feature.properties.municipio}/${feature.properties.uf}`
+                            };
+                        });
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar municípios:', error);
+                });
+        },
+
+        getItems(id, place) {
+            let domain = this.$refs.geoserver_url.value;
+            let layer = id.replace('municipios_', '')
+            let city = place.split('/')[0];
+            let state = place.split('/')[1];
+            let basePath = 'mapa_periferias/ows';
+            let params = new URLSearchParams({
+                    service: 'WFS',
+                    version: '1.0.0',
+                    request: 'GetFeature',
+                    typeName: `mapa_periferias:${layer}`,
+                    cql_filter: `municipio = '${city}' AND uf = '${state}'`,
+                    outputFormat: 'application/json'
+                })
+            ;
+            let url = `${domain}${basePath}?${params.toString()}`;
+
+            axios.get(url)
+                .then((response) => {
+                    this.elemArr = response.data.features
+                        .filter(feature => feature.properties.organizacao)
+                        .map(feature => {
+                            return {
+                                id: `${feature.properties.id}`,
+                                key: `${feature.properties.organizacao}`,
+                                layer: layer,
+                                coords: feature.geometry.coordinates
+                            };
+                        });
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar municípios:', error);
+                });
+        },
+        clearSearch() {
+            this.municipiosArr = [];
+            this.map.setView([-13.9234038, -55.1953125], 4);
+            this.map.removeLayer(this.circleMarker);
         }
     },
     mounted() {
@@ -194,24 +263,72 @@ createApp({
         selectedLayer: {
             handler(newValue, oldValue) {
                 if (newValue) {
-                    console.log(newValue)
 
+                    if (newValue.id === 'municipios_periferia_viva') {
+                        this.periferiaLayers.forEach(layer => {
+                            layer.active = true
+                            this.map.addLayer(layer.lyr)
+                        })
+                        this.redusLayers.forEach(layer => {
+                            layer.active = false
+                            this.map.removeLayer(layer.lyr)
+                        })
+                    } else {
+                        this.redusLayers.forEach(layer => {
+                            layer.active = true
+                            this.map.addLayer(layer.lyr)
+                        })
+                        this.periferiaLayers.forEach(layer => {
+                            layer.active = false
+                            this.map.removeLayer(layer.lyr)
+                        })
+                    }
+
+                    this.getMunicipios(newValue.id);
+
+                } else {
+                    this.municipiosArr = []
+                    this.map.setView([-13.9234038, -55.1953125], 4)
                 }
             }, deep: true
         },
-
+        selectedMun: {
+            handler(newValue, oldValue) {
+                if (newValue) {
+                    this.getItems(this.selectedLayer.id, newValue.id)
+                } else {
+                    this.elemArr = [];
+                }
+            }, deep: true
+        },
+        selectedElem: {
+            handler(newValue, oldValue) {
+                if (newValue) {
+                    let x = newValue.coords[0];
+                    let y = newValue.coords[1];
+                    let circleMarkerOptions = {
+                        radius: 25, // in meters
+                        color: 'red',
+                        fillColor: '#ff0101',
+                        fillOpacity: 0.2,
+                        opacity: 0.4
+                    };
+                    this.circleMarker = L.circleMarker([y, x], circleMarkerOptions).addTo(this.map)
+                    this.map.setView([y, x], 18);
+                } else {
+                    this.map.removeLayer(this.circleMarker);
+                }
+            }, deep: true
+        },
         switchBtn: {
             handler(newValue, oldValue) {
                 if (newValue) {
                     this.periferiaLayers.forEach(layer => {
                         let activeState = layer.active
                         premiadoLayers[layer.id].active = activeState
-
                         this.map.removeLayer(layer.lyr)
                     })
-
                     this.periferiaLayers = premiadoLayers;
-
                     this.periferiaLayers.forEach(layer => {
                         if (layer.active) {
                             this.map.addLayer(layer.lyr)
@@ -237,6 +354,11 @@ createApp({
                     });
                 }
             }
+        }
+    },
+    computed: {
+        showBtn() {
+            return !!(this.selectedElem && this.selectedElem.id);
         }
     }
 }).mount('#app')

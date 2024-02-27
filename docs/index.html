@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="compact/styles.css">
-    <link rel="stylesheet" href="assets/vue/vue-select.css">
+    <link rel="stylesheet" href="assets/vuejs/vue-select.css">
     <link rel="stylesheet" href="css/webgis.css">
     <script src="https://kit.fontawesome.com/f200917737.js" crossorigin="anonymous"></script>
     <base href="/">
@@ -484,15 +484,54 @@
                 </h1>
 
                 <div class="form-group mt-4 p-2">
-                    <label for="lyrId">Escolha a Camada:</label>
+                    <v-select
+                            id="layerArr"
+                            :options="layerArr"
+                            label="key"
+                            v-model="selectedLayer"
+                            :reset-on-options-change='true'
+                            placeholder="Escolha a camada..."
+                    >
+                        <template v-slot:no-options>Não Encontrado.</template>
+                    </v-select>
+                </div>
+
+                <div class="form-group p-2">
+                    <v-select
+                            :options="municipiosArr"
+                            label="key"
+                            v-model="selectedMun"
+                            placeholder="Escolha o município..."
+                            :reset-on-options-change='true'
+                            :disabled="!municipiosArr.length"
+                            :class="!municipiosArr.length ? 'hideme' : 'showme'"
+                    >
+                        <template v-slot:no-options>Não Encontrado.</template>
+                    </v-select>
+                </div>
+
+                <div class="form-group p-2">
+                    <v-select
+                            :options="elemArr"
+                            label="key"
+                            v-model="selectedElem"
+                            placeholder="Selecione para ver no mapa..."
+                            :reset-on-options-change='true'
+                            :disabled="!elemArr.length"
+                            :class="!elemArr.length ? 'hideme' : 'showme'"
+                    >
+                        <template v-slot:no-options>Não Encontrado.</template>
+                    </v-select>
 
 
-                    <select id="lyrId" v-model="selectedLayer" class="form-select">
-                        <option v-for="obj in layerArr" :value="obj.val">{{ obj.lyr }}</option>
-                    </select>
-
-                    <select2 v-model="selected" :options="options"></select2>
-
+                    <button
+                            v-if="showBtn"
+                            @click="clearSearch"
+                            type="button"
+                            class="btn btn-sm btn-primary mt-2"
+                    >
+                        Limpar
+                    </button>
 
 
                 </div>
@@ -503,31 +542,17 @@
         </div>
     </div>
     <div id="map" class="sidebar-map"></div>
-    <!--    <input type="hidden" id="periferia_viva_geojson"-->
-    <!--           value="http://172.17.18.13:8600/geoserver/mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Aperiferia_viva&outputFormat=application%2Fjson">-->
-    <!--    <input type="hidden" id="redus_geojson"-->
-    <!--           value="http://172.17.18.13:8600/geoserver/mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Aredus&outputFormat=application%2Fjson">-->
-    <!--    <input type="hidden" id="caravanas_geojson"-->
-    <!--           value="http://172.17.18.13:8600/geoserver/mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Acaravanas&outputFormat=application%2Fjson">-->
-    <!--    <input type="hidden" id="pac_geojson"-->
-    <!--           value="http://172.17.18.13:8600/geoserver/mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Apac&outputFormat=application%2Fjson">-->
 
-
-    <input type="hidden" id="geoserver_url" value="http://172.17.18.13:8600/geoserver/">
-
-    <input type="hidden" id="periferia_viva_geojson"
-           value="mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Aperiferia_viva&outputFormat=application%2Fjson">
-    <input type="hidden" id="redus_geojson"
-           value="mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Aredus&outputFormat=application%2Fjson">
-    <input type="hidden" id="caravanas_geojson"
-           value="mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Acaravanas&outputFormat=application%2Fjson">
-    <input type="hidden" id="pac_geojson"
-           value="mapa_periferias/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mapa_periferias%3Apac&outputFormat=application%2Fjson">
-
+    <input type="hidden" id="geoserver_url" ref="geoserver_url" value="http://localhost:8080/geoserver/">
+    <input type="hidden" id="periferia_viva_geojson" value="mapa_periferias:periferia_viva">
+    <input type="hidden" id="redus_geojson" value="mapa_periferias:redus">
+    <input type="hidden" id="caravanas_geojson" value="mapa_periferias:caravanas">
+    <input type="hidden" id="pac_geojson" value="mapa_periferias:pac">
 </div>
 
 <script src="compact/scripts.js"></script>
-<script src="assets/vue/vue-select@3"></script>
+<script src="assets/axios/axios.min.js"></script>
+<script src="assets/vuejs/vue-select@beta"></script>
 <script src="js/utils.js"></script>
 <script src="js/map.js"></script>
 
