@@ -165,7 +165,7 @@ function pointToLayer(feature, latlng) {
                         <span>Categoria:</span>${feature.properties.categoria}
                         <span>Localidade:</span>${feature.properties.localidade}
                         <span>Premiado:</span>${feature.properties.premiado ? 'Sim' : 'Não'}
-                        <span>Município/Estado:</span>${feature.properties.municipio}/${feature.properties.uf}
+                        <span>Município/Estado:</span>${feature.properties.municipio_cadastro}/${feature.properties.uf}
                        `
 
     let {iconClass, markerColor} = categoryMappings[category] || {
@@ -574,7 +574,7 @@ function pointRedusToLayer(feature, latlng) {
                         <span>Categoria:</span>${feature.properties.categoria}
                         <span>Localidade:</span>${feature.properties.localidade}
                         <span>Premiado:</span>${feature.properties.premiado ? 'Sim' : 'Não'}
-                        <span>Município/Estado:</span>${feature.properties.municipio}/${feature.properties.uf}
+                        <span>Município/Estado:</span>${feature.properties.municipio_cadastro}/${feature.properties.uf}
                        `
 
     let {iconClass, markerColor} = redusMappings[category] || {
