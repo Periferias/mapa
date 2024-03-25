@@ -483,6 +483,15 @@
                     </span>
                 </h1>
 
+                <div class="m-3">
+                    <h3>Encontre uma iniciativa!</h3>
+
+                    <p style="font-size: 14px">
+                        Procure por iniciativas periféricas ou por sua região no mapa:
+                    </p>
+                </div>
+
+
                 <div class="form-group mt-4 p-2">
                     <v-select
                             id="layerArr"
@@ -532,19 +541,14 @@
                     >
                         Limpar
                     </button>
-
-
                 </div>
-
             </div>
-
-
         </div>
     </div>
     <div id="map" class="sidebar-map"></div>
 
-<!--    <input type="hidden" id="geoserver_url" ref="geoserver_url" value="http://localhost:8080/geoserver/">-->
-    <input type="hidden" id="geoserver_url" ref="geoserver_url" value="http://172.17.18.13:8600/geoserver/">
+    <input type="hidden" id="geoserver_url" ref="geoserver_url" value="http://localhost:8080/geoserver/">
+    <!--    <input type="hidden" id="geoserver_url" ref="geoserver_url" value="http://172.17.18.13:8600/geoserver/">-->
     <input type="hidden" id="periferia_viva_geojson" value="mapa_periferias:periferia_viva">
     <input type="hidden" id="redus_geojson" value="mapa_periferias:redus">
     <input type="hidden" id="caravanas_geojson" value="mapa_periferias:caravanas">
