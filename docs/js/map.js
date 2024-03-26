@@ -6,6 +6,13 @@ createApp({
     },
     data() {
         return {
+            searchTerm: '',
+            searchMessage: '',
+            btnClear: false,
+            municipiosItems: [],
+            periferiaItems: [],
+            redusItems: [],
+            municipioSelecionado: undefined,
             map: undefined,
             switchBtn: false,
             bounds: L.latLngBounds(
@@ -74,10 +81,8 @@ createApp({
                 }
                 this.bounds = this.map.getBounds();
             });
-
-
             coordinates.addTo(this.map);
-            geocodingSearch.addTo(this.map)
+            //geocodingSearch.addTo(this.map)
             //geocodingSearch.setPosition('topleft');
             zoomHome.addTo(this.map);
             L.control.sidebar('sidebar').addTo(this.map)
@@ -187,83 +192,172 @@ createApp({
                 })
             }
         },
-        getMunicipios(id) {
-            let domain = this.$refs.geoserver_url.value;
-            let basePath = 'mapa_periferias/ows';
-            let params = new URLSearchParams({
-                service: 'WFS',
-                version: '1.0.0',
-                request: 'GetFeature',
-                typeName: `mapa_periferias:${id}`,
-                outputFormat: 'application/json'
-            });
-            let url = `${domain}${basePath}?${params.toString()}`;
+        searchItems() {
 
-            axios.get(url)
-                .then((response) => {
-                    this.municipiosArr = response.data.features
-                        .filter(feature => feature.properties.municipio && feature.properties.uf)
-                        .map(feature => {
-                            return {
-                                id: `${feature.properties.municipio}/${feature.properties.uf}`,
-                                key: `${feature.properties.municipio}/${feature.properties.uf}`
-                            };
-                        });
-                })
-                .catch(error => {
-                    console.error('Erro ao buscar municípios:', error);
-                });
-        },
+            if (this.searchTerm.length >= 4) {
 
-        getItems(id, place) {
-            let domain = this.$refs.geoserver_url.value;
-            let layer = id.replace('municipios_', '')
-            let city = place.split('/')[0];
-            let state = place.split('/')[1];
-            let basePath = 'mapa_periferias/ows';
-            let params = new URLSearchParams({
+                this.searchMessage = ''
+                let domain = this.$refs.geoserver_url.value;
+                let basePath = 'mapa_periferias/ows';
+                let params_municipios = new URLSearchParams({
                     service: 'WFS',
                     version: '1.0.0',
                     request: 'GetFeature',
-                    typeName: `mapa_periferias:${layer}`,
-                    cql_filter: `municipio = '${city}' AND uf = '${state}'`,
+                    typeName: `mapa_periferias:municipio_bbox`,
+                    cql_filter: `nome ilike '%${this.searchTerm}%'`,
                     outputFormat: 'application/json'
-                })
-            ;
-            let url = `${domain}${basePath}?${params.toString()}`;
-
-            axios.get(url)
-                .then((response) => {
-                    this.elemArr = response.data.features
-                        .filter(feature => feature.properties.organizacao)
-                        .map(feature => {
-                            return {
-                                id: `${feature.properties.id}`,
-                                key: `${feature.properties.organizacao}`,
-                                layer: layer,
-                                coords: feature.geometry.coordinates
-                            };
-                        });
-                })
-                .catch(error => {
-                    console.error('Erro ao buscar municípios:', error);
                 });
+                let url_municipios = `${domain}${basePath}?${params_municipios.toString()}`;
+                axios.get(url_municipios)
+                    .then((response) => {
+                        this.municipiosItems = response.data.features
+                            .filter(feature => feature.properties.nome)
+                            .map(feature => {
+                                return {
+                                    id: feature.properties.id,
+                                    nome: feature.properties.nome,
+                                    uf: feature.properties.uf,
+                                    bbox: JSON.parse(JSON.parse(feature.properties.bbox)),
+                                    codIbge: feature.properties.cod_ibge_m
+                                };
+                            });
+                    })
+                    .catch(error => {
+                        console.error('Erro ao buscar municípios:', error);
+                    });
+
+                let params_periferia = new URLSearchParams({
+                    service: 'WFS',
+                    version: '1.0.0',
+                    request: 'GetFeature',
+                    typeName: `mapa_periferias:iniciativa_periferia_viva`,
+                    cql_filter: `organizacao ilike '%${this.searchTerm}%'`,
+                    outputFormat: 'application/json'
+                });
+
+                let url_periferia_viva = `${domain}${basePath}?${params_periferia.toString()}`;
+                axios.get(url_periferia_viva)
+                    .then((response) => {
+                        this.periferiaItems = response.data.features
+                            .map(feature => {
+                                return {
+                                    id: feature.properties.id,
+                                    organizacao: feature.properties.organizacao,
+                                    municipio_cadastro: feature.properties.municipio_cadastro,
+                                    uf: feature.properties.uf,
+                                    coords: feature.geometry.coordinates
+                                };
+                            });
+                    })
+                    .catch(error => {
+                        console.error('Erro ao buscar periferia viva:', error);
+                    });
+
+                let params_redus = new URLSearchParams({
+                    service: 'WFS',
+                    version: '1.0.0',
+                    request: 'GetFeature',
+                    typeName: `mapa_periferias:iniciativa_redus`,
+                    cql_filter: `organizacao ilike '%${this.searchTerm}%'`,
+                    outputFormat: 'application/json'
+                });
+
+                let url_redus = `${domain}${basePath}?${params_redus.toString()}`;
+                axios.get(url_redus)
+                    .then((response) => {
+                        this.redusItems = response.data.features
+                            .map(feature => {
+                                return {
+                                    id: feature.properties.id,
+                                    organizacao: feature.properties.organizacao,
+                                    municipio_cadastro: feature.properties.municipio_cadastro,
+                                    uf: feature.properties.uf,
+                                    coords: feature.geometry.coordinates
+                                };
+                            });
+
+                    })
+                    .catch(error => {
+                        console.error('Erro ao buscar redus:', error);
+                    });
+            } else {
+                this.searchMessage = 'Digite o nome de um Município ou de uma Iniciativa'
+            }
+
+            this.btnClear = true
+
+
         },
+        formatIniciativa(text) {
+            return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+        },
+        zoomToMunicipio(bbox, codIbge) {
+
+            if (this.municipioSelecionado) {
+                this.map.removeLayer(this.municipioSelecionado);
+            }
+            this.map.fitBounds(bbox);
+            this.municipioSelecionado = L.tileLayer.wms(geoServerWmsUrl, {
+                format: 'image/png',
+                transparent: true,
+                version: '1.1.0',
+                maxZoom: 20,
+                opacity: 1,
+                zIndex: 1,
+                layers: 'mapa_periferias:municipio',
+                cql_filter: `cod_ibge_m=${codIbge}`
+            });
+            this.map.addLayer(this.municipioSelecionado);
+            this.map.fitBounds(bbox);
+        }
+        ,
+        zoomToMarker(coords, layer) {
+            if (layer === 'redus') {
+                this.redusLayers.forEach(layer => {
+                    layer.active = true
+                    this.map.addLayer(layer.lyr)
+                })
+            }
+
+            if (this.circleMarker) {
+                this.map.removeLayer(this.circleMarker)
+            }
+
+            let x = coords[0];
+            let y = coords[1];
+            let circleMarkerOptions = {
+                radius: 25, // in meters
+                color: 'red',
+                fillColor: '#ff0101',
+                fillOpacity: 0.2,
+                opacity: 0.4
+            };
+            this.circleMarker = L.circleMarker([y, x], circleMarkerOptions
+            ).addTo(this.map)
+            this.map.setView([y, x], 18);
+        }
+        ,
+
         clearSearch() {
-            this.municipiosArr = [];
-            this.map.setView([-13.9234038, -55.1953125], 4);
+            this.searchTerm = '';
+            this.searchMessage = ''
+            this.btnClear = false
+            this.municipiosItems = [];
+            this.periferiaItems = [];
+            this.redusItems = [];
             this.map.removeLayer(this.circleMarker);
+            this.map.removeLayer(this.municipioSelecionado);
+            this.map.setView([-13.9234038, -55.1953125], 4);
         }
     },
     mounted() {
         this.initMap();
-
     },
+
     watch: {
         selectedLayer: {
             handler(newValue, oldValue) {
                 if (newValue) {
-
                     if (newValue.id === 'municipios_periferia_viva') {
                         this.periferiaLayers.forEach(layer => {
                             layer.active = true
@@ -283,42 +377,12 @@ createApp({
                             this.map.removeLayer(layer.lyr)
                         })
                     }
-
-                    this.getMunicipios(newValue.id);
-
                 } else {
                     this.municipiosArr = []
                     this.map.setView([-13.9234038, -55.1953125], 4)
                 }
-            }, deep: true
-        },
-        selectedMun: {
-            handler(newValue, oldValue) {
-                if (newValue) {
-                    this.getItems(this.selectedLayer.id, newValue.id)
-                } else {
-                    this.elemArr = [];
-                }
-            }, deep: true
-        },
-        selectedElem: {
-            handler(newValue, oldValue) {
-                if (newValue) {
-                    let x = newValue.coords[0];
-                    let y = newValue.coords[1];
-                    let circleMarkerOptions = {
-                        radius: 25, // in meters
-                        color: 'red',
-                        fillColor: '#ff0101',
-                        fillOpacity: 0.2,
-                        opacity: 0.4
-                    };
-                    this.circleMarker = L.circleMarker([y, x], circleMarkerOptions).addTo(this.map)
-                    this.map.setView([y, x], 18);
-                } else {
-                    this.map.removeLayer(this.circleMarker);
-                }
-            }, deep: true
+            },
+            deep: true
         },
         switchBtn: {
             handler(newValue, oldValue) {
@@ -357,8 +421,18 @@ createApp({
         }
     },
     computed: {
-        showBtn() {
-            return !!(this.selectedElem && this.selectedElem.id);
+        hasMunicipios() {
+            return this.municipiosItems.length;
+        },
+        hasPeriferia() {
+            return this.periferiaItems.length;
+        },
+
+        hasRedus() {
+            return this.redusItems.length;
+        },
+        hasSearchTerm() {
+            return this.searchTerm.length;
         }
     }
 }).mount('#app')
