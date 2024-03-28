@@ -229,6 +229,7 @@ createApp({
 
                     .catch(error => {
                         console.error('Erro ao buscar municípios:', error);
+                        this.loading = true;
                     });
 
                 let params_periferia = new URLSearchParams({
