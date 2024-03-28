@@ -512,8 +512,6 @@
                               class="input-group-text btn btn-danger">
                             <i class="fa-regular fa-trash-can"></i>
                         </span>
-
-
                     </div>
                     <div v-if="searchMessage"
                          id="id_search_help"
@@ -522,6 +520,10 @@
                         {{ searchMessage }} <br>
                         (mínimo de 4 dígitos)
                     </div>
+                </div>
+
+                <div class="text-center p-2" v-if="loading">
+                    <img id="loading" src="img/loading.gif" alt="">
                 </div>
 
                 <div
@@ -535,11 +537,11 @@
                                 v-for="item in municipiosItems"
                                 :key="item.id"
                         >
-                            <span @click="zoomToMunicipio(item.bbox, item.codIbge)">
-                                <i class="fa-solid fa-location-dot"></i>
-                                &thinsp;
-                                {{ item.nome }} - {{ item.uf }}
-                            </span>
+                                            <span @click="zoomToMunicipio(item.bbox, item.codIbge)">
+                                                <i class="fa-solid fa-location-dot"></i>
+                                                &thinsp;
+                                                {{ item.nome }} - {{ item.uf }}
+                                            </span>
                         </li>
                     </ul>
                 </div>
@@ -555,18 +557,17 @@
                                 v-for="item in periferiaItems"
                                 :key="item.id"
                         >
-                            <span @click="zoomToMarker(item.coords, 'periferia')">
-                                <i class="fa-solid fa-location-dot"></i>
-                                &thinsp;
-                                <span>
-                                {{ formatIniciativa(item.organizacao) }}
-                                </span> -
-                                {{ item.municipio_cadastro }} - {{item.uf }}
-                            </span>
+                                            <span @click="zoomToMarker(item.coords, 'periferia')">
+                                                <i class="fa-solid fa-location-dot"></i>
+                                                &thinsp;
+                                                <span>
+                                                {{ formatIniciativa(item.organizacao) }}
+                                                </span> -
+                                                {{ item.municipio_cadastro }} - {{item.uf }}
+                                            </span>
                         </li>
                     </ul>
                 </div>
-
 
                 <div
                         class="p-1"
@@ -579,14 +580,14 @@
                                 v-for="item in redusItems"
                                 :key="item.id"
                         >
-                            <span @click="zoomToMarker(item.coords, 'redus')">
-                                <i class="fa-solid fa-location-dot"></i>
-                                &thinsp;
-                                <span>
-                                {{ formatIniciativa(item.organizacao) }}
-                                </span> -
-                                {{ item.municipio_cadastro }} - {{item.uf }}
-                            </span>
+                                            <span @click="zoomToMarker(item.coords, 'redus')">
+                                                <i class="fa-solid fa-location-dot"></i>
+                                                &thinsp;
+                                                <span>
+                                                {{ formatIniciativa(item.organizacao) }}
+                                                </span> -
+                                                {{ item.municipio_cadastro }} - {{item.uf }}
+                                            </span>
                         </li>
                     </ul>
                 </div>
@@ -595,7 +596,7 @@
     </div>
     <div id="map" class="sidebar-map"></div>
 
-<!--        <input type="hidden" id="geoserver_url" ref="geoserver_url" value="http://localhost:8080/geoserver/">-->
+    <!--        <input type="hidden" id="geoserver_url" ref="geoserver_url" value="http://localhost:8080/geoserver/">-->
     <input type="hidden" id="geoserver_url" ref="geoserver_url" value="http://172.17.18.13:8600/geoserver/">
     <input type="hidden" id="periferia_viva_geojson" value="mapa_periferias:iniciativa_periferia_viva">
     <input type="hidden" id="redus_geojson" value="mapa_periferias:iniciativa_redus">

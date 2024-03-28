@@ -173,3 +173,7 @@ body {
     height: 46px;
     width: 30px;
 }
+
+#loading {
+    width: 30%;
+}

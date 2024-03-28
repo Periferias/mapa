@@ -7,6 +7,7 @@ createApp({
     data() {
         return {
             searchTerm: '',
+            loading: false,
             searchMessage: '',
             btnClear: false,
             municipiosItems: [],
@@ -195,8 +196,8 @@ createApp({
         searchItems() {
 
             if (this.searchTerm.length >= 4) {
-
-                this.searchMessage = ''
+                this.loading = true;
+                this.searchMessage = '';
                 let domain = this.$refs.geoserver_url.value;
                 let basePath = 'mapa_periferias/ows';
                 let params_municipios = new URLSearchParams({
@@ -222,6 +223,10 @@ createApp({
                                 };
                             });
                     })
+                    .finally((response) => {
+                        this.loading = false;
+                    })
+
                     .catch(error => {
                         console.error('Erro ao buscar municípios:', error);
                     });
@@ -284,7 +289,7 @@ createApp({
                 this.searchMessage = 'Digite o nome de um Município ou de uma Iniciativa'
             }
 
-            this.btnClear = true
+            this.btnClear = true;
 
 
         },
