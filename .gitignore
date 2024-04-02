@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/jupyternotebooks,django,python
-# Edit at https://www.toptal.com/developers/gitignore?templates=jupyternotebooks,django,python
+# Created by https://www.toptal.com/developers/gitignore/api/python,django,vue
+# Edit at https://www.toptal.com/developers/gitignore?templates=python,django,vue
 
 ### Django ###
 *.log
@@ -171,17 +171,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-### JupyterNotebooks ###
-# gitignore template for Jupyter Notebooks
-# website: http://jupyter.org/
-
-*/.ipynb_checkpoints/*
-
-# IPython
-
-# Remove previous ipynb_checkpoints
-#   git rm -r .ipynb_checkpoints/
-
 ### Python ###
 # Byte-compiled / optimized / DLL files
 
@@ -274,23 +263,23 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
-# End of https://www.toptal.com/developers/gitignore/api/jupyternotebooks,django,python
+### Vue ###
+# gitignore template for Vue.js projects
+#
+# Recommended template: Node.gitignore
+
+# TODO: where does this rule come from?
+docs/_book
+
+# TODO: where does this rule come from?
+test/
 
 
-#Ipython Notebook
-.ipynb_checkpoints
-
-# python notebooks
-*.ipynb
-
-# MacOS
 .DS_Store
-# PyCharm
+*.ipynb
 .idea/
 
+# GEOSERVER URL
+docs/js/env.js
 
-# Static
-staticfiles/
 
-# Media
-mediafiles/

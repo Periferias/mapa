@@ -198,7 +198,7 @@ createApp({
             if (this.searchTerm.length >= 4) {
                 this.loading = true;
                 this.searchMessage = '';
-                let domain = this.$refs.geoserver_url.value;
+                let domain = GEOSERVER_URL;
                 let basePath = 'mapa_periferias/ows';
                 let params_municipios = new URLSearchParams({
                     service: 'WFS',

@@ -4,10 +4,10 @@ const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 })
 
 
-const geoServerWmsUrl = $('#geoserver_url').val() + 'mapa_periferias/wms?'
+const geoServerWmsUrl = GEOSERVER_URL + 'mapa_periferias/wms?'
 
 function getWfsUrl(layer) {
-    let domain = $('#geoserver_url').val();
+    let domain = GEOSERVER_URL;
     let basePath = 'mapa_periferias/ows';
     const params = new URLSearchParams({
         service: 'WFS',
