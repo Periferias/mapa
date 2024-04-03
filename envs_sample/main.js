@@ -1,1 +1,1 @@
-const GEOSERVER_URL = 'https://geoserver.mapadasperiferias.cidades.gov.br/geoserver/'
+const GEOSERVER_URL = 'https://mapadasperiferias.cidades.gov.br:8600/geoserver/'
