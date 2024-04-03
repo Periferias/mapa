@@ -61,7 +61,23 @@ body {
 }
 
 .list-base-layers {
-    cursor: pointer
+    cursor: pointer;
+
+}
+
+.result-search {
+    cursor: pointer;
+    transition: background-color 0.3s ease, font-weight 0.3s ease;
+}
+
+.result-search:hover {
+    font-weight: bold;
+    color: red;
+}
+
+.iniciativa-item {
+    text-transform: lowercase;
+    text-transform: capitalize;
 }
 
 .sidebar.leaflet-touch {
@@ -156,4 +172,8 @@ body {
 .acaoicon {
     height: 46px;
     width: 30px;
+}
+
+#loading {
+    width: 30%;
 }

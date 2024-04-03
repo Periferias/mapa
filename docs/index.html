@@ -7,8 +7,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="compact/styles.css">
+    <link rel="stylesheet" href="assets/vuejs/vue-select.css">
     <link rel="stylesheet" href="css/webgis.css">
     <script src="https://kit.fontawesome.com/f200917737.js" crossorigin="anonymous"></script>
+    <base href="/">
+
 </head>
 <body>
 <div id="app">
@@ -34,6 +37,14 @@
                         <i class="fa-solid fa-xl fa-info-circle"></i>
                     </a>
                 </li>
+
+                <li>
+                    <a href="#search" role="tab" data-bs-toggle="tooltip" data-bs-placement="right"
+                       title="Pesquisar">
+                        <i class="fa-solid fa-binoculars"></i>
+                    </a>
+                </li>
+
             </ul>
         </div>
         <!-- Tab panes -->
@@ -464,16 +475,136 @@
                     longitude) de forma automatizada.
                 </p>
             </div>
+
+            <div class="sidebar-pane" id="search">
+                <h1 class="sidebar-header">Pesquisar
+                    <span class="sidebar-close">
+                        <i class="fa fa-caret-left"></i>
+                    </span>
+                </h1>
+
+                <div class="m-3">
+                    <h3>Encontre uma iniciativa!</h3>
+
+                    <p style="font-size: 14px">
+                        Procure por iniciativas periféricas ou por sua região no mapa:
+                    </p>
+                </div>
+
+                <div class="form-group mt-4 p-2">
+                    <div class="input-group m-1">
+                        <input
+                                id="id_search"
+                                type="text"
+                                class="form-control"
+                                v-model="searchTerm"
+                                @keyup.enter="searchItems"
+                                placeholder="Digite uma palavra"
+                        >
+                        <span
+                                @click="searchItems"
+                                class="input-group-text btn-primary">
+                            <i class="fa fa-search"></i>
+                        </span>
+
+                        <span v-if="btnClear"
+                              @click="clearSearch"
+                              class="input-group-text btn btn-danger">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </span>
+                    </div>
+                    <div v-if="searchMessage"
+                         id="id_search_help"
+                         class="form-text m-2 text-danger"
+                    >
+                        {{ searchMessage }} <br>
+                        (mínimo de 4 dígitos)
+                    </div>
+                </div>
+
+                <div class="text-center p-2" v-if="loading">
+                    <img id="loading" src="img/loading.gif" alt="">
+                </div>
+
+                <div
+                        class="p-1"
+                        v-if="hasMunicipios"
+                >
+                    <h5>Municípios</h5>
+                    <ul class="list-unstyled">
+                        <li
+                                class="mt-1 result-search"
+                                v-for="item in municipiosItems"
+                                :key="item.id"
+                        >
+                                            <span @click="zoomToMunicipio(item.bbox, item.codIbge)">
+                                                <i class="fa-solid fa-location-dot"></i>
+                                                &thinsp;
+                                                {{ item.nome }} - {{ item.uf }}
+                                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div
+                        class="p-1"
+                        v-if="hasPeriferia"
+                >
+                    <h5>Prêmio Periferia Viva</h5>
+                    <ul class="list-unstyled">
+                        <li
+                                class="mt-1 result-search"
+                                v-for="item in periferiaItems"
+                                :key="item.id"
+                        >
+                                            <span @click="zoomToMarker(item.coords, 'periferia')">
+                                                <i class="fa-solid fa-location-dot"></i>
+                                                &thinsp;
+                                                <span>
+                                                {{ formatIniciativa(item.organizacao) }}
+                                                </span> -
+                                                {{ item.municipio_cadastro }} - {{item.uf }}
+                                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div
+                        class="p-1"
+                        v-if="hasRedus"
+                >
+                    <h5>Iniciativas Periféricas</h5>
+                    <ul class="list-unstyled">
+                        <li
+                                class="mt-1 result-search"
+                                v-for="item in redusItems"
+                                :key="item.id"
+                        >
+                                            <span @click="zoomToMarker(item.coords, 'redus')">
+                                                <i class="fa-solid fa-location-dot"></i>
+                                                &thinsp;
+                                                <span>
+                                                {{ formatIniciativa(item.organizacao) }}
+                                                </span> -
+                                                {{ item.municipio_cadastro }} - {{item.uf }}
+                                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
     <div id="map" class="sidebar-map"></div>
-    <input type="hidden" id="periferia_viva_geojson" value="data/periferia_viva.geojson">
-    <input type="hidden" id="redus_geojson" value="data/redus.geojson">
-    <input type="hidden" id="caravanas_geojson" value="data/caravanas.geojson">
-    <input type="hidden" id="pac_geojson" value="data/pac.geojson">
+    <input type="hidden" id="periferia_viva_geojson" value="mapa_periferias:iniciativa_periferia_viva">
+    <input type="hidden" id="redus_geojson" value="mapa_periferias:iniciativa_redus">
+    <input type="hidden" id="caravanas_geojson" value="mapa_periferias:caravanas">
+    <input type="hidden" id="pac_geojson" value="mapa_periferias:pac">
 </div>
 
 <script src="compact/scripts.js"></script>
+<script src="assets/axios/axios.min.js"></script>
+<script src="assets/vuejs/vue-select@beta"></script>
+<script src="js/env.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/map.js"></script>
 
