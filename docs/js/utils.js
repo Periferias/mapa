@@ -27,7 +27,7 @@ const caravanasUrl = getWfsUrl($('#caravanas_geojson').val());
 
 const zoomHome = L.Control.zoomHome({
     zoomHomeTitle: 'Zoom Inicial',
-    zoomHomeIcon: 'magnifying-glass',
+    zoomHomeIcon: 'earth-americas',
 });
 
 const geocodingSearch = L.control.maptilerGeocoding({
