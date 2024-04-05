@@ -196,6 +196,7 @@ createApp({
         searchItems() {
 
             if (this.searchTerm.length >= 4) {
+                let slug = string_to_slug(this.searchTerm)
                 this.loading = true;
                 this.searchMessage = '';
                 let domain = GEOSERVER_URL;
@@ -205,7 +206,7 @@ createApp({
                     version: '1.0.0',
                     request: 'GetFeature',
                     typeName: `mapa_periferias:municipio_bbox`,
-                    cql_filter: `nome ilike '%${this.searchTerm}%'`,
+                    cql_filter: `slug ilike '%${slug}%'`,
                     outputFormat: 'application/json'
                 });
                 let url_municipios = `${domain}${basePath}?${params_municipios.toString()}`;
@@ -237,7 +238,7 @@ createApp({
                     version: '1.0.0',
                     request: 'GetFeature',
                     typeName: `mapa_periferias:iniciativa_periferia_viva`,
-                    cql_filter: `organizacao ilike '%${this.searchTerm}%'`,
+                    cql_filter: `organizacao_slug ilike '%${slug}%'`,
                     outputFormat: 'application/json'
                 });
 
@@ -264,7 +265,7 @@ createApp({
                     version: '1.0.0',
                     request: 'GetFeature',
                     typeName: `mapa_periferias:iniciativa_redus`,
-                    cql_filter: `organizacao ilike '%${this.searchTerm}%'`,
+                    cql_filter: `organizacao_slug ilike '%${slug}%'`,
                     outputFormat: 'application/json'
                 });
 
