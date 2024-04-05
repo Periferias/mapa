@@ -48,16 +48,16 @@ const zoomHome = L.Control.zoomHome({
     zoomHomeIcon: 'earth-americas',
 });
 
-const geocodingSearch = L.control.maptilerGeocoding({
-        apiKey: 'lAK90zDWbu68qBVL31Oh',
-        placeholder: 'Pesquisar por localização...',
-        collapse: false,
-        language: 'pt',
-        country: 'br',
-        noResultsMessage: '"Ops! Não conseguimos encontrar o que você está procurando. ' +
-            'Tente verificar a ortografia ou um outro termo de pesquisa.'
-    },
-);
+// const geocodingSearch = L.control.maptilerGeocoding({
+//         apiKey: 'lAK90zDWbu68qBVL31Oh',
+//         placeholder: 'Pesquisar por localização...',
+//         collapse: false,
+//         language: 'pt',
+//         country: 'br',
+//         noResultsMessage: '"Ops! Não conseguimos encontrar o que você está procurando. ' +
+//             'Tente verificar a ortografia ou um outro termo de pesquisa.'
+//     },
+// );
 
 const coordinates = L.control.coordinates({
     enableUserInput: false,
@@ -179,10 +179,11 @@ function createMarker(latlng, iconClass, markerColor, popupContent) {
 function pointToLayer(feature, latlng) {
     let category = feature.properties.categoria;
 
+
     let popupContent = `<span>Organização:</span>${feature.properties.organizacao}
                         <span>Categoria:</span>${feature.properties.categoria}
                         <span>Localidade:</span>${feature.properties.localidade}
-                        <span>Premiado:</span>${feature.properties.premiado ? 'Sim' : 'Não'}
+                        ${feature.properties.premiado ? '<span>Premiado:</span>Sim' : ''}
                         <span>Município/Estado:</span>${feature.properties.municipio_cadastro}/${feature.properties.uf}
                        `
 
