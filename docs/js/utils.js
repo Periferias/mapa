@@ -592,7 +592,7 @@ function pointRedusToLayer(feature, latlng) {
     let popupContent = `<span>Organização:</span>${feature.properties.organizacao}
                         <span>Categoria:</span>${feature.properties.categoria}
                         <span>Localidade:</span>${feature.properties.localidade}
-                        <span>Premiado:</span>${feature.properties.premiado ? 'Sim' : 'Não'}
+                        ${feature.properties.premiado ? '<span>Premiado:</span>Sim' : ''}
                         <span>Município/Estado:</span>${feature.properties.municipio_cadastro}/${feature.properties.uf}
                        `
 
