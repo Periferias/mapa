@@ -7,11 +7,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="compact/styles.css">
-    <link rel="stylesheet" href="assets/vuejs/vue-select.css">
     <link rel="stylesheet" href="css/webgis.css">
     <script src="https://kit.fontawesome.com/f200917737.js" crossorigin="anonymous"></script>
     <base href="/">
-
 </head>
 <body>
 <div id="app">
@@ -466,7 +464,7 @@
                     </span>
                 </h1>
 
-                <p class="mt-4 text-justify lh-lg">
+                <p class="mt-4 text-justify lh-lg" style="font-size: 14px">
                     <b><u>Nota Técnica</u></b>: Todas as localizações referentes às camadas do mapa
                     <b>"Iniciativas Periféricas"</b>, <b>"Caravana das Periferias"</b> e <b>"Prêmio Periferia Viva"</b>
                     foram georreferenciadas a partir do processo de <b>geocodificação</b>, que consiste em transformar
@@ -483,7 +481,7 @@
                 </h1>
 
                 <div class="m-3">
-                    <h3>PESQUISE NO MAPA!</h3>
+                    <h3>Pesquise no Mapa!</h3>
 
                     <p style="font-size: 14px">
                         Aqui você pode procurar informações sobre iniciativas cadastradas, buscando por municipio ou
@@ -537,11 +535,11 @@
                                 v-for="item in municipiosItems"
                                 :key="item.id"
                         >
-                                            <span @click="zoomToMunicipio(item.bbox, item.codIbge)">
-                                                <i class="fa-solid fa-location-dot"></i>
-                                                &thinsp;
-                                                {{ item.nome }} - {{ item.uf }}
-                                            </span>
+                            <span @click="zoomToMunicipio(item.bbox, item.codIbge)">
+                                <i class="fa-solid fa-location-dot"></i>
+                                &thinsp;
+                                {{ item.nome }} - {{ item.uf }}
+                            </span>
                         </li>
                     </ul>
                 </div>
@@ -553,18 +551,18 @@
                     <h5>Prêmio Periferia Viva</h5>
                     <ul class="list-unstyled">
                         <li
-                                class="mt-1 result-search"
-                                v-for="item in periferiaItems"
-                                :key="item.id"
+                            class="mt-1 result-search"
+                            v-for="item in periferiaItems"
+                            :key="item.id"
                         >
-                                            <span @click="zoomToMarker(item.coords, 'periferia')">
-                                                <i class="fa-solid fa-location-dot"></i>
-                                                &thinsp;
-                                                <span>
-                                                {{ formatIniciativa(item.organizacao) }}
-                                                </span> -
-                                                {{ item.municipio_cadastro }} - {{item.uf }}
-                                            </span>
+                            <span @click="zoomToMarker(item.coords, 'periferia')">
+                                <i class="fa-solid fa-location-dot"></i>
+                                &thinsp;
+                                <span>
+                                {{ formatIniciativa(item.organizacao) }}
+                                </span> -
+                                {{ item.municipio_cadastro }} - {{item.uf }}
+                            </span>
                         </li>
                     </ul>
                 </div>
@@ -580,14 +578,14 @@
                                 v-for="item in redusItems"
                                 :key="item.id"
                         >
-                                            <span @click="zoomToMarker(item.coords, 'redus')">
-                                                <i class="fa-solid fa-location-dot"></i>
-                                                &thinsp;
-                                                <span>
-                                                {{ formatIniciativa(item.organizacao) }}
-                                                </span> -
-                                                {{ item.municipio_cadastro }} - {{item.uf }}
-                                            </span>
+                        <span @click="zoomToMarker(item.coords, 'redus')">
+                            <i class="fa-solid fa-location-dot"></i>
+                            &thinsp;
+                            <span>
+                            {{ formatIniciativa(item.organizacao) }}
+                            </span> -
+                            {{ item.municipio_cadastro }} - {{item.uf }}
+                        </span>
                         </li>
                     </ul>
                 </div>
@@ -603,7 +601,6 @@
 
 <script src="compact/scripts.js"></script>
 <script src="assets/axios/axios.min.js"></script>
-<script src="assets/vuejs/vue-select@beta"></script>
 <script src="js/env.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/map.js"></script>
