@@ -70,7 +70,7 @@ createApp({
                         this.periferiaLayers[6].lyr,
                         this.caravanaLayers[0].lyr,
                         americaSul,
-                        agsnContorno
+                        agsnContorno,
                     ]
                 }
             );

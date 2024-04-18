@@ -37,27 +37,17 @@ function getWfsUrl(layer) {
     return `${domain}${basePath}?${params.toString()}`;
 }
 
-const periferiaVivaUrl = getWfsUrl($('#periferia_viva_geojson').val());
-const redusUrl = getWfsUrl($('#redus_geojson').val());
-const pacUrl = getWfsUrl($('#pac_geojson').val());
-const caravanasUrl = getWfsUrl($('#caravanas_geojson').val());
-
+const periferiaVivaUrl = getWfsUrl('mapa_periferias:iniciativa_periferia_viva');
+const redusUrl = getWfsUrl('mapa_periferias:iniciativa_redus');
+const pacUrl = getWfsUrl('mapa_periferias:pac');
+const caravanasUrl = getWfsUrl('mapa_periferias:caravanas');
+const pmrrMunUrl = getWfsUrl('mapa_periferias:pmrr_mun');
+const pmrrCenUrl = getWfsUrl('mapa_periferias:centroid_pmrr_mun');
 
 const zoomHome = L.Control.zoomHome({
     zoomHomeTitle: 'Zoom Inicial',
     zoomHomeIcon: 'earth-americas',
 });
-
-// const geocodingSearch = L.control.maptilerGeocoding({
-//         apiKey: 'lAK90zDWbu68qBVL31Oh',
-//         placeholder: 'Pesquisar por localização...',
-//         collapse: false,
-//         language: 'pt',
-//         country: 'br',
-//         noResultsMessage: '"Ops! Não conseguimos encontrar o que você está procurando. ' +
-//             'Tente verificar a ortografia ou um outro termo de pesquisa.'
-//     },
-// );
 
 const coordinates = L.control.coordinates({
     enableUserInput: false,
@@ -92,8 +82,6 @@ const agsn = L.tileLayer.wms(geoServerWmsUrl, {
     minZoom: 10,
     attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
 });
-
-
 const agsnContorno = L.tileLayer.wms(geoServerWmsUrl, {
     format: 'image/png',
     transparent: true,
@@ -105,8 +93,6 @@ const agsnContorno = L.tileLayer.wms(geoServerWmsUrl, {
     layers: 'mapa_periferias:agsn',
     attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
 });
-
-
 const intraUrbana = L.tileLayer.wms(geoServerWmsUrl, {
     format: 'image/png',
     transparent: true,
@@ -115,6 +101,16 @@ const intraUrbana = L.tileLayer.wms(geoServerWmsUrl, {
     zIndex: 1,
     opacity: 0.9,
     layers: 'mapa_periferias:tipologia_intraurbana',
+    attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
+});
+const pmrrMun = L.tileLayer.wms(geoServerWmsUrl, {
+    format: 'image/png',
+    transparent: true,
+    version: '1.1.0',
+    maxZoom: 22,
+    zIndex: 10,
+    opacity: 0.9,
+    layers: 'mapa_periferias:pmrr_mun',
     attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
 });
 
@@ -494,6 +490,39 @@ urbanizacaoLayer.on('data:loaded', function () {
     urbanizacaoCluster.addLayer(urbanizacaoLayer);
 });
 
+const centroidPmrr_Layer = new L.GeoJSON.AJAX(pmrrCenUrl, {
+    pointToLayer: function (feature, latlng) {
+        let status = feature.properties.status
+        let statusStyle;
+        if (status === 'Em andamento') {
+            statusStyle = {
+                fillColor: '#c51b7d',
+                color: '#ffffff',
+                fillOpacity: 0.7,
+            };
+        } else {
+            statusStyle = {
+                fillColor: '#0053ba',
+                color: '#ffffff',
+                fillOpacity: 0.7,
+            };
+        }
+        statusStyle.radius = 10;
+        let marker = L.circleMarker(latlng, statusStyle);
+        let popupContent = `<span>Município:</span>${feature.properties.nm_mun} - ${feature.properties.sigla_uf}
+                              <span>Universidade:</span>${feature.properties.universida}
+                              <span>Coordenador:</span>${feature.properties.coordenado}
+                              <span>Decreto do Comitê Gestor:</span>${feature.properties.decreto}
+                              <span>Secretaria Âncora:</span>${feature.properties.secretaria}
+                              <span>Investimento Programado</span>${feature.properties.investimen}
+                              <span>Previsão de finalização</span>${feature.properties.previsao_f}
+                              <span>Status</span>${feature.properties.status}
+                            `
+        marker.bindPopup(popupContent);
+        return marker;
+    }
+});
+
 const pacArr = [
     {
         id: 1,
@@ -511,6 +540,23 @@ const pacArr = [
         markerColor: "darkgreen",
         active: false
     },
+    {
+        id: 3,
+        description: 'PMRR - Municípios',
+        lyr: pmrrMun,
+        iconClass: 'fa fa-eye',
+        markerColor: "",
+        active: false
+    },
+    {
+        id: 4,
+        description: 'PMRR - Centróides',
+        lyr: centroidPmrr_Layer,
+        iconClass: 'fa fa-eye',
+        markerColor: "",
+        active: false
+    },
+
 ];
 const caravanasArr = [
     {
@@ -541,7 +587,6 @@ const vulnerabilityArr = [
         active: false
     }
 ]
-
 
 // ------------------ REDuS -------------------------------
 

@@ -267,6 +267,29 @@
                         </tr>
                     </table>
 
+                    <table class="table table-borderless table-sm mt-3">
+                        <tr>
+                            <td colspan="2" class="txt-leg-item">PLANO NACIONAL DE REDUÇÃO DE RISCOS:</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="img/pmrr_cen_andamento.jpg" alt="" height="34"> Em Andamento
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="img/pmrr_cen_n_iniciado.jpg" alt="" height="34"> Não Iniciado
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="ml-3 pt-3">
+                                <strong style="margin-left: 10%">Total: 19 registros</strong>
+                            </td>
+                        </tr>
+                    </table>
+
+
                     <table class="table table-borderless table-sm">
                         <tr>
                             <td colspan="2" class="txt-leg-item">CARAVANA DAS PERIFERIAS:</td>
@@ -551,9 +574,9 @@
                     <h5>Prêmio Periferia Viva</h5>
                     <ul class="list-unstyled">
                         <li
-                            class="mt-1 result-search"
-                            v-for="item in periferiaItems"
-                            :key="item.id"
+                                class="mt-1 result-search"
+                                v-for="item in periferiaItems"
+                                :key="item.id"
                         >
                             <span @click="zoomToMarker(item.coords, 'periferia')">
                                 <i class="fa-solid fa-location-dot"></i>
@@ -593,10 +616,7 @@
         </div>
     </div>
     <div id="map" class="sidebar-map"></div>
-    <input type="hidden" id="periferia_viva_geojson" value="mapa_periferias:iniciativa_periferia_viva">
-    <input type="hidden" id="redus_geojson" value="mapa_periferias:iniciativa_redus">
-    <input type="hidden" id="caravanas_geojson" value="mapa_periferias:caravanas">
-    <input type="hidden" id="pac_geojson" value="mapa_periferias:pac">
+
 </div>
 
 <script src="compact/scripts.js"></script>
