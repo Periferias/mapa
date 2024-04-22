@@ -514,7 +514,6 @@ const centroidPmrr_Layer = new L.GeoJSON.AJAX(pmrrCenUrl, {
                               <span>Coordenador:</span>${feature.properties.coordenado}
                               <span>Decreto do Comitê Gestor:</span>${feature.properties.decreto}
                               <span>Secretaria Âncora:</span>${feature.properties.secretaria}
-                              <span>Investimento Programado</span>${feature.properties.investimen}
                               <span>Previsão de finalização</span>${feature.properties.previsao_f}
                               <span>Status</span>${feature.properties.status}
                             `
