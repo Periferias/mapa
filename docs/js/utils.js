@@ -540,24 +540,27 @@ const pacArr = [
         markerColor: "darkgreen",
         active: false
     },
+];
+
+const pmrrArr = [
     {
-        id: 3,
-        description: 'PMRR - Municípios',
-        lyr: pmrrMun,
-        iconClass: 'fa fa-eye',
-        markerColor: "",
-        active: false
-    },
-    {
-        id: 4,
+        id: 1,
         description: 'PMRR - Centróides',
         lyr: centroidPmrr_Layer,
         iconClass: 'fa fa-eye',
         markerColor: "",
         active: false
     },
+    {
+        id: 2,
+        description: 'PMRR - Municípios',
+        lyr: pmrrMun,
+        iconClass: 'fa fa-eye',
+        markerColor: "",
+        active: false
+    },
+]
 
-];
 const caravanasArr = [
     {
         id: 1,

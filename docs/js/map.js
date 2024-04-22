@@ -26,6 +26,7 @@ createApp({
             vulnerabilityLayers: vulnerabilityArr,
             redusLayers: redusArr,
             pacLayers: pacArr,
+            pmrrLayers: pmrrArr,
             activeActions: true,
             activeredusActions: false,
 
@@ -142,6 +143,19 @@ createApp({
         },
         activePacLayer(id) {
             this.pacLayers.find(layer => {
+                if (layer.id === id) {
+                    layer.active = !layer.active
+                    if (layer.active) {
+                        this.map.addLayer(layer.lyr)
+                    } else {
+                        layer.active = false
+                        this.map.removeLayer(layer.lyr)
+                    }
+                }
+            })
+        },
+        activePmrrLayer(id) {
+            this.pmrrLayers.find(layer => {
                 if (layer.id === id) {
                     layer.active = !layer.active
                     if (layer.active) {
