@@ -390,29 +390,34 @@ const premiadoLayers = [
 ];
 
 
-const redMarker = L.AwesomeMarkers.icon({
-    prefix: 'fa',
-    icon: 'fa-van-shuttle',
-    markerColor: 'purple'
-});
+// const redMarker = L.AwesomeMarkers.icon({
+//     prefix: 'fa',
+//     icon: 'fa-van-shuttle',
+//     markerColor: 'purple'
+// });
+//
+// const caravanasLayer = new L.GeoJSON.AJAX(caravanasUrl, {
+//     pointToLayer: function (feature, latlng) {
+//         let marker = L.marker(latlng, {icon: redMarker});
+//         let popupContent = `<span>Território Periférico:</span>${feature.properties.territorio}
+//                               <span>Caravana:</span>${feature.properties.caravana}
+//                               <span>Tema:</span>${feature.properties.tema}
+//                               <span>Visitada em:</span>${feature.properties.data}
+//                             `;
+//         marker.bindPopup(popupContent);
+//         return marker;
+//     },
+// });
+//
+// const caravanasCluster = new L.markerClusterGroup({chunkedLoading: true});
+//
+// caravanasLayer.on('data:loaded', function () {
+//     caravanasCluster.addLayer(caravanasLayer)
+// });
 
-const caravanasLayer = new L.GeoJSON.AJAX(caravanasUrl, {
-    pointToLayer: function (feature, latlng) {
-        let marker = L.marker(latlng, {icon: redMarker});
-        let popupContent = `<span>Território Periférico:</span>${feature.properties.territorio}
-                              <span>Caravana:</span>${feature.properties.caravana}
-                              <span>Visitada em:</span>${feature.properties.data}
-                            `;
-        marker.bindPopup(popupContent);
-        return marker;
-    },
-});
 
-const caravanasCluster = new L.markerClusterGroup({chunkedLoading: true});
 
-caravanasLayer.on('data:loaded', function () {
-    caravanasCluster.addLayer(caravanasLayer)
-});
+
 
 
 function createPacMarker(latlng, iconClass, markerColor, popupContent) {
@@ -560,13 +565,71 @@ const pmrrArr = [
     },
 ]
 
+const caravanas2023Layer = new L.GeoJSON.AJAX(caravanasUrl, {
+    filter: function (feature, layer) {
+        if (feature.properties.ano === 2023) {
+            return true
+        }
+    },
+    pointToLayer: function (feature, latlng) {
+        let category = feature.properties.ano;
+
+        let popupContent = `<span>Território Periférico:</span>${feature.properties.territorio}
+                              <span>Caravana:</span>${feature.properties.caravana}
+                              <span>Tema:</span>${feature.properties.tema}
+                              <span>Visitada em:</span>${feature.properties.data}
+                            `;
+
+        let {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-van-shuttle", markerColor: "red"};
+        return createPacMarker(latlng, iconClass, markerColor, popupContent);
+    }
+});
+
+const caravanas2023Cluster = new L.markerClusterGroup();
+caravanas2023Layer.on('data:loaded', function () {
+    caravanas2023Cluster.addLayer(caravanas2023Layer);
+});
+
+const caravanas2024Layer = new L.GeoJSON.AJAX(caravanasUrl, {
+    filter: function (feature, layer) {
+        if (feature.properties.ano === 2024) {
+            return true
+        }
+    },
+    pointToLayer: function (feature, latlng) {
+        let category = feature.properties.ano;
+
+        let popupContent = `<span>Território Periférico:</span>${feature.properties.territorio}
+                              <span>Caravana:</span>${feature.properties.caravana}
+                              <span>Tema:</span>${feature.properties.tema}
+                              <span>Visitada em:</span>${feature.properties.data}
+                            `;
+
+        let {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-van-shuttle", markerColor: "blue"};
+        return createPacMarker(latlng, iconClass, markerColor, popupContent);
+    }
+});
+
+const caravanas2024Cluster = new L.markerClusterGroup();
+caravanas2024Layer.on('data:loaded', function () {
+    caravanas2024Cluster.addLayer(caravanas2024Layer);
+});
+
 const caravanasArr = [
     {
         id: 1,
-        description: 'Caravana das Periferias',
-        lyr: caravanasCluster,
+        description: 'Caravana das Periferias - 2023',
+        lyr: caravanas2023Cluster,
         iconClass: 'fa fa-van-shuttle',
         markerColor: "purple",
+        active: true
+    },
+    {
+        id: 2,
+        description: 'Caravana das Periferias - 2024',
+        lyr: caravanas2024Cluster,
+        iconClass: 'fa fa-van-shuttle',
+        markerColor: "red",
         active: true
     },
 ]
