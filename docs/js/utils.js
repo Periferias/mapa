@@ -406,10 +406,6 @@ const premiadoLayers = [
 // });
 
 
-
-
-
-
 function createPacMarker(latlng, iconClass, markerColor, popupContent) {
     return L.marker(latlng, {
         icon: L.AwesomeMarkers.icon({
@@ -490,17 +486,23 @@ const pmrrMun = new L.GeoJSON.AJAX(pmrrMunUrl, {
         let status = feature.properties.status;
         let statusStyle;
         if (status === 'Em andamento') {
+            console.log(status)
             statusStyle = {
-                stroke: '#2b00ff',
-                "stroke-width": 3,
+                fillColor: "#2b00ff",
                 fillOpacity: 0,
+                color: "#2b00ff",
+                weight: 3,
+                opacity: 1,
             };
         } else {
             statusStyle = {
-                stroke: '#232323',
-                "stroke-width": 3,
+                fillColor: "#232323",
                 fillOpacity: 0,
+                color: "#232323",
+                weight: 3,
+                opacity: 1,
             };
+            console.log(statusStyle)
         }
         return statusStyle;
     },
