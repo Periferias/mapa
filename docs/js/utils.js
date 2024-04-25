@@ -491,13 +491,13 @@ const pmrrMun = new L.GeoJSON.AJAX(pmrrMunUrl, {
         let statusStyle;
         if (status === 'Em andamento') {
             statusStyle = {
-                stroke: '#232323',
+                stroke: '#2b00ff',
                 "stroke-width": 3,
                 fillOpacity: 0,
             };
         } else {
             statusStyle = {
-                stroke: '#2b00ff',
+                stroke: '#232323',
                 "stroke-width": 3,
                 fillOpacity: 0,
             };
