@@ -41,8 +41,8 @@ const periferiaVivaUrl = getWfsUrl('mapa_periferias:iniciativa_periferia_viva');
 const redusUrl = getWfsUrl('mapa_periferias:iniciativa_redus');
 const pacUrl = getWfsUrl('mapa_periferias:pac');
 const caravanasUrl = getWfsUrl('mapa_periferias:caravanas');
+
 const pmrrMunUrl = getWfsUrl('mapa_periferias:pmrr_mun');
-const pmrrCenUrl = getWfsUrl('mapa_periferias:centroid_pmrr_mun');
 
 const zoomHome = L.Control.zoomHome({
     zoomHomeTitle: 'Zoom Inicial',
@@ -101,16 +101,6 @@ const intraUrbana = L.tileLayer.wms(geoServerWmsUrl, {
     zIndex: 1,
     opacity: 0.9,
     layers: 'mapa_periferias:tipologia_intraurbana',
-    attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
-});
-const pmrrMun = L.tileLayer.wms(geoServerWmsUrl, {
-    format: 'image/png',
-    transparent: true,
-    version: '1.1.0',
-    maxZoom: 22,
-    zIndex: 10,
-    opacity: 0.9,
-    layers: 'mapa_periferias:pmrr_mun',
     attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
 });
 
@@ -495,25 +485,26 @@ urbanizacaoLayer.on('data:loaded', function () {
     urbanizacaoCluster.addLayer(urbanizacaoLayer);
 });
 
-const centroidPmrr_Layer = new L.GeoJSON.AJAX(pmrrCenUrl, {
-    pointToLayer: function (feature, latlng) {
-        let status = feature.properties.status
+const pmrrMun = new L.GeoJSON.AJAX(pmrrMunUrl, {
+    style: function (feature) {
+        let status = feature.properties.status;
         let statusStyle;
         if (status === 'Em andamento') {
             statusStyle = {
-                fillColor: '#c51b7d',
-                color: '#ffffff',
-                fillOpacity: 0.7,
+                fillColor: '#0053ba',
+                color: '#cfcfcf',
+                fillOpacity: 0.4,
             };
         } else {
             statusStyle = {
-                fillColor: '#0053ba',
-                color: '#ffffff',
-                fillOpacity: 0.7,
+                fillColor: '#c51b7d',
+                color: '#cfcfcf',
+                fillOpacity: 0.4,
             };
         }
-        statusStyle.radius = 10;
-        let marker = L.circleMarker(latlng, statusStyle);
+        return statusStyle;
+    },
+    onEachFeature: function (feature, layer) {
         let popupContent = `<span>Município:</span>${feature.properties.nm_mun} - ${feature.properties.sigla_uf}
                               <span>Universidade:</span>${feature.properties.universida}
                               <span>Coordenador:</span>${feature.properties.coordenado}
@@ -521,9 +512,8 @@ const centroidPmrr_Layer = new L.GeoJSON.AJAX(pmrrCenUrl, {
                               <span>Secretaria Âncora:</span>${feature.properties.secretaria}
                               <span>Previsão de finalização</span>${feature.properties.previsao_f}
                               <span>Status</span>${feature.properties.status}
-                            `
-        marker.bindPopup(popupContent);
-        return marker;
+                            `;
+        layer.bindPopup(popupContent);
     }
 });
 
@@ -549,14 +539,6 @@ const pacArr = [
 const pmrrArr = [
     {
         id: 1,
-        description: 'PMRR - Centróides',
-        lyr: centroidPmrr_Layer,
-        iconClass: 'fa fa-eye',
-        markerColor: "",
-        active: false
-    },
-    {
-        id: 2,
         description: 'PMRR - Municípios',
         lyr: pmrrMun,
         iconClass: 'fa fa-eye',

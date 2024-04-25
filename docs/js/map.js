@@ -29,20 +29,9 @@ createApp({
             pmrrLayers: pmrrArr,
             activeActions: true,
             activeredusActions: false,
-
-            selectedLayer: {id: 0, key: 'Escolha a camada...'},
-            layerArr: [
-                {id: 0, key: 'Escolha a camada...'},
-                {id: 'municipios_periferia_viva', key: 'Prêmio Periferia Viva 2023'},
-                {id: 'municipios_redus', key: 'Iniciativa Periféricas Cadastradas'},
-            ],
-            selectedMun: {id: 0, key: 'Escolha o município...'},
-            municipiosArr: [],
-
-            selectedElem: {id: 0, key: 'Escolha o item...'},
-            elemArr: [],
+            activePacActions: false,
+            activeCaravanaActions: true,
             circleMarker: L.circleMarker()
-
         }
     },
     methods: {
@@ -75,7 +64,6 @@ createApp({
                     ]
                 }
             );
-
             this.map.on('moveend', e => {
                 if (this.map.getZoom() > 10) {
                     this.map.removeLayer(limitsBr);
@@ -85,11 +73,8 @@ createApp({
                 this.bounds = this.map.getBounds();
             });
             coordinates.addTo(this.map);
-            //geocodingSearch.addTo(this.map)
-            //geocodingSearch.setPosition('topleft');
             zoomHome.addTo(this.map);
             L.control.sidebar('sidebar').addTo(this.map)
-
         },
         activeBaseLayer(id) {
             this.baseLayers.find(layer => {
@@ -102,114 +87,35 @@ createApp({
                 }
             })
         },
-        activeOverlayLayer(id) {
-            this.periferiaLayers.find(layer => {
-                if (layer.id === id) {
-                    layer.active = !layer.active
-                    if (layer.active) {
-                        this.map.addLayer(layer.lyr)
-                    } else {
-                        layer.active = false
-                        this.map.removeLayer(layer.lyr)
-                    }
+        activeOverlayLayer(arr, id) {
+            const layer = arr.find(layer => layer.id === id);
+            if (layer) {
+                layer.active = !layer.active;
+                if (layer.active) {
+                    this.map.addLayer(layer.lyr);
+                } else {
+                    this.map.removeLayer(layer.lyr);
                 }
-            })
-        },
-        activeRedusLayer(id) {
-            this.redusLayers.find(layer => {
-                if (layer.id === id) {
-                    layer.active = !layer.active
-                    if (layer.active) {
-                        this.map.addLayer(layer.lyr)
-                    } else {
-                        layer.active = false
-                        this.map.removeLayer(layer.lyr)
-                    }
-                }
-            })
-        },
-        activeCaravanaLayer(id) {
-            this.caravanaLayers.find(layer => {
-                if (layer.id === id) {
-                    layer.active = !layer.active
-                    if (layer.active) {
-                        this.map.addLayer(layer.lyr)
-                    } else {
-                        layer.active = false
-                        this.map.removeLayer(layer.lyr)
-                    }
-                }
-            })
-        },
-        activePacLayer(id) {
-            this.pacLayers.find(layer => {
-                if (layer.id === id) {
-                    layer.active = !layer.active
-                    if (layer.active) {
-                        this.map.addLayer(layer.lyr)
-                    } else {
-                        layer.active = false
-                        this.map.removeLayer(layer.lyr)
-                    }
-                }
-            })
-        },
-        activePmrrLayer(id) {
-            this.pmrrLayers.find(layer => {
-                if (layer.id === id) {
-                    layer.active = !layer.active
-                    if (layer.active) {
-                        this.map.addLayer(layer.lyr)
-                    } else {
-                        layer.active = false
-                        this.map.removeLayer(layer.lyr)
-                    }
-                }
-            })
-        },
-        activeVulnerabilityLayer(id) {
-            this.vulnerabilityLayers.find(layer => {
-                if (layer.id === id) {
-                    layer.active = !layer.active
-                    if (layer.active) {
-                        this.map.addLayer(layer.lyr)
-                    } else {
-                        layer.active = false
-                        this.map.removeLayer(layer.lyr)
-                    }
-                }
-            })
-        },
-        checkOverlayLayers() {
-            this.activeActions = !this.activeActions;
-            if (!this.activeActions) {
-                this.periferiaLayers.forEach(layer => {
-                    layer.active = false
-                    this.map.removeLayer(layer.lyr)
-                })
-            } else {
-                this.periferiaLayers.forEach(layer => {
-                    layer.active = true
-                    this.map.addLayer(layer.lyr)
-                })
             }
         },
-        checkRedusOverlayLayers() {
-            this.activeredusActions = !this.activeredusActions;
-            if (!this.activeredusActions) {
-                this.redusLayers.forEach(layer => {
-                    layer.active = false
-                    this.map.removeLayer(layer.lyr)
-                })
-            } else {
-                this.redusLayers.forEach(layer => {
-                    layer.active = true
-                    this.map.addLayer(layer.lyr)
-                })
-            }
+        checkOverlayLayers(activeActionsName, arr) {
+            // Inverte a propriedade 'activeActionsName'
+            this[activeActionsName] = !this[activeActionsName];
+
+            // Itera sobre cada camada no array 'arr'
+            arr.forEach(layer => {
+                // Define o estado 'active' da camada com base em 'activeActionsName'
+                layer.active = this[activeActionsName];
+
+                // Adiciona ou remove a camada do mapa com base no estado 'active'
+                if (layer.active) {
+                    this.map.addLayer(layer.lyr);
+                } else {
+                    this.map.removeLayer(layer.lyr);
+                }
+            });
         },
         searchItems() {
-
             if (this.searchTerm.length >= 4) {
                 let slug = string_to_slug(this.searchTerm)
                 this.loading = true;
@@ -305,16 +211,12 @@ createApp({
             } else {
                 this.searchMessage = 'Digite o nome de um Município ou de uma Iniciativa'
             }
-
             this.btnClear = true;
-
-
         },
         formatIniciativa(text) {
             return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
         },
         zoomToMunicipio(bbox, codIbge) {
-
             if (this.municipioSelecionado) {
                 this.map.removeLayer(this.municipioSelecionado);
             }
@@ -357,9 +259,7 @@ createApp({
             this.circleMarker = L.circleMarker([y, x], circleMarkerOptions
             ).addTo(this.map)
             this.map.setView([y, x], 18);
-        }
-        ,
-
+        },
         clearSearch() {
             this.searchTerm = '';
             this.searchMessage = ''
@@ -370,6 +270,13 @@ createApp({
             this.map.removeLayer(this.circleMarker);
             this.map.removeLayer(this.municipioSelecionado);
             this.map.setView([-13.9234038, -55.1953125], 4);
+        },
+        hasActiveArrItem(arr) {
+            return !!arr.some(item => item.active);
+        },
+
+        hasActiveItem(layer) {
+            return !!layer.active;
         }
     },
     mounted() {
@@ -377,35 +284,6 @@ createApp({
     },
 
     watch: {
-        selectedLayer: {
-            handler(newValue, oldValue) {
-                if (newValue) {
-                    if (newValue.id === 'municipios_periferia_viva') {
-                        this.periferiaLayers.forEach(layer => {
-                            layer.active = true
-                            this.map.addLayer(layer.lyr)
-                        })
-                        this.redusLayers.forEach(layer => {
-                            layer.active = false
-                            this.map.removeLayer(layer.lyr)
-                        })
-                    } else {
-                        this.redusLayers.forEach(layer => {
-                            layer.active = true
-                            this.map.addLayer(layer.lyr)
-                        })
-                        this.periferiaLayers.forEach(layer => {
-                            layer.active = false
-                            this.map.removeLayer(layer.lyr)
-                        })
-                    }
-                } else {
-                    this.municipiosArr = []
-                    this.map.setView([-13.9234038, -55.1953125], 4)
-                }
-            },
-            deep: true
-        },
         switchBtn: {
             handler(newValue, oldValue) {
                 if (newValue) {
@@ -443,18 +321,24 @@ createApp({
         }
     },
     computed: {
-        hasMunicipios() {
-            return this.municipiosItems.length;
+        hasMunicipio() {
+            return this.municipiosItems.length > 0
         },
         hasPeriferia() {
             return this.periferiaItems.length;
         },
-
         hasRedus() {
             return this.redusItems.length;
         },
         hasSearchTerm() {
             return this.searchTerm.length;
-        }
+        },
+        hasActivePacLayers() {
+            return this.pacLayers.some(layer => layer.active);
+        },
+        activePacLayers() {
+            return this.pacLayers.filter(layer => layer.active);
+        },
+
     }
 }).mount('#app')

@@ -2,42 +2,42 @@
 <html lang="pt-br">
 <head>
     <title>Mapa das Periferias</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
     <meta charset="utf-8">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="compact/styles.css">
-    <link rel="stylesheet" href="css/webgis.css">
-    <script src="https://kit.fontawesome.com/f200917737.js" crossorigin="anonymous"></script>
+    <link href="compact/styles.css" rel="stylesheet">
+    <link href="css/webgis.css" rel="stylesheet">
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/f200917737.js"></script>
     <base href="/">
 </head>
 <body>
 <div id="app">
-    <div id="sidebar" class="sidebar collapsed">
+    <div class="sidebar collapsed" id="sidebar">
         <!-- Nav tabs -->
         <div class="sidebar-tabs">
             <ul role="tablist">
                 <li>
-                    <a href="#home" role="tab" data-bs-toggle="tooltip" data-bs-placement="right"
+                    <a data-bs-placement="right" data-bs-toggle="tooltip" href="#home" role="tab"
                        title="Camadas do Mapa">
                         <i class="fa-solid fa-xl fa-map-location-dot"></i>
                     </a>
                 </li>
                 <li>
-                    <a href="#profile" role="tab" data-bs-toggle="tooltip" data-bs-placement="right"
+                    <a data-bs-placement="right" data-bs-toggle="tooltip" href="#profile" role="tab"
                        title="Legenda">
                         <i class="fa-solid fa-xl fa-rectangle-list"></i>
                     </a>
                 </li>
                 <li>
-                    <a href="#search" role="tab" data-bs-toggle="tooltip" data-bs-placement="right"
+                    <a data-bs-placement="right" data-bs-toggle="tooltip" href="#search" role="tab"
                        title="Pesquisar">
                         <i class="fa-solid fa-xl fa-magnifying-glass"></i>
                     </a>
                 </li>
 
                 <li>
-                    <a href="#info" role="tab" data-bs-toggle="tooltip" data-bs-placement="right"
+                    <a data-bs-placement="right" data-bs-toggle="tooltip" href="#info" role="tab"
                        title="Mais Informações">
                         <i class="fa-solid fa-xl fa-info-circle"></i>
                     </a>
@@ -60,9 +60,9 @@
                         </li>
                         <template v-for="lyr in baseLayers">
                             <li
-                                    class="list-group-item"
-                                    @click="activeBaseLayer(lyr.id)"
                                     :class="lyr.active ? 'active' : ''"
+                                    @click="activeBaseLayer(lyr.id)"
+                                    class="list-group-item"
                             >
                             <span v-if="lyr.active">
                                 <i class="fa-solid fa-eye"></i>
@@ -82,7 +82,7 @@
                 <div class="card mt-2">
                     <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
-                            <strong @click="checkOverlayLayers">
+                            <strong @click="checkOverlayLayers('activeActions', periferiaLayers)">
                                 <span v-if="activeActions">
                                 <i class="fa-solid fa-eye"></i>
                             </span>
@@ -93,9 +93,9 @@
                             </strong>
                         </li>
                         <template v-for="lyr in periferiaLayers">
-                            <li class="list-group-item"
-                                @click="activeOverlayLayer(lyr.id)"
-                                :class="lyr.active ? 'active' : ''"
+                            <li :class="lyr.active ? 'active' : ''"
+                                @click="activeOverlayLayer(periferiaLayers, lyr.id)"
+                                class="list-group-item"
                             >
                         <span v-if="lyr.active">
                             <i class="fa fa-eye"></i>
@@ -110,7 +110,7 @@
                 </div>
 
                 <div class="form-check form-switch form-switch-md mt-2">
-                    <input class="form-check-input" type="checkbox" id="flexSwitch" v-model="switchBtn">
+                    <input class="form-check-input" id="flexSwitch" type="checkbox" v-model="switchBtn">
                     <label class="form-check-label" for="flexSwitch">
                     <span id="pr-txt">
                          Ações Premiadas
@@ -121,14 +121,20 @@
                 <div class="card mt-3">
                     <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
-                            <strong>
+                            <strong @click="checkOverlayLayers('activeCaravanaActions', caravanaLayers)">
+                                <span v-if="activeCaravanaActions">
+                                <i class="fa-solid fa-eye"></i>
+                            </span>
+                                <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                            </span>
                                 Caravana das Periferias
                             </strong>
                         </li>
                         <template v-for="lyr in caravanaLayers">
-                            <li class="list-group-item"
-                                @click="activeCaravanaLayer(lyr.id)"
-                                :class="lyr.active ? 'active' : ''"
+                            <li :class="lyr.active ? 'active' : ''"
+                                @click="activeOverlayLayer(caravanaLayers, lyr.id)"
+                                class="list-group-item"
                             >
                         <span v-if="lyr.active">
                             <i class="fa-solid fa-eye"></i>
@@ -146,7 +152,7 @@
                 <div class="card mt-3">
                     <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
-                            <strong @click="checkRedusOverlayLayers">
+                            <strong @click="checkOverlayLayers('activeredusActions', redusLayers)">
                                 <span v-if="activeredusActions">
                                 <i class="fa-solid fa-eye"></i>
                             </span>
@@ -157,9 +163,9 @@
                             </strong>
                         </li>
                         <template v-for="lyr in redusLayers">
-                            <li class="list-group-item"
-                                @click="activeRedusLayer(lyr.id)"
-                                :class="lyr.active ? 'active' : ''"
+                            <li :class="lyr.active ? 'active' : ''"
+                                @click="activeOverlayLayer(redusLayers, lyr.id)"
+                                class="list-group-item"
                             >
                         <span v-if="lyr.active">
                             <i class="fa-solid fa-eye"></i>
@@ -176,14 +182,20 @@
                 <div class="card mt-3">
                     <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
-                            <strong>
+                            <strong @click="checkOverlayLayers('activePacActions', pacLayers)">
+                                <span v-if="activePacActions">
+                                <i class="fa-solid fa-eye"></i>
+                            </span>
+                                <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                            </span>
                                 Obras do PAC
                             </strong>
                         </li>
                         <template v-for="lyr in pacLayers">
-                            <li class="list-group-item"
-                                @click="activePacLayer(lyr.id)"
-                                :class="lyr.active ? 'active' : ''"
+                            <li :class="lyr.active ? 'active' : ''"
+                                @click="activeOverlayLayer(pacLayers, lyr.id)"
+                                class="list-group-item"
                             >
                         <span v-if="lyr.active">
                             <i class="fa-solid fa-eye"></i>
@@ -201,13 +213,13 @@
                     <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
                             <strong>
-                               Plano Municipal de Redução de Riscos
+                                Plano Municipal de Redução de Riscos
                             </strong>
                         </li>
                         <template v-for="lyr in pmrrLayers">
-                            <li class="list-group-item"
-                                @click="activePmrrLayer(lyr.id)"
-                                :class="lyr.active ? 'active' : ''"
+                            <li :class="lyr.active ? 'active' : ''"
+                                @click="activeOverlayLayer(pmrrLayers, lyr.id)"
+                                class="list-group-item"
                             >
                         <span v-if="lyr.active">
                             <i class="fa-solid fa-eye"></i>
@@ -233,9 +245,9 @@
                             </strong>
                         </li>
                         <template v-for="lyr in vulnerabilityLayers">
-                            <li class="list-group-item"
-                                @click="activeVulnerabilityLayer(lyr.id)"
-                                :class="lyr.active ? 'active' : ''"
+                            <li :class="lyr.active ? 'active' : ''"
+                                @click="activeOverlayLayer(vulnerabilityLayers, lyr.id)"
+                                class="list-group-item"
                             >
                         <span v-if="lyr.active">
                             <i class="fa-solid fa-eye"></i>
@@ -256,16 +268,17 @@
                         <i class="fa fa-caret-left"></i>
                     </span>
                 </h1>
-
+                <br>
                 <div class="tb-leg">
-                    <table class="table table-borderless table-sm mt-3">
+                    <table class="table table-borderless table-sm mt-3"
+                           v-if="hasActiveArrItem(pacLayers)">
                         <tr>
-                            <td colspan="2" class="txt-leg-item">OBRAS DO PAC:</td>
+                            <td class="txt-leg-item" colspan="2">OBRAS DO PAC:</td>
                         </tr>
                         <tr>
                             <td>
                                 <div class="awesome-marker-icon-red awesome-marker t1">
-                                    <i class="fa fa-building icon-white" aria-hidden="true"></i>
+                                    <i aria-hidden="true" class="fa fa-building icon-white"></i>
                                 </div>
                             </td>
                             <td class="pt-3">
@@ -275,7 +288,7 @@
                         <tr>
                             <td>
                                 <div class="awesome-marker-icon-darkgreen awesome-marker t1">
-                                    <i class="fa fa-mountain-city icon-white" aria-hidden="true"></i>
+                                    <i aria-hidden="true" class="fa fa-mountain-city icon-white"></i>
                                 </div>
                             </td>
                             <td class="pt-3">
@@ -290,18 +303,19 @@
                         </tr>
                     </table>
 
-                    <table class="table table-borderless table-sm mt-3">
+                    <table class="table table-borderless table-sm mt-3"
+                           v-if="hasActiveArrItem(pmrrLayers)">
                         <tr>
-                            <td colspan="2" class="txt-leg-item">PLANO NACIONAL DE REDUÇÃO DE RISCOS:</td>
+                            <td class="txt-leg-item" colspan="2">PLANO MUNICIPAL DE REDUÇÃO DE RISCOS:</td>
                         </tr>
                         <tr>
                             <td>
-                                <img src="img/pmrr_cen_andamento.jpg" alt="" height="34"> Em Andamento
+                                <img alt="" height="25" src="img/em_andamento.jpg"> Em Andamento
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <img src="img/pmrr_cen_n_iniciado.jpg" alt="" height="34"> Não Iniciado
+                                <img alt="" height="25" src="img/n_iniciado.jpg"> Não Iniciado
                             </td>
                         </tr>
 
@@ -313,14 +327,15 @@
                     </table>
 
 
-                    <table class="table table-borderless table-sm">
+                    <table class="table table-borderless table-sm"
+                           v-if="hasActiveArrItem(caravanaLayers)">
                         <tr>
-                            <td colspan="2" class="txt-leg-item">CARAVANA DAS PERIFERIAS:</td>
+                            <td class="txt-leg-item" colspan="2">CARAVANA DAS PERIFERIAS:</td>
                         </tr>
                         <tr>
                             <td>
                                 <div class="awesome-marker-icon-red awesome-marker t1">
-                                    <i class="fa fa-van-shuttle icon-white" aria-hidden="true"></i>
+                                    <i aria-hidden="true" class="fa fa-van-shuttle icon-white"></i>
                                 </div>
                             </td>
                             <td class="pt-3">
@@ -329,7 +344,7 @@
                         </tr>
                         <td>
                             <div class="awesome-marker-icon-blue awesome-marker t1">
-                                <i class="fa fa-van-shuttle icon-white" aria-hidden="true"></i>
+                                <i aria-hidden="true" class="fa fa-van-shuttle icon-white"></i>
                             </div>
                         </td>
                         <td class="pt-3">
@@ -338,14 +353,15 @@
                         </tr>
                     </table>
 
-                    <table class="table table-borderless table-sm">
+                    <table class="table table-borderless table-sm"
+                           v-if="hasActiveArrItem(periferiaLayers)">
                         <tr>
-                            <td colspan="2" class="txt-leg-item">PRÊMIO PERIFERIA VIVA 2023:</td>
+                            <td class="txt-leg-item" colspan="2">PRÊMIO PERIFERIA VIVA 2023:</td>
                         </tr>
 
                         <tr>
                             <td>
-                                <img class="acaoicon" src="pins/justica.svg" alt="">
+                                <img alt="" class="acaoicon" src="pins/justica.svg">
                             </td>
                             <td class="pt-3">
                                 Acesso à Justiça e Combate às Desigualdades - 103 registros
@@ -353,7 +369,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <img class="acaoicon" src="pins/habitacao.svg" alt="">
+                                <img alt="" class="acaoicon" src="pins/habitacao.svg">
                             </td>
                             <td class="pt-3">
                                 Planejamento Urbano, Gestão de Riscos e Responsabilidade Climática - 84 registros
@@ -361,7 +377,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <img class="acaoicon" src="pins/comunicacao.svg" alt="">
+                                <img alt="" class="acaoicon" src="pins/comunicacao.svg">
                             </td>
                             <td class="pt-3">
                                 Comunicação, Inclusão Digital e Educação Popular - 221 registros
@@ -369,7 +385,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <img class="acaoicon" src="pins/cultura.svg" alt="">
+                                <img alt="" class="acaoicon" src="pins/cultura.svg">
                             </td>
                             <td class="pt-3">
                                 Cultura e Memória - 612 registros
@@ -377,7 +393,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <img class="acaoicon" src="pins/saude.svg" alt="">
+                                <img alt="" class="acaoicon" src="pins/saude.svg">
                             </td>
                             <td class="pt-3">
                                 Saúde Integral e Dignidade Humana - 88 registros
@@ -385,7 +401,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <img class="acaoicon" src="pins/alimentacao.svg" alt="">
+                                <img alt="" class="acaoicon" src="pins/alimentacao.svg">
                             </td>
                             <td class="pt-3">
                                 Soberania Alimentar e Nutricional - 98 registros
@@ -393,7 +409,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <img class="acaoicon" src="pins/economia.svg" alt="">
+                                <img alt="" class="acaoicon" src="pins/economia.svg">
                             </td>
                             <td class="pt-3">
                                 Economia Solidária - 118 registros
@@ -413,15 +429,16 @@
                         </tr>
                     </table>
 
-                    <table class="table table-borderless table-sm">
+                    <table class="table table-borderless table-sm"
+                           v-if="hasActiveArrItem(redusLayers)">
                         <tr>
-                            <td colspan="2" class="txt-leg-item">INICIATIVAS PERIFÉRICAS CADASTRADAS:</td>
+                            <td class="txt-leg-item" colspan="2">INICIATIVAS PERIFÉRICAS CADASTRADAS:</td>
                         </tr>
 
                         <tr>
                             <td>
                                 <div class="awesome-marker-icon-cadetblue awesome-marker t1">
-                                    <i class="fa fa-scale-balanced icon-white" aria-hidden="true"></i>
+                                    <i aria-hidden="true" class="fa fa-scale-balanced icon-white"></i>
                                 </div>
                             </td>
                             <td class="pt-3">
@@ -431,7 +448,7 @@
                         <tr>
                             <td>
                                 <div class="awesome-marker-icon-blue awesome-marker t1">
-                                    <i class="fa fa-cloud-sun-rain icon-white" aria-hidden="true"></i>
+                                    <i aria-hidden="true" class="fa fa-cloud-sun-rain icon-white"></i>
                                 </div>
                             </td>
                             <td class="pt-3">
@@ -441,7 +458,7 @@
                         <tr>
                             <td>
                                 <div class="awesome-marker-icon-orange awesome-marker t1">
-                                    <i class="fa fa-graduation-cap icon-white" aria-hidden="true"></i>
+                                    <i aria-hidden="true" class="fa fa-graduation-cap icon-white"></i>
                                 </div>
                             </td>
                             <td class="pt-3">
@@ -451,7 +468,7 @@
                         <tr>
                             <td>
                                 <div class="awesome-marker-icon-pink awesome-marker t1">
-                                    <i class="fa fa-masks-theater icon-white" aria-hidden="true"></i>
+                                    <i aria-hidden="true" class="fa fa-masks-theater icon-white"></i>
                                 </div>
                             </td>
                             <td class="pt-3">
@@ -461,7 +478,7 @@
                         <tr>
                             <td>
                                 <div class="awesome-marker-icon-red awesome-marker t1">
-                                    <i class="fa fa-briefcase-medical icon-white" aria-hidden="true"></i>
+                                    <i aria-hidden="true" class="fa fa-briefcase-medical icon-white"></i>
                                 </div>
                             </td>
                             <td class="pt-3">
@@ -471,7 +488,7 @@
                         <tr>
                             <td>
                                 <div class="awesome-marker-icon-black awesome-marker t1">
-                                    <i class="fa fa-utensils icon-white" aria-hidden="true"></i>
+                                    <i aria-hidden="true" class="fa fa-utensils icon-white"></i>
                                 </div>
                             </td>
                             <td class="pt-3">
@@ -481,7 +498,7 @@
                         <tr>
                             <td>
                                 <div class="awesome-marker-icon-darkgreen awesome-marker t1">
-                                    <i class="fa fa-sack-dollar icon-white" aria-hidden="true"></i>
+                                    <i aria-hidden="true" class="fa fa-sack-dollar icon-white"></i>
                                 </div>
                             </td>
                             <td class="pt-3">
@@ -497,18 +514,22 @@
                     </table>
 
                 </div>
+                <div v-if="hasActiveItem(vulnerabilityLayers[0])">
+                    <span class="txt-leg-item">FAVELAS E COMUNIDADES URBANAS (IBGE):</span> <br>
+                    <svg height="28" version="1.1" width="25" xmlns="http://www.w3.org/2000/svg">
+                        <rect fill="transparent" height="12" stroke="#990000" stroke-width="2" width="12" x="7" y="7"/>
+                    </svg>
+                    <span>Perímetro</span><br>
 
-                <span class="txt-leg-item">FAVELAS E COMUNIDADES URBANAS (IBGE):</span> <br>
-                <svg width="25" height="28" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="7" y="7" width="12" height="12" stroke="#990000" fill="transparent" stroke-width="2"/>
-                </svg>
-                <span>Perímetro</span><br>
+                    <span>Total de Domicílios por Classe</span><br>
+                    <img alt="" id="agsn-leg" src="img/agsn.jpg"> <br><br>
 
-                <span>Total de Domicílios por Classe</span><br>
-                <img id="agsn-leg" src="img/agsn.jpg" alt=""> <br><br>
+                </div>
 
-                <span class="mt-2 txt-leg-item">TIPOLOGIA INTRAURBANA (IBGE):</span>
-                <img id="intra-leg" src="img/intraurbanos.jpg" alt="">
+                <div v-if="hasActiveItem(vulnerabilityLayers[1])">
+                    <span class="mt-2 txt-leg-item">TIPOLOGIA INTRAURBANA (IBGE):</span>
+                    <img alt="" id="intra-leg" src="img/intraurbanos.jpg">
+                </div>
 
             </div>
 
@@ -547,12 +568,12 @@
                 <div class="form-group mt-4 p-2">
                     <div class="input-group m-1">
                         <input
-                                id="id_search"
-                                type="text"
-                                class="form-control"
-                                v-model="searchTerm"
                                 @keyup.enter="searchItems"
+                                class="form-control"
+                                id="id_search"
                                 placeholder="Digite uma palavra"
+                                type="text"
+                                v-model="searchTerm"
                         >
                         <span
                                 @click="searchItems"
@@ -560,15 +581,15 @@
                             <i class="fa fa-search"></i>
                         </span>
 
-                        <span v-if="btnClear"
-                              @click="clearSearch"
-                              class="input-group-text btn btn-danger">
+                        <span @click="clearSearch"
+                              class="input-group-text btn btn-danger"
+                              v-if="btnClear">
                             <i class="fa-regular fa-trash-can"></i>
                         </span>
                     </div>
-                    <div v-if="searchMessage"
+                    <div class="form-text m-2 text-danger"
                          id="id_search_help"
-                         class="form-text m-2 text-danger"
+                         v-if="searchMessage"
                     >
                         {{ searchMessage }} <br>
                         (mínimo de 4 dígitos)
@@ -576,19 +597,19 @@
                 </div>
 
                 <div class="text-center p-2" v-if="loading">
-                    <img id="loading" src="img/loading.gif" alt="">
+                    <img alt="" id="loading" src="img/loading.gif">
                 </div>
 
                 <div
                         class="p-1"
-                        v-if="hasMunicipios"
+                        v-if="hasMunicipio"
                 >
                     <h5>Municípios</h5>
                     <ul class="list-unstyled">
                         <li
+                                :key="item.id"
                                 class="mt-1 result-search"
                                 v-for="item in municipiosItems"
-                                :key="item.id"
                         >
                             <span @click="zoomToMunicipio(item.bbox, item.codIbge)">
                                 <i class="fa-solid fa-location-dot"></i>
@@ -606,9 +627,9 @@
                     <h5>Prêmio Periferia Viva</h5>
                     <ul class="list-unstyled">
                         <li
+                                :key="item.id"
                                 class="mt-1 result-search"
                                 v-for="item in periferiaItems"
-                                :key="item.id"
                         >
                             <span @click="zoomToMarker(item.coords, 'periferia')">
                                 <i class="fa-solid fa-location-dot"></i>
@@ -629,9 +650,9 @@
                     <h5>Iniciativas Periféricas</h5>
                     <ul class="list-unstyled">
                         <li
+                                :key="item.id"
                                 class="mt-1 result-search"
                                 v-for="item in redusItems"
-                                :key="item.id"
                         >
                         <span @click="zoomToMarker(item.coords, 'redus')">
                             <i class="fa-solid fa-location-dot"></i>
@@ -647,7 +668,7 @@
             </div>
         </div>
     </div>
-    <div id="map" class="sidebar-map"></div>
+    <div class="sidebar-map" id="map"></div>
 
 </div>
 
