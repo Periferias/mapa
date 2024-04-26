@@ -274,7 +274,6 @@ createApp({
         hasActiveArrItem(arr) {
             return !!arr.some(item => item.active);
         },
-
         hasActiveItem(layer) {
             return !!layer.active;
         }
@@ -282,7 +281,6 @@ createApp({
     mounted() {
         this.initMap();
     },
-
     watch: {
         switchBtn: {
             handler(newValue, oldValue) {

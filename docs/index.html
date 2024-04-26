@@ -520,17 +520,15 @@
                         <rect fill="transparent" height="12" stroke="#990000" stroke-width="2" width="12" x="7" y="7"/>
                     </svg>
                     <span>Perímetro</span><br>
-
+                </div>
+                <div v-if="hasActiveItem(vulnerabilityLayers[1])">
                     <span>Total de Domicílios por Classe</span><br>
                     <img alt="" id="agsn-leg" src="img/agsn.jpg"> <br><br>
-
                 </div>
-
-                <div v-if="hasActiveItem(vulnerabilityLayers[1])">
+                <div v-if="hasActiveItem(vulnerabilityLayers[2])">
                     <span class="mt-2 txt-leg-item">TIPOLOGIA INTRAURBANA (IBGE):</span>
                     <img alt="" id="intra-leg" src="img/intraurbanos.jpg">
                 </div>
-
             </div>
 
             <div class="sidebar-pane" id="info">

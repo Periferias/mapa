@@ -621,14 +621,22 @@ const caravanasArr = [
 const vulnerabilityArr = [
     {
         id: 1,
-        description: 'Favelas e Comunidades Urbanas',
+        description: 'Favelas e Comunidades Urbanas (Perímetro)',
+        lyr: agsnContorno,
+        iconClass: 'fa fa-eye',
+        markerColor: "",
+        active: true
+    },
+    {
+        id: 2,
+        description: 'Favelas e Comunidades Urbanas (Total de Domicílios)',
         lyr: agsn,
         iconClass: 'fa fa-eye',
         markerColor: "",
         active: false
     },
     {
-        id: 2,
+        id: 3,
         description: 'Tipologia IntraUrbana',
         lyr: intraUrbana,
         iconClass: 'fa fa-eye',
