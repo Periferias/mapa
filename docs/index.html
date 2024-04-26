@@ -212,7 +212,13 @@
                 <div class="card mt-3">
                     <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
-                            <strong>
+                            <strong @click="checkOverlayLayers('activePnrrActions', pmrrLayers)">
+                                <span v-if="activePnrrActions">
+                                <i class="fa-solid fa-eye"></i>
+                            </span>
+                                <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                            </span>
                                 Plano Municipal de Redução de Riscos
                             </strong>
                         </li>
@@ -233,14 +239,19 @@
                     </ul>
                 </div>
 
-
                 <hr>
                 <h4 class="mt-2 text-center lead">VULNERABILIDADES</h4>
 
                 <div class="card">
                     <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
-                            <strong>
+                            <strong @click="checkOverlayLayers('activeVulActions', vulnerabilityLayers)">
+                                <span v-if="activeVulActions">
+                                <i class="fa-solid fa-eye"></i>
+                            </span>
+                                <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                            </span>
                                 Dados do IBGE
                             </strong>
                         </li>

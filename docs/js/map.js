@@ -31,6 +31,8 @@ createApp({
             activeredusActions: false,
             activePacActions: false,
             activeCaravanaActions: true,
+            activeVulActions: true,
+            activePnrrActions: false,
             circleMarker: L.circleMarker()
         }
     },
