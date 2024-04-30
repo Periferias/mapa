@@ -114,110 +114,6 @@ const limitsBr = L.geoJson(
     });
 
 
-const LeafIcon = L.Icon.extend({
-    options: {
-        iconSize: [30, 46],
-        shadowSize: [50, 64],
-        iconAnchor: [20, 64],
-        shadowAnchor: [4, 62],
-        popupAnchor: [-5, -56]
-    }
-});
-
-const pinAlimentacao = new LeafIcon({iconUrl: 'pins/alimentacao.svg'});
-const pinComunicacao = new LeafIcon({iconUrl: 'pins/comunicacao.svg'});
-const pinCultura = new LeafIcon({iconUrl: 'pins/cultura.svg'});
-const pinEconomia = new LeafIcon({iconUrl: 'pins/economia.svg'});
-const pinHabitacao = new LeafIcon({iconUrl: 'pins/habitacao.svg'});
-const pinSaude = new LeafIcon({iconUrl: 'pins/saude.svg'});
-const pinJustica = new LeafIcon({iconUrl: 'pins/justica.svg'});
-
-const categoryMappings = {
-    "Acesso à Justiça e Combate às Desigualdades": {
-        iconClass: pinJustica
-    },
-    "Planejamento Urbano, Gestão de Riscos e Responsabilidade Climática": {
-        iconClass: pinHabitacao
-    },
-    "Comunicação, Inclusão Digital e Educação Popular": {
-        iconClass: pinComunicacao
-    },
-    "Cultura e Memória": {
-        iconClass: pinCultura
-    },
-    "Saúde Integral e Dignidade Humana": {
-        iconClass: pinSaude
-    },
-    "Soberania Alimentar e Nutricional": {
-        iconClass: pinAlimentacao
-    },
-    "Economia Solidária": {
-        iconClass: pinEconomia
-    },
-};
-
-function createMarker(latlng, iconClass, markerColor, popupContent) {
-    return L.marker(latlng, {
-        icon: iconClass,
-    }).bindPopup(popupContent);
-}
-
-function pointToLayer(feature, latlng) {
-    let category = feature.properties.categoria;
-
-
-    let popupContent = `<span>Organização:</span>${feature.properties.organizacao}
-                        <span>Categoria:</span>${feature.properties.categoria}
-                        <span>Localidade:</span>${feature.properties.localidade}
-                        ${feature.properties.premiado ? '<span>Premiado:</span>Sim' : ''}
-                        <span>Município/Estado:</span>${feature.properties.municipio_cadastro}/${feature.properties.uf}
-                       `
-
-    let {iconClass, markerColor} = categoryMappings[category] || {
-        iconClass: "fa-question",
-        markerColor: "gray"
-    };
-    return createMarker(latlng, iconClass, markerColor, popupContent);
-}
-
-const clustersAndProperties = [];
-
-const clustersPremiumAndProperties = [];
-
-Object.entries(categoryMappings).forEach(([category, properties], index) => {
-    let catLayer = new L.GeoJSON.AJAX(periferiaVivaUrl, {
-        filter: function (feature, layer) {
-            return feature.properties.categoria === category;
-        },
-        pointToLayer: pointToLayer
-    });
-
-    let clusterLayer = new L.markerClusterGroup({chunkedLoading: true});
-
-    catLayer.on('data:loaded', function () {
-        clusterLayer.addLayer(catLayer);
-    });
-
-    clustersAndProperties.push({category, clusterLayer, properties});
-});
-
-Object.entries(categoryMappings).forEach(([category, properties], index) => {
-    let catLayer = new L.GeoJSON.AJAX(periferiaVivaUrl, {
-        filter: function (feature, layer) {
-            return (feature.properties.categoria === category && feature.properties.premiado === true)
-        },
-        pointToLayer: pointToLayer
-    });
-
-    let clusterLayer = new L.markerClusterGroup({chunkedLoading: true});
-
-    catLayer.on('data:loaded', function () {
-        clusterLayer.addLayer(catLayer);
-    });
-
-    clustersPremiumAndProperties.push({category, clusterLayer, properties});
-});
-
 const baseLayers = [
     {
         id: 4,
@@ -260,11 +156,144 @@ const baseLayers = [
     },
 ];
 
+const LeafIcon = L.Icon.extend({
+    options: {
+        iconSize: [30, 46],
+        shadowSize: [50, 64],
+        iconAnchor: [20, 64],
+        shadowAnchor: [4, 62],
+        popupAnchor: [-5, -56]
+    }
+});
+
+const pinAlimentacao = new LeafIcon({iconUrl: 'pins/alimentacao.svg'});
+const pinComunicacao = new LeafIcon({iconUrl: 'pins/comunicacao.svg'});
+const pinCultura = new LeafIcon({iconUrl: 'pins/cultura.svg'});
+const pinEconomia = new LeafIcon({iconUrl: 'pins/economia.svg'});
+const pinHabitacao = new LeafIcon({iconUrl: 'pins/habitacao.svg'});
+const pinSaude = new LeafIcon({iconUrl: 'pins/saude.svg'});
+const pinJustica = new LeafIcon({iconUrl: 'pins/justica.svg'});
+
+const parentGroup = new L.markerClusterGroup();
+const periferiaGroup = L.featureGroup.subGroup(parentGroup);
+const periferia0 = L.featureGroup.subGroup(parentGroup);
+const periferia1 = L.featureGroup.subGroup(parentGroup);
+const periferia2 = L.featureGroup.subGroup(parentGroup);
+const periferia3 = L.featureGroup.subGroup(parentGroup);
+const periferia4 = L.featureGroup.subGroup(parentGroup);
+const periferia5 = L.featureGroup.subGroup(parentGroup);
+const periferia6 = L.featureGroup.subGroup(parentGroup);
+
+const premio0 = L.featureGroup.subGroup(parentGroup);
+const premio1 = L.featureGroup.subGroup(parentGroup);
+const premio2 = L.featureGroup.subGroup(parentGroup);
+const premio3 = L.featureGroup.subGroup(parentGroup);
+const premio4 = L.featureGroup.subGroup(parentGroup);
+const premio5 = L.featureGroup.subGroup(parentGroup);
+const premio6 = L.featureGroup.subGroup(parentGroup);
+
+
+const premiadoGroup = L.featureGroup.subGroup(parentGroup);
+const caravana2023Group = L.featureGroup.subGroup(parentGroup);
+const caravana2024Group = L.featureGroup.subGroup(parentGroup);
+const pacUrbGroup = L.featureGroup.subGroup(parentGroup);
+const pacEncGroup = L.featureGroup.subGroup(parentGroup);
+const redusGroup = L.featureGroup.subGroup(parentGroup);
+const clustersAndProperties = [];
+const clustersPremiumAndProperties = [];
+
+
+const categoryMappings = {
+    "Acesso à Justiça e Combate às Desigualdades": {
+        iconClass: pinJustica,
+        group: periferia0,
+        premioGroup: premio0,
+    },
+    "Planejamento Urbano, Gestão de Riscos e Responsabilidade Climática": {
+        iconClass: pinHabitacao,
+        group: periferia1,
+        premioGroup: premio1,
+    },
+    "Comunicação, Inclusão Digital e Educação Popular": {
+        iconClass: pinComunicacao,
+        group: periferia2,
+        premioGroup: premio2,
+    },
+    "Cultura e Memória": {
+        iconClass: pinCultura,
+        group: periferia3,
+        premioGroup: premio3,
+    },
+    "Saúde Integral e Dignidade Humana": {
+        iconClass: pinSaude,
+        group: periferia4,
+        premioGroup: premio4,
+    },
+    "Soberania Alimentar e Nutricional": {
+        iconClass: pinAlimentacao,
+        group: periferia5,
+        premioGroup: premio5,
+    },
+    "Economia Solidária": {
+        iconClass: pinEconomia,
+        group: periferia6,
+        premioGroup: premio6,
+    },
+};
+
+function createMarker(latlng, iconClass, markerColor, popupContent) {
+    return L.marker(latlng, {
+        icon: iconClass,
+    }).bindPopup(popupContent);
+}
+
+function pointToLayer(feature, latlng) {
+    let category = feature.properties.categoria;
+    let popupContent = `<span>Organização:</span>${feature.properties.organizacao}
+                        <span>Categoria:</span>${feature.properties.categoria}
+                        <span>Localidade:</span>${feature.properties.localidade}
+                        ${feature.properties.premiado ? '<span>Premiado:</span>Sim' : ''}
+                        <span>Município/Estado:</span>${feature.properties.municipio_cadastro}/${feature.properties.uf}
+                       `
+    let {iconClass, markerColor} = categoryMappings[category] || {
+        iconClass: "fa-question",
+        markerColor: "gray"
+    };
+    return createMarker(latlng, iconClass, markerColor, popupContent);
+}
+
+Object.entries(categoryMappings).forEach(([category, properties], index) => {
+    let catLayer = new L.GeoJSON.AJAX(periferiaVivaUrl, {
+        filter: function (feature, layer) {
+            return feature.properties.categoria === category;
+        },
+        pointToLayer: pointToLayer
+    });
+    catLayer.on('data:loaded', function () {
+        properties.group.addLayer(catLayer);
+    });
+
+    clustersAndProperties.push({category, periferiaGroup: properties.group, properties});
+});
+
+Object.entries(categoryMappings).forEach(([category, properties], index) => {
+    let catLayer = new L.GeoJSON.AJAX(periferiaVivaUrl, {
+        filter: function (feature, layer) {
+            return (feature.properties.categoria === category && feature.properties.premiado === true)
+        },
+        pointToLayer: pointToLayer
+    });
+    catLayer.on('data:loaded', function () {
+        properties.premioGroup.addLayer(catLayer);
+    });
+    clustersPremiumAndProperties.push({category, premiadoGroup: properties.premioGroup, properties});
+});
+
 const periferiaLayers = [
     {
         id: 0,
         description: clustersAndProperties[0].category,
-        lyr: clustersAndProperties[0].clusterLayer,
+        lyr: clustersAndProperties[0].periferiaGroup,
         iconClass: clustersAndProperties[0].properties.iconClass,
         markerColor: clustersAndProperties[0].properties.markerColor,
         active: true
@@ -272,7 +301,7 @@ const periferiaLayers = [
     {
         id: 1,
         description: clustersAndProperties[1].category,
-        lyr: clustersAndProperties[1].clusterLayer,
+        lyr: clustersAndProperties[1].periferiaGroup,
         iconClass: clustersAndProperties[1].properties.iconClass,
         markerColor: clustersAndProperties[1].properties.markerColor,
         active: true
@@ -280,7 +309,7 @@ const periferiaLayers = [
     {
         id: 2,
         description: clustersAndProperties[2].category,
-        lyr: clustersAndProperties[2].clusterLayer,
+        lyr: clustersAndProperties[2].periferiaGroup,
         iconClass: clustersAndProperties[2].properties.iconClass,
         markerColor: clustersAndProperties[2].properties.markerColor,
         active: true
@@ -288,7 +317,7 @@ const periferiaLayers = [
     {
         id: 3,
         description: clustersAndProperties[3].category,
-        lyr: clustersAndProperties[3].clusterLayer,
+        lyr: clustersAndProperties[3].periferiaGroup,
         iconClass: clustersAndProperties[3].properties.iconClass,
         markerColor: clustersAndProperties[3].properties.markerColor,
         active: true
@@ -296,7 +325,7 @@ const periferiaLayers = [
     {
         id: 4,
         description: clustersAndProperties[4].category,
-        lyr: clustersAndProperties[4].clusterLayer,
+        lyr: clustersAndProperties[4].periferiaGroup,
         iconClass: clustersAndProperties[4].properties.iconClass,
         markerColor: clustersAndProperties[4].properties.markerColor,
         active: true
@@ -304,7 +333,7 @@ const periferiaLayers = [
     {
         id: 5,
         description: clustersAndProperties[5].category,
-        lyr: clustersAndProperties[5].clusterLayer,
+        lyr: clustersAndProperties[5].periferiaGroup,
         iconClass: clustersAndProperties[5].properties.iconClass,
         markerColor: clustersAndProperties[5].properties.markerColor,
         active: true
@@ -312,7 +341,7 @@ const periferiaLayers = [
     {
         id: 6,
         description: clustersAndProperties[6].category,
-        lyr: clustersAndProperties[6].clusterLayer,
+        lyr: clustersAndProperties[6].periferiaGroup,
         iconClass: clustersAndProperties[6].properties.iconClass,
         markerColor: clustersAndProperties[6].properties.markerColor,
         active: true
@@ -324,7 +353,7 @@ const premiadoLayers = [
     {
         id: 0,
         description: clustersPremiumAndProperties[0].category,
-        lyr: clustersPremiumAndProperties[0].clusterLayer,
+        lyr: clustersPremiumAndProperties[0].premiadoGroup,
         iconClass: clustersPremiumAndProperties[0].properties.iconClass,
         markerColor: clustersPremiumAndProperties[0].properties.markerColor,
         active: true
@@ -332,7 +361,7 @@ const premiadoLayers = [
     {
         id: 1,
         description: clustersPremiumAndProperties[1].category,
-        lyr: clustersPremiumAndProperties[1].clusterLayer,
+        lyr: clustersPremiumAndProperties[1].premiadoGroup,
         iconClass: clustersPremiumAndProperties[1].properties.iconClass,
         markerColor: clustersPremiumAndProperties[1].properties.markerColor,
         active: true
@@ -340,7 +369,7 @@ const premiadoLayers = [
     {
         id: 2,
         description: clustersPremiumAndProperties[2].category,
-        lyr: clustersPremiumAndProperties[2].clusterLayer,
+        lyr: clustersPremiumAndProperties[2].premiadoGroup,
         iconClass: clustersPremiumAndProperties[2].properties.iconClass,
         markerColor: clustersPremiumAndProperties[2].properties.markerColor,
         active: true
@@ -348,7 +377,7 @@ const premiadoLayers = [
     {
         id: 3,
         description: clustersPremiumAndProperties[3].category,
-        lyr: clustersPremiumAndProperties[3].clusterLayer,
+        lyr: clustersPremiumAndProperties[3].premiadoGroup,
         iconClass: clustersPremiumAndProperties[3].properties.iconClass,
         markerColor: clustersPremiumAndProperties[3].properties.markerColor,
         active: true
@@ -356,7 +385,7 @@ const premiadoLayers = [
     {
         id: 4,
         description: clustersPremiumAndProperties[4].category,
-        lyr: clustersPremiumAndProperties[4].clusterLayer,
+        lyr: clustersPremiumAndProperties[4].premiadoGroup,
         iconClass: clustersPremiumAndProperties[4].properties.iconClass,
         markerColor: clustersPremiumAndProperties[4].properties.markerColor,
         active: true
@@ -364,7 +393,7 @@ const premiadoLayers = [
     {
         id: 5,
         description: clustersPremiumAndProperties[5].category,
-        lyr: clustersPremiumAndProperties[5].clusterLayer,
+        lyr: clustersPremiumAndProperties[5].premiadoGroup,
         iconClass: clustersPremiumAndProperties[5].properties.iconClass,
         markerColor: clustersPremiumAndProperties[5].properties.markerColor,
         active: true
@@ -372,7 +401,7 @@ const premiadoLayers = [
     {
         id: 6,
         description: clustersPremiumAndProperties[6].category,
-        lyr: clustersPremiumAndProperties[6].clusterLayer,
+        lyr: clustersPremiumAndProperties[6].premiadoGroup,
         iconClass: clustersPremiumAndProperties[6].properties.iconClass,
         markerColor: clustersPremiumAndProperties[6].properties.markerColor,
         active: true
@@ -450,9 +479,8 @@ const enconstasLayer = new L.GeoJSON.AJAX(pacUrl, {
     }
 });
 
-const encostasCluster = new L.markerClusterGroup();
 enconstasLayer.on('data:loaded', function () {
-    encostasCluster.addLayer(enconstasLayer);
+    pacEncGroup.addLayer(enconstasLayer);
 });
 
 const urbanizacaoLayer = new L.GeoJSON.AJAX(pacUrl, {
@@ -476,9 +504,8 @@ const urbanizacaoLayer = new L.GeoJSON.AJAX(pacUrl, {
     }
 });
 
-const urbanizacaoCluster = new L.markerClusterGroup();
 urbanizacaoLayer.on('data:loaded', function () {
-    urbanizacaoCluster.addLayer(urbanizacaoLayer);
+    pacUrbGroup.addLayer(urbanizacaoLayer);
 });
 
 const pmrrMun = new L.GeoJSON.AJAX(pmrrMunUrl, {
@@ -486,7 +513,6 @@ const pmrrMun = new L.GeoJSON.AJAX(pmrrMunUrl, {
         let status = feature.properties.status;
         let statusStyle;
         if (status === 'Em andamento') {
-            console.log(status)
             statusStyle = {
                 fillColor: "#2b00ff",
                 fillOpacity: 0,
@@ -502,7 +528,6 @@ const pmrrMun = new L.GeoJSON.AJAX(pmrrMunUrl, {
                 weight: 3,
                 opacity: 1,
             };
-            console.log(statusStyle)
         }
         return statusStyle;
     },
@@ -523,7 +548,7 @@ const pacArr = [
     {
         id: 1,
         description: 'Urbanização',
-        lyr: urbanizacaoCluster,
+        lyr: pacUrbGroup,
         iconClass: 'fa fa-building',
         markerColor: "red",
         active: false
@@ -531,7 +556,7 @@ const pacArr = [
     {
         id: 2,
         description: 'Contenção de Encostas',
-        lyr: encostasCluster,
+        lyr: pacEncGroup,
         iconClass: 'fa fa-mountain-city',
         markerColor: "darkgreen",
         active: false
@@ -569,9 +594,8 @@ const caravanas2023Layer = new L.GeoJSON.AJAX(caravanasUrl, {
     }
 });
 
-const caravanas2023Cluster = new L.markerClusterGroup();
 caravanas2023Layer.on('data:loaded', function () {
-    caravanas2023Cluster.addLayer(caravanas2023Layer);
+    caravana2023Group.addLayer(caravanas2023Layer);
 });
 
 const caravanas2024Layer = new L.GeoJSON.AJAX(caravanasUrl, {
@@ -594,16 +618,15 @@ const caravanas2024Layer = new L.GeoJSON.AJAX(caravanasUrl, {
     }
 });
 
-const caravanas2024Cluster = new L.markerClusterGroup();
 caravanas2024Layer.on('data:loaded', function () {
-    caravanas2024Cluster.addLayer(caravanas2024Layer);
+    caravana2024Group4.addLayer(caravanas2024Layer);
 });
 
 const caravanasArr = [
     {
         id: 1,
         description: 'Caravana das Periferias - 2023',
-        lyr: caravanas2023Cluster,
+        lyr: caravana2023Group,
         iconClass: 'fa fa-van-shuttle',
         markerColor: "purple",
         active: true
@@ -611,7 +634,7 @@ const caravanasArr = [
     {
         id: 2,
         description: 'Caravana das Periferias - 2024',
-        lyr: caravanas2024Cluster,
+        lyr: caravana2024Group,
         iconClass: 'fa fa-van-shuttle',
         markerColor: "red",
         active: true
@@ -715,13 +738,11 @@ Object.entries(redusMappings).forEach(([category, properties], index) => {
         pointToLayer: pointRedusToLayer
     });
 
-    let clusterLayer = new L.markerClusterGroup({chunkedLoading: true});
-
     catLayer.on('data:loaded', function () {
-        clusterLayer.addLayer(catLayer);
+        redusGroup.addLayer(catLayer);
     });
 
-    redusClustersAndProperties.push({category, clusterLayer, properties});
+    redusClustersAndProperties.push({category, redusGroup, properties});
 });
 
 
@@ -729,7 +750,7 @@ const redusArr = [
     {
         id: 0,
         description: redusClustersAndProperties[0].category,
-        lyr: redusClustersAndProperties[0].clusterLayer,
+        lyr: redusClustersAndProperties[0].redusGroup,
         iconClass: redusClustersAndProperties[0].properties.iconClass,
         markerColor: redusClustersAndProperties[0].properties.markerColor,
         active: false
@@ -737,7 +758,7 @@ const redusArr = [
     {
         id: 1,
         description: redusClustersAndProperties[1].category,
-        lyr: redusClustersAndProperties[1].clusterLayer,
+        lyr: redusClustersAndProperties[1].redusGroup,
         iconClass: redusClustersAndProperties[1].properties.iconClass,
         markerColor: redusClustersAndProperties[1].properties.markerColor,
         active: false
@@ -745,7 +766,7 @@ const redusArr = [
     {
         id: 2,
         description: redusClustersAndProperties[2].category,
-        lyr: redusClustersAndProperties[2].clusterLayer,
+        lyr: redusClustersAndProperties[2].redusGroup,
         iconClass: redusClustersAndProperties[2].properties.iconClass,
         markerColor: redusClustersAndProperties[2].properties.markerColor,
         active: false
@@ -753,7 +774,7 @@ const redusArr = [
     {
         id: 3,
         description: redusClustersAndProperties[3].category,
-        lyr: redusClustersAndProperties[3].clusterLayer,
+        lyr: redusClustersAndProperties[3].redusGroup,
         iconClass: redusClustersAndProperties[3].properties.iconClass,
         markerColor: redusClustersAndProperties[3].properties.markerColor,
         active: false
@@ -761,7 +782,7 @@ const redusArr = [
     {
         id: 4,
         description: redusClustersAndProperties[4].category,
-        lyr: redusClustersAndProperties[4].clusterLayer,
+        lyr: redusClustersAndProperties[4].redusGroup,
         iconClass: redusClustersAndProperties[4].properties.iconClass,
         markerColor: redusClustersAndProperties[4].properties.markerColor,
         active: false
@@ -769,7 +790,7 @@ const redusArr = [
     {
         id: 5,
         description: redusClustersAndProperties[5].category,
-        lyr: redusClustersAndProperties[5].clusterLayer,
+        lyr: redusClustersAndProperties[5].redusGroup,
         iconClass: redusClustersAndProperties[5].properties.iconClass,
         markerColor: redusClustersAndProperties[5].properties.markerColor,
         active: false
@@ -777,7 +798,7 @@ const redusArr = [
     {
         id: 6,
         description: redusClustersAndProperties[6].category,
-        lyr: redusClustersAndProperties[6].clusterLayer,
+        lyr: redusClustersAndProperties[6].redusGroup,
         iconClass: redusClustersAndProperties[6].properties.iconClass,
         markerColor: redusClustersAndProperties[6].properties.markerColor,
         active: false

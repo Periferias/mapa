@@ -10,6 +10,36 @@
     <link href="css/webgis.css" rel="stylesheet">
     <script crossorigin="anonymous" src="https://kit.fontawesome.com/f200917737.js"></script>
     <base href="/">
+
+
+    <style>
+        .marker-cluster-small {
+            background-color: rgba(247, 247, 247, 0.6) !important;
+            color: rgb(255, 255, 255) !important;
+        }
+        .marker-cluster-small div {
+            background-color: rgba(217, 217, 217, 0.6) !important;
+            color: rgb(255, 255, 255) !important;
+        }
+        .marker-cluster-medium {
+            background-color: rgba(189, 189, 189, 0.6) !important;
+            color: rgb(255, 255, 255) !important;
+        }
+        .marker-cluster-medium div {
+            background-color: rgba(150, 150, 150, 0.6) !important;
+            color: rgb(255, 255, 255) !important;
+        }
+        .marker-cluster-large {
+            background-color: rgba(99, 99, 99, 0.6) !important;
+            color: rgb(255, 255, 255) !important;
+        }
+        .marker-cluster-large div {
+            background-color: rgba(37, 37, 37, 0.6) !important;
+            color: rgb(255, 255, 255) !important;
+        }
+    </style>
+
+
 </head>
 <body>
 <div id="app">
@@ -682,6 +712,7 @@
 </div>
 
 <script src="compact/scripts.js"></script>
+<script src="assets/leaflet_plugins/featuregroup/leaflet.featuregroup.subgroup-src.js"></script>
 <script src="assets/axios/axios.min.js"></script>
 <script src="js/env.js"></script>
 <script src="js/utils.js"></script>

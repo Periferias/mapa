@@ -33,7 +33,8 @@ createApp({
             activeCaravanaActions: true,
             activeVulActions: true,
             activePnrrActions: false,
-            circleMarker: L.circleMarker()
+            circleMarker: L.circleMarker(),
+            parentGroup: parentGroup,
         }
     },
     methods: {
@@ -61,6 +62,7 @@ createApp({
                         this.periferiaLayers[5].lyr,
                         this.periferiaLayers[6].lyr,
                         this.caravanaLayers[0].lyr,
+                        this.parentGroup,
                         americaSul,
                         agsnContorno,
                     ]
