@@ -1,19 +1,14 @@
 function string_to_slug(str) {
     str = str.replace(/^\s+|\s+$/g, ''); // trim
     str = str.toLowerCase();
-
-    // remove accents, swap ñ for n, etc
     var from = "àáãäâèéëêìíïîòóöôùúüûñç·/_,:;";
     var to = "aaaaaeeeeiiiioooouuuunc------";
-
     for (var i = 0, l = from.length; i < l; i++) {
         str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
     }
-
     str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
         .replace(/\s+/g, '-') // collapse whitespace and replace by -
         .replace(/-+/g, '-'); // collapse dashes
-
     return str;
 }
 
@@ -59,7 +54,6 @@ const coordinates = L.control.coordinates({
     labelTemplateLat: "Lat: {y}"
 });
 
-
 const americaSul = L.tileLayer.wms(geoServerWmsUrl, {
     format: 'image/png',
     transparent: true,
@@ -70,6 +64,7 @@ const americaSul = L.tileLayer.wms(geoServerWmsUrl, {
     layers: 'mapa_periferias:america_sul',
     attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
 });
+
 const agsn = L.tileLayer.wms(geoServerWmsUrl, {
     format: 'image/png',
     transparent: true,
@@ -82,6 +77,7 @@ const agsn = L.tileLayer.wms(geoServerWmsUrl, {
     minZoom: 10,
     attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
 });
+
 const agsnContorno = L.tileLayer.wms(geoServerWmsUrl, {
     format: 'image/png',
     transparent: true,
@@ -93,6 +89,7 @@ const agsnContorno = L.tileLayer.wms(geoServerWmsUrl, {
     layers: 'mapa_periferias:agsn',
     attribution: '&copy; <a href="https://www.ibge.gov.br/">IBGE</a>',
 });
+
 const intraUrbana = L.tileLayer.wms(geoServerWmsUrl, {
     format: 'image/png',
     transparent: true,
@@ -112,7 +109,6 @@ const limitsBr = L.geoJson(
             "opacity": 0.8
         },
     });
-
 
 const baseLayers = [
     {
@@ -174,8 +170,18 @@ const pinHabitacao = new LeafIcon({iconUrl: 'pins/habitacao.svg'});
 const pinSaude = new LeafIcon({iconUrl: 'pins/saude.svg'});
 const pinJustica = new LeafIcon({iconUrl: 'pins/justica.svg'});
 
-const parentGroup = new L.markerClusterGroup();
-const periferiaGroup = L.featureGroup.subGroup(parentGroup);
+const parentGroup = new L.markerClusterGroup(
+    {
+        maxClusterRadius: 60,
+        polygonOptions: {
+            fillColor: '#66ff00',
+            color: '#066423',
+            weight: 0.5,
+            opacity: 1,
+            fillOpacity: 0.5
+        }
+    }
+);
 const periferia0 = L.featureGroup.subGroup(parentGroup);
 const periferia1 = L.featureGroup.subGroup(parentGroup);
 const periferia2 = L.featureGroup.subGroup(parentGroup);
@@ -192,8 +198,6 @@ const premio4 = L.featureGroup.subGroup(parentGroup);
 const premio5 = L.featureGroup.subGroup(parentGroup);
 const premio6 = L.featureGroup.subGroup(parentGroup);
 
-
-const premiadoGroup = L.featureGroup.subGroup(parentGroup);
 const caravana2023Group = L.featureGroup.subGroup(parentGroup);
 const caravana2024Group = L.featureGroup.subGroup(parentGroup);
 const pacUrbGroup = L.featureGroup.subGroup(parentGroup);
@@ -408,33 +412,6 @@ const premiadoLayers = [
     },
 ];
 
-
-// const redMarker = L.AwesomeMarkers.icon({
-//     prefix: 'fa',
-//     icon: 'fa-van-shuttle',
-//     markerColor: 'purple'
-// });
-//
-// const caravanasLayer = new L.GeoJSON.AJAX(caravanasUrl, {
-//     pointToLayer: function (feature, latlng) {
-//         let marker = L.marker(latlng, {icon: redMarker});
-//         let popupContent = `<span>Território Periférico:</span>${feature.properties.territorio}
-//                               <span>Caravana:</span>${feature.properties.caravana}
-//                               <span>Tema:</span>${feature.properties.tema}
-//                               <span>Visitada em:</span>${feature.properties.data}
-//                             `;
-//         marker.bindPopup(popupContent);
-//         return marker;
-//     },
-// });
-//
-// const caravanasCluster = new L.markerClusterGroup({chunkedLoading: true});
-//
-// caravanasLayer.on('data:loaded', function () {
-//     caravanasCluster.addLayer(caravanasLayer)
-// });
-
-
 function createPacMarker(latlng, iconClass, markerColor, popupContent) {
     return L.marker(latlng, {
         icon: L.AwesomeMarkers.icon({
@@ -619,7 +596,7 @@ const caravanas2024Layer = new L.GeoJSON.AJAX(caravanasUrl, {
 });
 
 caravanas2024Layer.on('data:loaded', function () {
-    caravana2024Group4.addLayer(caravanas2024Layer);
+    caravana2024Group.addLayer(caravanas2024Layer);
 });
 
 const caravanasArr = [
@@ -744,7 +721,6 @@ Object.entries(redusMappings).forEach(([category, properties], index) => {
 
     redusClustersAndProperties.push({category, redusGroup, properties});
 });
-
 
 const redusArr = [
     {

@@ -177,3 +177,36 @@ body {
 #loading {
     width: 30%;
 }
+
+
+/*cluter*/
+
+.marker-cluster-small {
+    background-color: rgba(217, 240, 163, 0.6) !important;
+    /*color: rgb(0, 0, 0) !important;*/
+}
+
+.marker-cluster-small div {
+    background-color: rgba(173, 221, 142, 0.6) !important;
+    /*color: rgb(0, 0, 0) !important;*/
+}
+
+.marker-cluster-medium {
+    background-color: rgba(120, 198, 121, 0.6) !important;
+    /*color: rgb(0, 0, 0) !important;*/
+}
+
+.marker-cluster-medium div {
+    background-color: rgba(65, 171, 93, 0.6) !important;
+    /*color: rgb(0, 0, 0) !important;*/
+}
+
+.marker-cluster-large {
+    background-color: rgba(35, 132, 67, 0.6) !important;
+    color: rgb(255, 255, 255) !important;
+}
+
+.marker-cluster-large div {
+    background-color: rgba(0, 90, 50, 0.6) !important;
+    color: rgb(255, 255, 255) !important;
+}
