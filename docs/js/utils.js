@@ -797,8 +797,6 @@ const infoDoacaoPixLayer = new L.GeoJSON.AJAX(infoDoacaoUrl, {
     pointToLayer: function (feature, latlng) {
         let category = feature.properties.modalidade;
         let popupContent = `<span>Nome da Organização/Iniciativa/Local:</span>${feature.properties.organizaca}
-                              <span>Link para Doação:</span>
-                              <a target="_blank" href="${feature.properties.link_doacao}">Clique Aqui</a>
                               <span>Endereço:</span>${feature.properties.endereco}
                               <span>Telefone</span>${feature.properties.telefone ? feature.properties.telefone : '-'}
                             `
@@ -819,8 +817,6 @@ const infoDoacaoLocalLayer = new L.GeoJSON.AJAX(infoDoacaoUrl, {
     pointToLayer: function (feature, latlng) {
         let category = feature.properties.modalidade;
         let popupContent = `<span>Nome da Organização/Iniciativa/Local:</span>${feature.properties.organizaca}
-                              <span>Link para Doação:</span>
-                              <a target="_blank" href="${feature.properties.link_doacao}">Clique Aqui</a>
                               <span>Endereço:</span>${feature.properties.endereco}
                               <span>Telefone</span>${feature.properties.telefone ? feature.properties.telefone : '-'}
                             `
