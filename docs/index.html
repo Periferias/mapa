@@ -35,7 +35,6 @@
                         <i class="fa-solid fa-xl fa-magnifying-glass"></i>
                     </a>
                 </li>
-
                 <li>
                     <a data-bs-placement="right" data-bs-toggle="tooltip" href="#info" role="tab"
                        title="Mais Informações">
@@ -78,6 +77,36 @@
 
                 <hr>
                 <h4 class="mt-2 text-center lead">POTENCIALIDADES</h4>
+
+                <div class="card mt-3">
+                    <ul class="list-group list-group-flush list-base-layers">
+                        <li class="list-group-item list-group-item-dark">
+                            <strong @click="checkOverlayLayers('activeColetaActions', infoDoacaoLayers)">
+                                <span v-if="activeColetaActions">
+                                <i class="fa-solid fa-eye"></i>
+                            </span>
+                                <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                            </span>
+                                Informações P/ Doação Rio Grande do Sul
+                            </strong>
+                        </li>
+                        <template v-for="lyr in infoDoacaoLayers">
+                            <li :class="lyr.active ? 'active' : ''"
+                                @click="activeOverlayLayer(infoDoacaoLayers, lyr.id)"
+                                class="list-group-item"
+                            >
+                        <span v-if="lyr.active">
+                            <i class="fa-solid fa-eye"></i>
+                        </span>
+                                <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                            </span>
+                                {{lyr.description}}
+                            </li>
+                        </template>
+                    </ul>
+                </div>
 
                 <div class="card mt-2">
                     <ul class="list-group list-group-flush list-base-layers">
@@ -147,7 +176,6 @@
                         </template>
                     </ul>
                 </div>
-
 
                 <div class="card mt-3">
                     <ul class="list-group list-group-flush list-base-layers">
@@ -241,7 +269,6 @@
 
                 <hr>
                 <h4 class="mt-2 text-center lead">VULNERABILIDADES</h4>
-
                 <div class="card">
                     <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
@@ -281,6 +308,27 @@
                 </h1>
                 <br>
                 <div class="tb-leg">
+                    <table class="table table-borderless table-sm mt-3"
+                           v-if="hasActiveArrItem(infoDoacaoLayers)">
+                        <tr>
+                            <td class="txt-leg-item" colspan="2">INFORMAÇÕES P/ DOAÇÃO RIO GRANDE DO SUL:</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img alt="" class="acaoicon" src="pins/coleta.svg">
+                            </td>
+                            <td class="pt-3">
+                                Informações p/ Doação Rio Grande do Sul
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="pt-3">
+                                <strong>Total de Informações p/ Doação Rio Grande do Sul: 80 registros</strong>
+                            </td>
+                        </tr>
+                    </table>
+
                     <table class="table table-borderless table-sm mt-3"
                            v-if="hasActiveArrItem(pacLayers)">
                         <tr>
@@ -336,7 +384,6 @@
                             </td>
                         </tr>
                     </table>
-
 
                     <table class="table table-borderless table-sm"
                            v-if="hasActiveArrItem(caravanaLayers)">
@@ -678,7 +725,6 @@
         </div>
     </div>
     <div class="sidebar-map" id="map"></div>
-
 </div>
 
 <script src="compact/scripts.js"></script>

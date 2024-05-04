@@ -36,6 +36,7 @@ const periferiaVivaUrl = getWfsUrl('mapa_periferias:iniciativa_periferia_viva');
 const redusUrl = getWfsUrl('mapa_periferias:iniciativa_redus');
 const pacUrl = getWfsUrl('mapa_periferias:pac');
 const caravanasUrl = getWfsUrl('mapa_periferias:caravanas');
+const infoDoacaoUrl = getWfsUrl('mapa_periferias:info_doacao_rgs');
 
 const pmrrMunUrl = getWfsUrl('mapa_periferias:pmrr_mun');
 
@@ -169,6 +170,7 @@ const pinEconomia = new LeafIcon({iconUrl: 'pins/economia.svg'});
 const pinHabitacao = new LeafIcon({iconUrl: 'pins/habitacao.svg'});
 const pinSaude = new LeafIcon({iconUrl: 'pins/saude.svg'});
 const pinJustica = new LeafIcon({iconUrl: 'pins/justica.svg'});
+const pinPontoColeta = new LeafIcon({iconUrl: 'pins/coleta.svg'});
 
 const parentGroup = new L.markerClusterGroup(
     {
@@ -203,6 +205,11 @@ const caravana2024Group = L.featureGroup.subGroup(parentGroup);
 const pacUrbGroup = L.featureGroup.subGroup(parentGroup);
 const pacEncGroup = L.featureGroup.subGroup(parentGroup);
 const redusGroup = L.featureGroup.subGroup(parentGroup);
+
+const infoDoacaoPixGroup = L.featureGroup.subGroup(parentGroup);
+const infoDoacaoLocalGroup = L.featureGroup.subGroup(parentGroup);
+
+
 const clustersAndProperties = [];
 const clustersPremiumAndProperties = [];
 
@@ -625,7 +632,7 @@ const vulnerabilityArr = [
         lyr: agsnContorno,
         iconClass: 'fa fa-eye',
         markerColor: "",
-        active: true
+        active: false
     },
     {
         id: 2,
@@ -778,5 +785,69 @@ const redusArr = [
         iconClass: redusClustersAndProperties[6].properties.iconClass,
         markerColor: redusClustersAndProperties[6].properties.markerColor,
         active: false
+    },
+];
+
+const infoDoacaoPixLayer = new L.GeoJSON.AJAX(infoDoacaoUrl, {
+    filter: function (feature, layer) {
+        if (feature.properties.layer === 'pix') {
+            return true
+        }
+    },
+    pointToLayer: function (feature, latlng) {
+        let category = feature.properties.modalidade;
+        let popupContent = `<span>Nome da Organização/Iniciativa/Local:</span>${feature.properties.organizaca}
+                              <span>Link para Doação:</span>
+                              <a target="_blank" href="${feature.properties.link_doacao}">Clique Aqui</a>
+                              <span>Endereço:</span>${feature.properties.endereco}
+                              <span>Telefone</span>${feature.properties.telefone ? feature.properties.telefone : '-'}
+                            `
+        let {iconClass, markerColor} = pacMappings[category] || {iconClass: pinPontoColeta, markerColor: "red"};
+        return createMarker(latlng, iconClass, markerColor, popupContent);
+    }
+});
+infoDoacaoPixLayer.on('data:loaded', function () {
+    infoDoacaoPixGroup.addLayer(infoDoacaoPixLayer);
+});
+
+const infoDoacaoLocalLayer = new L.GeoJSON.AJAX(infoDoacaoUrl, {
+    filter: function (feature, layer) {
+        if (feature.properties.layer === 'local') {
+            return true
+        }
+    },
+    pointToLayer: function (feature, latlng) {
+        let category = feature.properties.modalidade;
+        let popupContent = `<span>Nome da Organização/Iniciativa/Local:</span>${feature.properties.organizaca}
+                              <span>Link para Doação:</span>
+                              <a target="_blank" href="${feature.properties.link_doacao}">Clique Aqui</a>
+                              <span>Endereço:</span>${feature.properties.endereco}
+                              <span>Telefone</span>${feature.properties.telefone ? feature.properties.telefone : '-'}
+                            `
+        let {iconClass, markerColor} = pacMappings[category] || {iconClass: pinPontoColeta, markerColor: "red"};
+        return createMarker(latlng, iconClass, markerColor, popupContent);
+    }
+});
+infoDoacaoLocalLayer.on('data:loaded', function () {
+    infoDoacaoLocalGroup.addLayer(infoDoacaoLocalLayer);
+});
+
+
+const infoDoacaoArr = [
+    {
+        id: 1,
+        description: 'Doação via PIX',
+        lyr: infoDoacaoPixGroup,
+        iconClass: 'fa-question',
+        markerColor: "red",
+        active: true
+},
+    {
+        id: 2,
+        description: 'Doação no Local',
+        lyr: infoDoacaoLocalGroup,
+        iconClass: 'fa-question',
+        markerColor: "red",
+        active: true
     },
 ];

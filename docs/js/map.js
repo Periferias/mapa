@@ -33,8 +33,10 @@ createApp({
             activeCaravanaActions: true,
             activeVulActions: true,
             activePnrrActions: false,
+            activeColetaActions: true,
             circleMarker: L.circleMarker(),
             parentGroup: parentGroup,
+            infoDoacaoLayers: infoDoacaoArr,
         }
     },
     methods: {
@@ -53,6 +55,7 @@ createApp({
                     dragging: !L.Browser.mobile,
                     layers: [
                         limitsBr,
+                        this.parentGroup,
                         this.baseLayers[0].lyr,
                         this.periferiaLayers[0].lyr,
                         this.periferiaLayers[1].lyr,
@@ -62,9 +65,10 @@ createApp({
                         this.periferiaLayers[5].lyr,
                         this.periferiaLayers[6].lyr,
                         this.caravanaLayers[0].lyr,
-                        this.parentGroup,
+                        this.infoDoacaoLayers[0].lyr,
+                        this.infoDoacaoLayers[1].lyr,
                         americaSul,
-                        agsnContorno,
+                        //agsnContorno,
                     ]
                 }
             );
@@ -237,8 +241,7 @@ createApp({
             });
             this.map.addLayer(this.municipioSelecionado);
             this.map.fitBounds(bbox);
-        }
-        ,
+        },
         zoomToMarker(coords, layer) {
             if (layer === 'redus') {
                 this.redusLayers.forEach(layer => {
@@ -341,6 +344,5 @@ createApp({
         activePacLayers() {
             return this.pacLayers.filter(layer => layer.active);
         },
-
     }
 }).mount('#app')
