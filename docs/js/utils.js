@@ -118,7 +118,7 @@ const baseLayers = [
         lyr: L.tileLayer('https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.pn', {
             maxZoom: 21,
             subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-            attribution: '&copy; <a href="https://carto.com/">CartoDB</a>'
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap & CartoDB</a>'
         }),
         active: true
     },
