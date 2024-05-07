@@ -35,6 +35,7 @@ function getWfsUrl(layer) {
 const periferiaVivaUrl = getWfsUrl('mapa_periferias:iniciativa_periferia_viva');
 const redusUrl = getWfsUrl('mapa_periferias:iniciativa_redus');
 const pacUrl = getWfsUrl('mapa_periferias:pac');
+const pacUrb58Url = getWfsUrl('mapa_periferias:pac_urb_58');
 const caravanasUrl = getWfsUrl('mapa_periferias:caravanas');
 const infoDoacaoUrl = getWfsUrl('mapa_periferias:info_doacao_rgs');
 
@@ -199,6 +200,14 @@ const premio3 = L.featureGroup.subGroup(parentGroup);
 const premio4 = L.featureGroup.subGroup(parentGroup);
 const premio5 = L.featureGroup.subGroup(parentGroup);
 const premio6 = L.featureGroup.subGroup(parentGroup);
+
+const regusG0 = L.featureGroup.subGroup(parentGroup);
+const regusG1 = L.featureGroup.subGroup(parentGroup);
+const regusG2 = L.featureGroup.subGroup(parentGroup);
+const regusG3 = L.featureGroup.subGroup(parentGroup);
+const regusG4 = L.featureGroup.subGroup(parentGroup);
+const regusG5 = L.featureGroup.subGroup(parentGroup);
+const regusG6 = L.featureGroup.subGroup(parentGroup);
 
 const caravana2023Group = L.featureGroup.subGroup(parentGroup);
 const caravana2024Group = L.featureGroup.subGroup(parentGroup);
@@ -451,13 +460,12 @@ const enconstasLayer = new L.GeoJSON.AJAX(pacUrl, {
 
         let popupContent = `<span>Código SACI:</span>${feature.properties.codigo_saci}
                               <span>Modalidade:</span>${feature.properties.modalidade}
-                              <span>Programa:</span>${feature.properties.programa}
+                              <span>Programa:</span>Contenção de Encostas
                               <span>Fonte:</span>${feature.properties.fonte}
                               <span>Municípios Beneficiados:</span>${feature.properties.municipios_beneficiados}
                               <span>Estado</span>${feature.properties.uf}
                               <span>Obs:</span> Sede municipal (IBGE) - não corresponde ao local da obra.
                             `
-
         let {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-question", markerColor: "gray"};
         return createPacMarker(latlng, iconClass, markerColor, popupContent);
     }
@@ -657,31 +665,38 @@ const vulnerabilityArr = [
 const redusMappings = {
     "Acesso à Justiça e Combate às Desigualdades": {
         iconClass: "fa-scale-balanced",
-        markerColor: "cadetblue"
+        markerColor: "cadetblue",
+        redusGroup: regusG0,
     },
     "Planejamento Urbano, Gestão de Riscos e Responsabilidade Climática": {
         iconClass: "fa-cloud-sun-rain",
-        markerColor: "blue"
+        markerColor: "blue",
+        redusGroup: regusG1,
     },
     "Comunicação, Inclusão Digital e Educação Popular": {
         iconClass: "fa-graduation-cap",
-        markerColor: "orange"
+        markerColor: "orange",
+        redusGroup: regusG2,
     },
     "Cultura e Memória": {
         iconClass: "fa-masks-theater",
-        markerColor: "pink"
+        markerColor: "pink",
+        redusGroup: regusG3,
     },
     "Saúde Integral e Dignidade Humana": {
         iconClass: "fa-briefcase-medical",
-        markerColor: "red"
+        markerColor: "red",
+        redusGroup: regusG4,
     },
     "Soberania Alimentar e Nutricional": {
         iconClass: "fa-utensils",
-        markerColor: "black"
+        markerColor: "black",
+        redusGroup: regusG5,
     },
     "Economia Solidária": {
         iconClass: "fa-sack-dollar",
-        markerColor: "darkgreen"
+        markerColor: "darkgreen",
+        redusGroup: regusG6,
     },
 };
 
@@ -723,10 +738,10 @@ Object.entries(redusMappings).forEach(([category, properties], index) => {
     });
 
     catLayer.on('data:loaded', function () {
-        redusGroup.addLayer(catLayer);
+        properties.redusGroup.addLayer(catLayer);
     });
 
-    redusClustersAndProperties.push({category, redusGroup, properties});
+    redusClustersAndProperties.push({category, redusGroup: properties.redusGroup, properties});
 });
 
 const redusArr = [
