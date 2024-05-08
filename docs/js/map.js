@@ -50,7 +50,7 @@ createApp({
                     //scrollWheelZoom: false,
                     gestureHandling: true,
                     zoomControl: false,
-                    maxBounds: this.bounds,
+                    maxBounds: this.bounds.pad(1),
                     zoomAnimation: false,
                     fadeAnimation: true,
                     markerZoomAnimation: true,

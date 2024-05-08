@@ -394,6 +394,50 @@
                         </tr>
                     </table>
 
+
+                    <table class="table table-borderless table-sm mt-3"
+                           v-if="hasActiveArrItem(selecaoNovoPacArr)">
+                        <tr>
+                            <td class="txt-leg-item" colspan="2">SELEÇÃO DO NOVO PAC:</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-orange awesome-marker t1">
+                                    <i aria-hidden="true" class="fa fa-city icon-white"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Periferia Viva - Urbanização de Favelas - 58 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-red awesome-marker t1">
+                                    <i aria-hidden="true" class="fa fa-mountain-city icon-white"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Periferia Viva - Contenção de Encostas - 91 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-blue awesome-marker t1">
+                                    <i aria-hidden="true" class="fa fa-file-circle-check icon-white"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Periferia Viva - Regularização Fundiária - 259 registros
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="pt-3">
+                                <strong>Total da Seleção do Novo PAC: 408 registros</strong>
+                            </td>
+                        </tr>
+                    </table>
+                    
                     <table class="table table-borderless table-sm mt-3"
                            v-if="hasActiveArrItem(pmrrLayers)">
                         <tr>

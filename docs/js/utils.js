@@ -536,9 +536,9 @@ const pacEncostasLayer = new L.GeoJSON.AJAX(pacEncostasUrl, {
 
         let popupContent = `<img src="img/logos.png" alt="">
                               <span><strong>Periferia Viva - Contenção de Encostas</strong></span><hr>
-                              <span>Proponente:</span>${feature.properties.proponente}
                               <span>Municípios Beneficiados:</span>${feature.properties.municipios_beneficiados}
                               <span>Estado:</span>${feature.properties.uf}
+                              <span>Proponente:</span>${feature.properties.proponente}
                               <span>Obs:</span> Sede municipal (IBGE) - não corresponde ao local da obra.
                             `
         let {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-mountain-city", markerColor: "red"};
@@ -637,7 +637,7 @@ const selecaoNovoPacArr = [
     },
     {
         id: 2,
-        description: 'Periferia Viva - Conteção de Encostas',
+        description: 'Periferia Viva - Contenção de Encostas',
         lyr: pacEncostasGroup,
         iconClass: 'fa fa-city',
         markerColor: "red",
