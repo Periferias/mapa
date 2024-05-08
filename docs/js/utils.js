@@ -514,7 +514,7 @@ const pacUrb58Layer = new L.GeoJSON.AJAX(pacUrb58Url, {
     pointToLayer: function (feature, latlng) {
         let category = feature.properties.modalidade;
 
-        let popupContent = `<img src="img/periferia_viva.png" alt="">
+        let popupContent = `<img src="img/logos.png" alt="">
                               <span><strong>Periferia Viva - Urbanização de Favelas</strong></span><hr>
                               <span>Área de Intervenção:</span>${feature.properties.area_intervencao}
                               <span>Município Beneficiado:</span>${feature.properties.municipio_beneficiado}
@@ -534,7 +534,7 @@ const pacEncostasLayer = new L.GeoJSON.AJAX(pacEncostasUrl, {
     pointToLayer: function (feature, latlng) {
         let category = feature.properties.modalidade;
 
-        let popupContent = `<img src="img/novo_pac.png" alt="">
+        let popupContent = `<img src="img/logos.png" alt="">
                               <span><strong>Periferia Viva - Contenção de Encostas</strong></span><hr>
                               <span>Proponente:</span>${feature.properties.proponente}
                               <span>Municípios Beneficiados:</span>${feature.properties.municipios_beneficiados}
@@ -553,7 +553,7 @@ const pacRegularizacaoLayer = new L.GeoJSON.AJAX(pacRegularizacaoUrl, {
     pointToLayer: function (feature, latlng) {
         let category = feature.properties.modalidade;
 
-        let popupContent = `<img src="img/novo_pac.png" alt="">
+        let popupContent = `<img src="img/logos.png" alt="">
                               <span><strong>Periferia Viva - Regularização Fundiária</strong></span><hr>
                               <span>Área:</span>${feature.properties.area}
                               <span>Proponente:</span>${feature.properties.proponente_tratado}
