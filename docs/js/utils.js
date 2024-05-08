@@ -556,11 +556,11 @@ const pacRegularizacaoLayer = new L.GeoJSON.AJAX(pacRegularizacaoUrl, {
         let popupContent = `<img src="img/logos.png" alt="">
                               <span><strong>Periferia Viva - Regularização Fundiária</strong></span><hr>
                               <span>Área:</span>${feature.properties.area}
-                              <span>Proponente:</span>${feature.properties.proponente_tratado}
                               <span>Municípios Beneficiados:</span>${feature.properties.municipio_beneficiado}
                               <span>Estado:</span>${feature.properties.uf}
                               <span>Bairro:</span>${feature.properties.bairro}
                               <span>Número de Famílias Beneficiadas:</span>${feature.properties.beneficiados}
+                              <span>Proponente:</span>${feature.properties.proponente_tratado}
                               <span>Obs:</span> Sede municipal (IBGE) - não corresponde ao local da obra.
                             `
         let {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-file-circle-check", markerColor: "blue"};
