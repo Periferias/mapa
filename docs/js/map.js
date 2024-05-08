@@ -69,6 +69,9 @@ createApp({
                         this.caravanaLayers[0].lyr,
                         this.infoDoacaoLayers[0].lyr,
                         this.infoDoacaoLayers[1].lyr,
+                        this.selecaoNovoPacArr[0].lyr,
+                        this.selecaoNovoPacArr[1].lyr,
+                        this.selecaoNovoPacArr[2].lyr,
                         americaSul,
                         //agsnContorno,
                     ]

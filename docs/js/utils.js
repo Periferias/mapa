@@ -633,7 +633,7 @@ const selecaoNovoPacArr = [
         lyr: pacUrb58Group,
         iconClass: 'fa fa-city',
         markerColor: "orange",
-        active: false
+        active: true
     },
     {
         id: 2,
@@ -641,7 +641,7 @@ const selecaoNovoPacArr = [
         lyr: pacEncostasGroup,
         iconClass: 'fa fa-city',
         markerColor: "red",
-        active: false
+        active: true
     },
     {
         id: 3,
@@ -649,7 +649,7 @@ const selecaoNovoPacArr = [
         lyr: pacRegularizacaoGroup,
         iconClass: 'fa fa-file-circle-check',
         markerColor: "blue",
-        active: false
+        active: true
     },
 ];
 
