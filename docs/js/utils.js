@@ -323,7 +323,7 @@ const periferiaLayers = [
         lyr: clustersAndProperties[0].periferiaGroup,
         iconClass: clustersAndProperties[0].properties.iconClass,
         markerColor: clustersAndProperties[0].properties.markerColor,
-        active: true
+        active: false
     },
     {
         id: 1,
@@ -331,7 +331,7 @@ const periferiaLayers = [
         lyr: clustersAndProperties[1].periferiaGroup,
         iconClass: clustersAndProperties[1].properties.iconClass,
         markerColor: clustersAndProperties[1].properties.markerColor,
-        active: true
+        active: false
     },
     {
         id: 2,
@@ -339,7 +339,7 @@ const periferiaLayers = [
         lyr: clustersAndProperties[2].periferiaGroup,
         iconClass: clustersAndProperties[2].properties.iconClass,
         markerColor: clustersAndProperties[2].properties.markerColor,
-        active: true
+        active: false
     },
     {
         id: 3,
@@ -347,7 +347,7 @@ const periferiaLayers = [
         lyr: clustersAndProperties[3].periferiaGroup,
         iconClass: clustersAndProperties[3].properties.iconClass,
         markerColor: clustersAndProperties[3].properties.markerColor,
-        active: true
+        active: false
     },
     {
         id: 4,
@@ -355,7 +355,7 @@ const periferiaLayers = [
         lyr: clustersAndProperties[4].periferiaGroup,
         iconClass: clustersAndProperties[4].properties.iconClass,
         markerColor: clustersAndProperties[4].properties.markerColor,
-        active: true
+        active: false
     },
     {
         id: 5,
@@ -363,7 +363,7 @@ const periferiaLayers = [
         lyr: clustersAndProperties[5].periferiaGroup,
         iconClass: clustersAndProperties[5].properties.iconClass,
         markerColor: clustersAndProperties[5].properties.markerColor,
-        active: true
+        active: false
     },
     {
         id: 6,
@@ -371,7 +371,7 @@ const periferiaLayers = [
         lyr: clustersAndProperties[6].periferiaGroup,
         iconClass: clustersAndProperties[6].properties.iconClass,
         markerColor: clustersAndProperties[6].properties.markerColor,
-        active: true
+        active: false
     },
 
 ];
@@ -719,7 +719,7 @@ const caravanasArr = [
         lyr: caravana2023Group,
         iconClass: 'fa fa-van-shuttle',
         markerColor: "purple",
-        active: true
+        active: false
     },
     {
         id: 2,
@@ -727,7 +727,7 @@ const caravanasArr = [
         lyr: caravana2024Group,
         iconClass: 'fa fa-van-shuttle',
         markerColor: "red",
-        active: true
+        active: false
     },
 ];
 
@@ -950,7 +950,7 @@ const infoDoacaoArr = [
         lyr: infoDoacaoPixGroup,
         iconClass: 'fa-question',
         markerColor: "red",
-        active: true
+        active: false
     },
     {
         id: 2,
@@ -958,6 +958,6 @@ const infoDoacaoArr = [
         lyr: infoDoacaoLocalGroup,
         iconClass: 'fa-question',
         markerColor: "red",
-        active: true
+        active: false
     },
 ];
