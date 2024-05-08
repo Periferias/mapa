@@ -240,6 +240,38 @@
                 <div class="card mt-3">
                     <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
+                            <strong @click="checkOverlayLayers('activeSelecaoNovoPacActions', selecaoNovoPacArr)">
+                                <span v-if="activeSelecaoNovoPacActions">
+                                <i class="fa-solid fa-eye"></i>
+                            </span>
+                                <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                            </span>
+                                Seleçao do Novo PAC
+                            </strong>
+                        </li>
+                        <template v-for="lyr in selecaoNovoPacArr">
+                            <li :class="lyr.active ? 'active' : ''"
+                                @click="activeOverlayLayer(selecaoNovoPacArr, lyr.id)"
+                                class="list-group-item"
+                            >
+                        <span v-if="lyr.active">
+                            <i class="fa-solid fa-eye"></i>
+                        </span>
+                                <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                            </span>
+                                {{lyr.description}}
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+
+
+
+                <div class="card mt-3">
+                    <ul class="list-group list-group-flush list-base-layers">
+                        <li class="list-group-item list-group-item-dark">
                             <strong @click="checkOverlayLayers('activePnrrActions', pmrrLayers)">
                                 <span v-if="activePnrrActions">
                                 <i class="fa-solid fa-eye"></i>

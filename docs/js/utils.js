@@ -36,6 +36,9 @@ const periferiaVivaUrl = getWfsUrl('mapa_periferias:iniciativa_periferia_viva');
 const redusUrl = getWfsUrl('mapa_periferias:iniciativa_redus');
 const pacUrl = getWfsUrl('mapa_periferias:pac');
 const pacUrb58Url = getWfsUrl('mapa_periferias:pac_urb_58');
+const pacEncostasUrl = getWfsUrl('mapa_periferias:pac_encostas');
+const pacRegularizacaoUrl = getWfsUrl('mapa_periferias:pac_regularizacao');
+
 const caravanasUrl = getWfsUrl('mapa_periferias:caravanas');
 const infoDoacaoUrl = getWfsUrl('mapa_periferias:info_doacao_rgs');
 
@@ -213,7 +216,11 @@ const caravana2023Group = L.featureGroup.subGroup(parentGroup);
 const caravana2024Group = L.featureGroup.subGroup(parentGroup);
 const pacUrbGroup = L.featureGroup.subGroup(parentGroup);
 const pacEncGroup = L.featureGroup.subGroup(parentGroup);
-const redusGroup = L.featureGroup.subGroup(parentGroup);
+
+// ----------- novo pac --------------
+const pacUrb58Group = L.featureGroup.subGroup(parentGroup);
+const pacEncostasGroup = L.featureGroup.subGroup(parentGroup);
+const pacRegularizacaoGroup = L.featureGroup.subGroup(parentGroup);
 
 const infoDoacaoPixGroup = L.featureGroup.subGroup(parentGroup);
 const infoDoacaoLocalGroup = L.featureGroup.subGroup(parentGroup);
@@ -471,6 +478,7 @@ const enconstasLayer = new L.GeoJSON.AJAX(pacUrl, {
     }
 });
 
+
 enconstasLayer.on('data:loaded', function () {
     pacEncGroup.addLayer(enconstasLayer);
 });
@@ -498,6 +506,69 @@ const urbanizacaoLayer = new L.GeoJSON.AJAX(pacUrl, {
 
 urbanizacaoLayer.on('data:loaded', function () {
     pacUrbGroup.addLayer(urbanizacaoLayer);
+});
+
+
+// ----------------- Novas camadas do PAC -----------------------
+const pacUrb58Layer = new L.GeoJSON.AJAX(pacUrb58Url, {
+    pointToLayer: function (feature, latlng) {
+        let category = feature.properties.modalidade;
+
+        let popupContent = `<img src="img/periferia_viva.png" alt="">
+                              <span><strong>Periferia Viva - Urbanização de Favelas</strong></span><hr>
+                              <span>Área de Intervenção:</span>${feature.properties.area_intervencao}
+                              <span>Município Beneficiado:</span>${feature.properties.municipio_beneficiado}
+                              <span>Estado:</span>${feature.properties.estado}
+                              <span>Proponente:</span>${feature.properties.proponente}
+                              <span>Obs:</span>Centro da área de intervenção.
+                            `
+        let {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-city", markerColor: "orange"};
+        return createPacMarker(latlng, iconClass, markerColor, popupContent);
+    }
+});
+pacUrb58Layer.on('data:loaded', function () {
+    pacUrb58Group.addLayer(pacUrb58Layer);
+});
+
+const pacEncostasLayer = new L.GeoJSON.AJAX(pacEncostasUrl, {
+    pointToLayer: function (feature, latlng) {
+        let category = feature.properties.modalidade;
+
+        let popupContent = `<img src="img/novo_pac.png" alt="">
+                              <span><strong>Periferia Viva - Contenção de Encostas</strong></span><hr>
+                              <span>Proponente:</span>${feature.properties.proponente}
+                              <span>Municípios Beneficiados:</span>${feature.properties.municipios_beneficiados}
+                              <span>Estado:</span>${feature.properties.uf}
+                              <span>Obs:</span> Sede municipal (IBGE) - não corresponde ao local da obra.
+                            `
+        let {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-mountain-city", markerColor: "red"};
+        return createPacMarker(latlng, iconClass, markerColor, popupContent);
+    }
+});
+pacEncostasLayer.on('data:loaded', function () {
+    pacEncostasGroup.addLayer(pacEncostasLayer);
+});
+
+const pacRegularizacaoLayer = new L.GeoJSON.AJAX(pacRegularizacaoUrl, {
+    pointToLayer: function (feature, latlng) {
+        let category = feature.properties.modalidade;
+
+        let popupContent = `<img src="img/novo_pac.png" alt="">
+                              <span><strong>Periferia Viva - Regularização Fundiária</strong></span><hr>
+                              <span>Área:</span>${feature.properties.area}
+                              <span>Proponente:</span>${feature.properties.proponente_tratado}
+                              <span>Municípios Beneficiados:</span>${feature.properties.municipio_beneficiado}
+                              <span>Estado:</span>${feature.properties.uf}
+                              <span>Bairro:</span>${feature.properties.bairro}
+                              <span>Número de Famílias Beneficiadas:</span>${feature.properties.beneficiados}
+                              <span>Obs:</span> Sede municipal (IBGE) - não corresponde ao local da obra.
+                            `
+        let {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-file-circle-check", markerColor: "blue"};
+        return createPacMarker(latlng, iconClass, markerColor, popupContent);
+    }
+});
+pacRegularizacaoLayer.on('data:loaded', function () {
+    pacRegularizacaoGroup.addLayer(pacRegularizacaoLayer);
 });
 
 const pmrrMun = new L.GeoJSON.AJAX(pmrrMunUrl, {
@@ -550,7 +621,34 @@ const pacArr = [
         description: 'Contenção de Encostas',
         lyr: pacEncGroup,
         iconClass: 'fa fa-mountain-city',
-        markerColor: "darkgreen",
+        markerColor: "red",
+        active: false
+    },
+];
+
+const selecaoNovoPacArr = [
+    {
+        id: 1,
+        description: 'Periferia Viva - Urbanização de Favelas',
+        lyr: pacUrb58Group,
+        iconClass: 'fa fa-city',
+        markerColor: "orange",
+        active: false
+    },
+    {
+        id: 2,
+        description: 'Periferia Viva - Conteção de Encostas',
+        lyr: pacEncostasGroup,
+        iconClass: 'fa fa-city',
+        markerColor: "red",
+        active: false
+    },
+    {
+        id: 3,
+        description: 'Periferia Viva - Regularização Fundiária',
+        lyr: pacRegularizacaoGroup,
+        iconClass: 'fa fa-file-circle-check',
+        markerColor: "blue",
         active: false
     },
 ];
@@ -631,7 +729,7 @@ const caravanasArr = [
         markerColor: "red",
         active: true
     },
-]
+];
 
 const vulnerabilityArr = [
     {
@@ -658,7 +756,7 @@ const vulnerabilityArr = [
         markerColor: "",
         active: false
     }
-]
+];
 
 // ------------------ REDuS -------------------------------
 
@@ -845,7 +943,6 @@ infoDoacaoLocalLayer.on('data:loaded', function () {
     infoDoacaoLocalGroup.addLayer(infoDoacaoLocalLayer);
 });
 
-
 const infoDoacaoArr = [
     {
         id: 1,
@@ -854,7 +951,7 @@ const infoDoacaoArr = [
         iconClass: 'fa-question',
         markerColor: "red",
         active: true
-},
+    },
     {
         id: 2,
         description: 'Doação no Local',
