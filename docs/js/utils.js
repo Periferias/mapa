@@ -32,17 +32,17 @@ function getWfsUrl(layer) {
     return `${domain}${basePath}?${params.toString()}`;
 }
 
+// Links das camadas no GeoServer
 const periferiaVivaUrl = getWfsUrl('mapa_periferias:iniciativa_periferia_viva');
 const redusUrl = getWfsUrl('mapa_periferias:iniciativa_redus');
 const pacUrl = getWfsUrl('mapa_periferias:pac');
 const pacUrb58Url = getWfsUrl('mapa_periferias:pac_urb_58');
 const pacEncostasUrl = getWfsUrl('mapa_periferias:pac_encostas');
 const pacRegularizacaoUrl = getWfsUrl('mapa_periferias:pac_regularizacao');
-
 const caravanasUrl = getWfsUrl('mapa_periferias:caravanas');
 const infoDoacaoUrl = getWfsUrl('mapa_periferias:info_doacao_rgs');
-
 const pmrrMunUrl = getWfsUrl('mapa_periferias:pmrr_mun');
+const exemploUrl = getWfsUrl('mapa_periferias:exemplo');
 
 const zoomHome = L.Control.zoomHome({
     zoomHomeTitle: 'Zoom Inicial',
@@ -224,10 +224,11 @@ const pacRegularizacaoGroup = L.featureGroup.subGroup(parentGroup);
 
 const infoDoacaoPixGroup = L.featureGroup.subGroup(parentGroup);
 const infoDoacaoLocalGroup = L.featureGroup.subGroup(parentGroup);
-
-
 const clustersAndProperties = [];
 const clustersPremiumAndProperties = [];
+
+// -- SubGrupo Exemplo
+const exemploGroup = L.featureGroup.subGroup(parentGroup);
 
 
 const categoryMappings = {
@@ -960,4 +961,29 @@ const infoDoacaoArr = [
         markerColor: "red",
         active: false
     },
+];
+
+
+const exemploLayer = new L.GeoJSON.AJAX(exemploUrl, {
+    pointToLayer: function (feature, latlng) {
+        let category = feature.properties.modalidade;
+
+        let popupContent = `<span>Nome:</span>${feature.properties.nome}`
+        let {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-house", markerColor: "cadetblue"};
+        return createPacMarker(latlng, iconClass, markerColor, popupContent);
+    }
+});
+exemploLayer.on('data:loaded', function () {
+    exemploGroup.addLayer(exemploLayer);
+});
+
+const exemploArr = [
+    {
+        id: 1,
+        description: 'Camada de Exemplo',
+        lyr: exemploGroup,
+        iconClass: 'fa-house',
+        markerColor: "cadetblue",
+        active: false
+    }
 ];
