@@ -81,36 +81,6 @@
                 <div class="card mt-3">
                     <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
-                            <strong @click="checkOverlayLayers('activeExemploActions', exemploArr)">
-                                <span v-if="activeExemploActions">
-                                <i class="fa-solid fa-eye"></i>
-                            </span>
-                                <span v-else>
-                                <i class="fa fa-eye-slash"></i>
-                            </span>
-                                Categoria de Exemplo
-                            </strong>
-                        </li>
-                        <template v-for="lyr in exemploArr">
-                            <li :class="lyr.active ? 'active' : ''"
-                                @click="activeOverlayLayer(exemploArr, lyr.id)"
-                                class="list-group-item"
-                            >
-                        <span v-if="lyr.active">
-                            <i class="fa-solid fa-eye"></i>
-                        </span>
-                                <span v-else>
-                                <i class="fa fa-eye-slash"></i>
-                            </span>
-                                {{lyr.description}}
-                            </li>
-                        </template>
-                    </ul>
-                </div>
-
-                <div class="card mt-3">
-                    <ul class="list-group list-group-flush list-base-layers">
-                        <li class="list-group-item list-group-item-dark">
                             <strong @click="checkOverlayLayers('activeColetaActions', infoDoacaoLayers)">
                                 <span v-if="activeColetaActions">
                                 <i class="fa-solid fa-eye"></i>
@@ -423,6 +393,7 @@
                             </td>
                         </tr>
                     </table>
+
 
                     <table class="table table-borderless table-sm mt-3"
                            v-if="hasActiveArrItem(selecaoNovoPacArr)">
