@@ -392,6 +392,29 @@
                     </table>
 
                     <table class="table table-borderless table-sm mt-3"
+                           v-if="hasActiveArrItem(residenciaLayers)">
+                        <tr>
+                            <td class="txt-leg-item" colspan="2">RESIDÊNCIAS:</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="awesome-marker-icon-green awesome-marker t1">
+                                    <i aria-hidden="true" class="fa fa-building-columns icon-white"></i>
+                                </div>
+                            </td>
+                            <td class="pt-3">
+                                Residências
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="pt-3">
+                                <strong>Total de Residências: 5 registros</strong>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-borderless table-sm mt-3"
                            v-if="hasActiveArrItem(pacLayers)">
                         <tr>
                             <td class="txt-leg-item" colspan="2">OBRAS DO PAC:</td>
