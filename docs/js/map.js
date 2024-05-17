@@ -39,6 +39,8 @@ createApp({
             circleMarker: L.circleMarker(),
             parentGroup: parentGroup,
             infoDoacaoLayers: infoDoacaoArr,
+            residenciaLayers: residenciasArr,
+            activeResidenciaActions: false,
         }
     },
     methods: {

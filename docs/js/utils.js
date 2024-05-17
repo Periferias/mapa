@@ -43,6 +43,7 @@ const caravanasUrl = getWfsUrl('mapa_periferias:caravanas');
 const infoDoacaoUrl = getWfsUrl('mapa_periferias:info_doacao_rgs');
 
 const pmrrMunUrl = getWfsUrl('mapa_periferias:pmrr_mun');
+const residenciasUrl = getWfsUrl('mapa_periferias:residencias');
 
 const zoomHome = L.Control.zoomHome({
     zoomHomeTitle: 'Zoom Inicial',
@@ -224,6 +225,8 @@ const pacRegularizacaoGroup = L.featureGroup.subGroup(parentGroup);
 
 const infoDoacaoPixGroup = L.featureGroup.subGroup(parentGroup);
 const infoDoacaoLocalGroup = L.featureGroup.subGroup(parentGroup);
+
+const residenciasGroup = L.featureGroup.subGroup(parentGroup);
 
 
 const clustersAndProperties = [];
@@ -563,7 +566,10 @@ const pacRegularizacaoLayer = new L.GeoJSON.AJAX(pacRegularizacaoUrl, {
                               <span>Proponente:</span>${feature.properties.proponente_tratado}
                               <span>Obs:</span> Sede municipal (IBGE) - não corresponde ao local da obra.
                             `
-        let {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-file-circle-check", markerColor: "blue"};
+        let {iconClass, markerColor} = pacMappings[category] || {
+            iconClass: "fa-file-circle-check",
+            markerColor: "blue"
+        };
         return createPacMarker(latlng, iconClass, markerColor, popupContent);
     }
 });
@@ -958,6 +964,38 @@ const infoDoacaoArr = [
         lyr: infoDoacaoLocalGroup,
         iconClass: 'fa-question',
         markerColor: "red",
+        active: false
+    },
+];
+
+const residenciasLayer = new L.GeoJSON.AJAX(residenciasUrl, {
+    pointToLayer: function (feature, latlng) {
+        let category = feature.properties.cd_mun;
+        let popupContent = `<span>Identificação da Residência:</span>${feature.properties.nm_resid}
+                              <span>Universidade:</span>${feature.properties.univer}
+                              <span>Turma:</span>${feature.properties.turma}
+                              <span>Território:</span>${feature.properties.territ}
+                              <span>População:</span>${feature.properties.pop}
+                              <span>Objeto:</span>${feature.properties.objeto}
+                              <span>Coordenador:</span>${feature.properties.coord}
+                              <span>Período:</span>${feature.properties.periodo}
+                              <span>Município (ou distrito):</span>${feature.properties.mun_dist}/${feature.properties.sigla_uf}
+                            `
+        let {iconClass, markerColor} = pacMappings[category] || {iconClass: "fa-building-columns", markerColor: "green"};
+        return createPacMarker(latlng, iconClass, markerColor, popupContent);
+    }
+});
+residenciasLayer.on('data:loaded', function () {
+    residenciasGroup.addLayer(residenciasLayer);
+});
+
+const residenciasArr = [
+    {
+        id: 1,
+        description: 'Residências',
+        lyr: residenciasGroup,
+        iconClass: 'fa-building-columns',
+        markerColor: "green",
         active: false
     },
 ];

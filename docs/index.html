@@ -108,6 +108,36 @@
                     </ul>
                 </div>
 
+                <div class="card mt-3">
+                    <ul class="list-group list-group-flush list-base-layers">
+                        <li class="list-group-item list-group-item-dark">
+                            <strong @click="checkOverlayLayers('activeResidenciaActions', residenciaLayers)">
+                                <span v-if="activeResidenciaActions">
+                                <i class="fa-solid fa-eye"></i>
+                            </span>
+                                <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                            </span>
+                                Residências
+                            </strong>
+                        </li>
+                        <template v-for="lyr in residenciaLayers">
+                            <li :class="lyr.active ? 'active' : ''"
+                                @click="activeOverlayLayer(residenciaLayers, lyr.id)"
+                                class="list-group-item"
+                            >
+                        <span v-if="lyr.active">
+                            <i class="fa-solid fa-eye"></i>
+                        </span>
+                                <span v-else>
+                                <i class="fa fa-eye-slash"></i>
+                            </span>
+                                {{lyr.description}}
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+
                 <div class="card mt-2">
                     <ul class="list-group list-group-flush list-base-layers">
                         <li class="list-group-item list-group-item-dark">
