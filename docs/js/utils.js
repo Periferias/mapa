@@ -992,7 +992,7 @@ residenciasLayer.on('data:loaded', function () {
 const residenciasArr = [
     {
         id: 1,
-        description: 'Residências',
+        description: 'Residências em Assessoria Técnica',
         lyr: residenciasGroup,
         iconClass: 'fa-building-columns',
         markerColor: "green",
